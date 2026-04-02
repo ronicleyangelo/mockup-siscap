@@ -1441,7 +1441,7 @@
       container.innerHTML = filtered.map(ind => {
         const sel = selectedIndicators.includes(ind.name);
         return `<div class="indicator-option ${sel ? 'selected' : ''}" onclick="toggleIndicator(${ind.id})">
-          <input type="checkbox" ${sel ? 'checked' : ''} onclick="event.stopPropagation()"> ${esc(ind.name)} <span style="font-size:11px; color:#64748b; margin-left:8px;">(ODS ${ind.ods || '-'})</span>
+          <input type="checkbox" ${sel ? 'checked' : ''} onclick="event.stopPropagation()"> ${esc(ind.name)}
         </div>`;
       }).join('');
     }
