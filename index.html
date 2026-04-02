@@ -1032,7 +1032,6 @@
     .main-container {
       padding: 20px;
     }
-
   </style>
 </head>
 
@@ -1057,83 +1056,93 @@
     </div>
 
     <div class="filter-scroll" style="padding: 10px 0; max-height: 45vh; overflow-y: auto;">
-      
+
       <div id="desafiosAccordionContainer">
         <div class="accordion-item">
-        <div class="accordion-header" onclick="toggleAccordion(this)">
-          <span class="arrow">▲</span> Eixo 1: + Qualidade de vida
-        </div>
-        <div class="accordion-body open">
-          <div class="sub-accordion">
-            <div class="accordion-header" onclick="toggleAccordion(this)">
-              <span class="arrow">▲</span> Área Temática: Educação, Cultura, Esporte e Lazer
-            </div>
-            <div class="accordion-body open">
-              <div class="desafio-item" data-val="Atender necessidades de educação profissional" onclick="selectDesafio('Atender necessidades de educação profissional', this)">
-                <div class="desafio-dot"></div>
-                Desafio: Atender as Necessidades do Estado referentes à educação profissional...
-              </div>
-              <div class="desafio-item" data-val="Fomentar investimento em cultura" onclick="selectDesafio('Fomentar investimento em cultura', this)">
-                <div class="desafio-dot"></div>
-                Desafio: Fomentar o investimento público e privado nos setores de cultura...
-              </div>
-              <div class="desafio-item" data-val="Fortalecer educação integral" onclick="selectDesafio('Fortalecer educação integral', this)">
-                <div class="desafio-dot"></div>
-                Desafio: Fortalecer a educação integral possibilitando o desenvolvimento...
-              </div>
-              <div class="desafio-item" data-val="Políticas de equidade" onclick="selectDesafio('Políticas de equidade', this)">
-                <div class="desafio-dot"></div>
-                Desafio: Fortalecer e desenvolver políticas voltadas à promoção da equidade...
-              </div>
-            </div>
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <span class="arrow">▲</span> Eixo 1: + Qualidade de vida
           </div>
-          
-          <div class="sub-accordion">
-            <div class="accordion-header" onclick="toggleAccordion(this)">
-              <span class="arrow">▼</span> Área Temática: Saúde
-            </div>
-            <div class="accordion-body">
-              <div class="desafio-item" data-val="Ampliar cobertura de saúde" onclick="selectDesafio('Ampliar cobertura de saúde', this)">
-                <div class="desafio-dot"></div>
-                Desafio: Ampliar cobertura de saúde...
+          <div class="accordion-body open">
+            <div class="sub-accordion">
+              <div class="accordion-header" onclick="toggleAccordion(this)">
+                <span class="arrow">▲</span> Área Temática: Educação, Cultura, Esporte e Lazer
               </div>
-              <div class="desafio-item" data-val="Reduzir mortalidade infantil" onclick="selectDesafio('Reduzir mortalidade infantil', this)">
-                <div class="desafio-dot"></div>
-                Desafio: Reduzir mortalidade infantil...
+              <div class="accordion-body open">
+                <div class="desafio-item" data-val="Atender necessidades de educação profissional"
+                  onclick="selectDesafio('Atender necessidades de educação profissional', this)">
+                  <div class="desafio-dot"></div>
+                  Desafio: Atender as Necessidades do Estado referentes à educação profissional...
+                </div>
+                <div class="desafio-item" data-val="Fomentar investimento em cultura"
+                  onclick="selectDesafio('Fomentar investimento em cultura', this)">
+                  <div class="desafio-dot"></div>
+                  Desafio: Fomentar o investimento público e privado nos setores de cultura...
+                </div>
+                <div class="desafio-item" data-val="Fortalecer educação integral"
+                  onclick="selectDesafio('Fortalecer educação integral', this)">
+                  <div class="desafio-dot"></div>
+                  Desafio: Fortalecer a educação integral possibilitando o desenvolvimento...
+                </div>
+                <div class="desafio-item" data-val="Políticas de equidade"
+                  onclick="selectDesafio('Políticas de equidade', this)">
+                  <div class="desafio-dot"></div>
+                  Desafio: Fortalecer e desenvolver políticas voltadas à promoção da equidade...
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
 
-      <div class="accordion-item">
-        <div class="accordion-header" onclick="toggleAccordion(this)">
-          <span class="arrow">▼</span> Eixo 2: Desenvolvimento Econômico
-        </div>
-        <div class="accordion-body">
-          <div class="sub-accordion">
-            <div class="accordion-header" onclick="toggleAccordion(this)">
-              <span class="arrow">▼</span> Área Temática: Inovação e Emprego
-            </div>
-            <div class="accordion-body">
-              <div class="desafio-item" data-val="Estimular inovação e tecnologia" onclick="selectDesafio('Estimular inovação e tecnologia', this)">
-                <div class="desafio-dot"></div>
-                Desafio: Estimular inovação e tecnologia...
+            <div class="sub-accordion">
+              <div class="accordion-header" onclick="toggleAccordion(this)">
+                <span class="arrow">▼</span> Área Temática: Saúde
               </div>
-              <div class="desafio-item" data-val="Geração de empregos" onclick="selectDesafio('Geração de empregos', this)">
-                <div class="desafio-dot"></div>
-                Desafio: Geração de empregos...
+              <div class="accordion-body">
+                <div class="desafio-item" data-val="Ampliar cobertura de saúde"
+                  onclick="selectDesafio('Ampliar cobertura de saúde', this)">
+                  <div class="desafio-dot"></div>
+                  Desafio: Ampliar cobertura de saúde...
+                </div>
+                <div class="desafio-item" data-val="Reduzir mortalidade infantil"
+                  onclick="selectDesafio('Reduzir mortalidade infantil', this)">
+                  <div class="desafio-dot"></div>
+                  Desafio: Reduzir mortalidade infantil...
+                </div>
               </div>
             </div>
           </div>
         </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <span class="arrow">▼</span> Eixo 2: Desenvolvimento Econômico
+          </div>
+          <div class="accordion-body">
+            <div class="sub-accordion">
+              <div class="accordion-header" onclick="toggleAccordion(this)">
+                <span class="arrow">▼</span> Área Temática: Inovação e Emprego
+              </div>
+              <div class="accordion-body">
+                <div class="desafio-item" data-val="Estimular inovação e tecnologia"
+                  onclick="selectDesafio('Estimular inovação e tecnologia', this)">
+                  <div class="desafio-dot"></div>
+                  Desafio: Estimular inovação e tecnologia...
+                </div>
+                <div class="desafio-item" data-val="Geração de empregos"
+                  onclick="selectDesafio('Geração de empregos', this)">
+                  <div class="desafio-dot"></div>
+                  Desafio: Geração de empregos...
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <!-- Fim Desafios Accordion -->
 
       <div id="odsDropdownContainer" style="display: none;">
-        <label class="search-label" style="font-size: 13px; margin-bottom: 12px; display: block; color: var(--navy-dark);">Selecione o ODS</label>
-        <select id="odsFilterSelect" style="width: 100%; padding: 12px 16px; border: 1px solid var(--gray-border); border-radius: 8px; font-size: 14px; outline: none; background: #fcfdfe; color: var(--navy-dark); cursor: pointer;">
+        <label class="search-label"
+          style="font-size: 13px; margin-bottom: 12px; display: block; color: var(--navy-dark);">Selecione o ODS</label>
+        <select id="odsFilterSelect"
+          style="width: 100%; padding: 12px 16px; border: 1px solid var(--gray-border); border-radius: 8px; font-size: 14px; outline: none; background: #fcfdfe; color: var(--navy-dark); cursor: pointer;">
           <option value="">Todos os ODS (Remover filtro)</option>
           <option value="1">ODS 1 - Erradicação da Pobreza</option>
           <option value="2">ODS 2 - Fome Zero e Agricultura Sustentável</option>
@@ -1390,7 +1399,7 @@
       if (e) e.stopPropagation();
       activeOds = null;
       pendingOds = null;
-      if(document.getElementById('odsFilterSelect')) document.getElementById('odsFilterSelect').value = '';
+      if (document.getElementById('odsFilterSelect')) document.getElementById('odsFilterSelect').value = '';
       renderAppliedBadges();
       if (currentTab === 'ods') {
         renderODSView();
@@ -1533,7 +1542,7 @@
         <div class="detail-row">
           <span class="detail-label" style="min-width:auto; margin-right:8px;">UNIDADE DE MEDIDA:</span>
           <span class="detail-value" style="margin-right:24px;">${esc(d.unidadeMedida) || 'Não informada'}</span>
-          <span class="detail-label" style="min-width:auto; margin-right:8px;">VALOR BASE:</span>
+          <span class="detail-label" style="min-width:auto; margin-right:8px;">VALOR BASE DE REFERÊNCIA:</span>
           <span class="detail-value">${d.valorBase ? d.valorBase.toLocaleString() : 'Não informado'}</span>
         </div>
 
@@ -1586,13 +1595,13 @@
         pendingDesafio = null;
       } else {
         pendingDesafio = val;
-        if(el) el.classList.add('active');
+        if (el) el.classList.add('active');
       }
     }
 
     function refreshDesafioUI() {
       document.querySelectorAll('.desafio-item').forEach(i => {
-        if(i.dataset.val === pendingDesafio) {
+        if (i.dataset.val === pendingDesafio) {
           i.classList.add('active');
         } else {
           i.classList.remove('active');
@@ -1606,7 +1615,7 @@
         document.getElementById('searchGroupContainer').style.display = 'none';
         document.getElementById('odsDropdownContainer').style.display = 'block';
         pendingOds = activeOds;
-        if(document.getElementById('odsFilterSelect')) document.getElementById('odsFilterSelect').value = pendingOds || '';
+        if (document.getElementById('odsFilterSelect')) document.getElementById('odsFilterSelect').value = pendingOds || '';
         document.querySelector('.card-title').textContent = 'FILTRO ODS';
       } else {
         document.getElementById('desafiosAccordionContainer').style.display = 'block';
@@ -1638,7 +1647,7 @@
     function clearPendingFilter() {
       if (currentTab === 'ods') {
         pendingOds = null;
-        if(document.getElementById('odsFilterSelect')) document.getElementById('odsFilterSelect').value = '';
+        if (document.getElementById('odsFilterSelect')) document.getElementById('odsFilterSelect').value = '';
       } else {
         pendingDesafio = null;
         refreshDesafioUI();
@@ -1683,7 +1692,7 @@
       const gestaoBadge = document.querySelector('.gestao-badge');
       if (gestaoBadge) gestaoBadge.style.display = 'none';
       document.getElementById('odsSection').style.display = 'block';
-      
+
       // Update Tab state
       document.querySelectorAll('.tabs span').forEach(s => s.classList.remove('active'));
       document.querySelectorAll('.tabs span')[2].classList.add('active'); // ODS Tab
@@ -1700,7 +1709,7 @@
       document.querySelector('.indicator-list-card').style.display = 'block';
       const gestaoBadge = document.querySelector('.gestao-badge');
       if (gestaoBadge) gestaoBadge.style.display = 'inline-flex';
-      
+
       // Update Tab state
       document.querySelectorAll('.tabs span').forEach(s => s.classList.remove('active'));
       document.querySelectorAll('.tabs span')[1].classList.add('active'); // Indicadores Tab
