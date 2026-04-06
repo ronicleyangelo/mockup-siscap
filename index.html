@@ -4,6 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <Title>Mockup Siscap - Indicador/ODS </Title>
+  <link rel="icon" href="./Icon-siscap.png">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
     rel="stylesheet">
   <style>
@@ -170,8 +172,6 @@
       color: var(--navy-dark);
     }
 
-    /* Legacy popover removed */
-
     .main-container {
       padding: 0 20px 20px;
     }
@@ -220,8 +220,6 @@
       letter-spacing: .5px;
       margin-bottom: 16px
     }
-
-    /* Legacy filter card styles removed */
 
     .accordion-item {
       border: 1px solid var(--blue);
@@ -281,7 +279,6 @@
       background: #b8d8f8
     }
 
-    /* Desafio item — single select, sem checkbox */
     .desafio-item {
       display: flex;
       align-items: center;
@@ -324,7 +321,6 @@
       border-color: var(--blue)
     }
 
-    /* Lista de indicadores */
     .indicator-list-card {
       background: #fafcff
     }
@@ -409,7 +405,6 @@
       border-radius: 0 0 12px 12px;
     }
 
-    /* Cards de indicadores */
     #indicatorsContainer {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
@@ -484,7 +479,6 @@
       align-items: baseline
     }
 
-    /* ODS View Styles */
     #odsSection {
       display: none;
       width: 100%;
@@ -600,7 +594,6 @@
       font-weight: 700;
       color: #1a6fc4;
       text-transform: uppercase;
-      /* min-width: 120px; */
       flex-shrink: 0;
       letter-spacing: 0.5px;
       margin-right: 8px
@@ -819,7 +812,6 @@
       border: 1px solid var(--gray-border);
     }
 
-    /* Modal Creation Styles */
     .indicator-form-modal {
       position: fixed;
       top: 50%;
@@ -841,7 +833,6 @@
       display: block;
     }
 
-    /* Search Autocomplete */
     .search-group {
       margin-bottom: 24px;
       position: relative;
@@ -993,7 +984,6 @@
       cursor: pointer;
     }
 
-    /* Removed old accordion styles that are no longer used */
     .filter-modal .desafio-dot {
       border-color: #cbd5e1;
     }
@@ -1143,10 +1133,11 @@
       cursor: not-allowed;
       border-color: var(--gray-border);
     }
-    
+
     .multi-select-box[disabled]::after {
       opacity: 0.5;
     }
+
     .filter-grid {
       display: grid;
       grid-template-columns: repeat(12, 1fr);
@@ -1154,14 +1145,22 @@
       margin-bottom: 24px;
     }
 
-    .col-4 { grid-column: span 4; }
-    .col-6 { grid-column: span 6; }
-    
-    @media (max-width: 768px) {
-      .col-4, .col-6 { grid-column: span 12; }
+    .col-4 {
+      grid-column: span 4;
     }
 
-    /* ── ODS MANAGEMENT TAB ── */
+    .col-6 {
+      grid-column: span 6;
+    }
+
+    @media (max-width: 768px) {
+
+      .col-4,
+      .col-6 {
+        grid-column: span 12;
+      }
+    }
+
     .ods-management-grid {
       display: grid;
       grid-template-columns: 1fr 320px;
@@ -1169,7 +1168,8 @@
       align-items: flex-start;
     }
 
-    .ods-cards-panel, .ods-add-panel {
+    .ods-cards-panel,
+    .ods-add-panel {
       background: var(--white);
       border: 1px solid var(--gray-border);
       border-radius: 12px;
@@ -1203,7 +1203,7 @@
     }
 
     .ods-card:hover {
-      box-shadow: 0 4px 16px rgba(0,0,0,.08);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .08);
     }
 
     .ods-card-top {
@@ -1364,7 +1364,6 @@
       line-height: 1.3;
     }
 
-    /* ESG Section */
     .esg-section {
       background: var(--white);
       border: 1px solid var(--gray-border);
@@ -1419,12 +1418,12 @@
 
     .esg-textarea:focus {
       border-color: var(--blue);
-      box-shadow: 0 0 0 3px rgba(26,111,196,.08);
+      box-shadow: 0 0 0 3px rgba(26, 111, 196, .08);
     }
 
     .esg-textarea.error {
       border-color: var(--red);
-      box-shadow: 0 0 0 3px rgba(192,57,43,.08);
+      box-shadow: 0 0 0 3px rgba(192, 57, 43, .08);
     }
 
     .esg-error-msg {
@@ -1439,7 +1438,6 @@
       display: block;
     }
 
-    /* ── NEW ODS PAGE LAYOUT ── */
     .ods-section-header {
       display: flex;
       justify-content: space-between;
@@ -1449,7 +1447,6 @@
       border-bottom: 1px solid var(--gray-border);
     }
 
-    /* Sugeridas: horizontal scrollable row */
     .ods-suggested-row {
       display: flex;
       gap: 12px;
@@ -1460,6 +1457,7 @@
     .ods-suggested-row::-webkit-scrollbar {
       height: 5px;
     }
+
     .ods-suggested-row::-webkit-scrollbar-thumb {
       background: #c8d3de;
       border-radius: 3px;
@@ -1481,13 +1479,13 @@
     .ods-suggested-card:hover {
       filter: grayscale(0.3);
       opacity: 0.95;
-      box-shadow: 0 3px 10px rgba(0,0,0,.1);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, .1);
       transform: translateY(-1px);
     }
 
     .ods-suggested-card--active {
       border-color: var(--blue);
-      box-shadow: 0 4px 16px rgba(26,111,196,.15);
+      box-shadow: 0 4px 16px rgba(26, 111, 196, .15);
     }
 
     .ods-sug-top {
@@ -1561,10 +1559,9 @@
 
     .ods-suggested-card--linked {
       border-color: #f59e0b;
-      box-shadow: 0 2px 8px rgba(245,158,11,.15);
+      box-shadow: 0 2px 8px rgba(245, 158, 11, .15);
     }
 
-    /* Selecionadas: wrapping grid of smaller cards */
     .ods-selected-grid {
       display: flex;
       flex-wrap: wrap;
@@ -1582,7 +1579,7 @@
     }
 
     .ods-sel-card:hover {
-      box-shadow: 0 3px 12px rgba(0,0,0,.08);
+      box-shadow: 0 3px 12px rgba(0, 0, 0, .08);
     }
 
     .ods-sel-top {
@@ -1712,8 +1709,8 @@
         <label class="filter-label">Busca Textual</label>
         <div class="search-input-wrapper">
           <span class="search-icon" style="top: 10px;">🔍</span>
-          <input type="text" class="search-input" id="indicatorSearch" placeholder="Nome do indicador" style="margin-bottom:0;"
-            oninput="handleSearchInput(this.value)">
+          <input type="text" class="search-input" id="indicatorSearch" placeholder="Nome do indicador"
+            style="margin-bottom:0;" oninput="handleSearchInput(this.value)">
         </div>
         <div id="searchResults" class="search-results"></div>
       </div>
@@ -1723,6 +1720,8 @@
       <button class="btn-filtrar" onclick="applyFilter()">Filtrar</button>
     </div>
   </div>
+
+  <!-- ── MODAL: NOVO INDICADOR ── -->
   <div id="newIndicatorModal" class="indicator-form-modal">
     <div class="modal-header">
       <div class="card-title" style="text-transform: uppercase;">NOVO INDICADOR DE PROJETO ESTRATÉGICO</div>
@@ -1739,8 +1738,9 @@
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
         <div class="form-row"><label>UNIDADE DE MEDIDA</label><input type="text" id="fUnidade" placeholder="Ex: %">
         </div>
-        <div class="form-row"><label>VALOR DE BASE DE REFERÊNCIA</label><input type="number" id="fValorBase"
-            placeholder="Valor inicial"></div>
+        <!-- BASE DE REFERÊNCIA agora aceita texto livre -->
+        <div class="form-row"><label>BASE DE REFERÊNCIA</label><input type="text" id="fValorBase"
+            placeholder="Ex: 25.000 (2022)"></div>
       </div>
 
       <div class="form-row"><label>METAS</label>
@@ -1794,7 +1794,6 @@
       </div>
     </div>
 
-
     <!-- Selecione o indicador estratégico -->
     <div class="card indicator-list-card">
       <div class="indicator-list-header">
@@ -1810,14 +1809,14 @@
           title="Caso nao encontrou um indicador estrategico desejado cria um novo"
           onclick="showNewIndicatorForm(); event.stopPropagation();" onmouseover="this.style.background='#eef6ff'"
           onmouseout="this.style.background='transparent'">
-          <span style="color:var(--blue); font-weight:700; font-size:12px;">+ Criar um novo Indicador de Projeto</span>
+          <span style="color:var(--blue); font-weight:700; font-size:12px;">+ Criar um Indicador de Projeto</span>
         </div>
       </div>
     </div>
 
     <!-- Indicadores salvos -->
     <div class="card" id="indicatorSection">
-      <div class="card-title">Indicadores</div>
+      <div class="card-title">Indicadores Selecionados</div>
       <div id="indicatorsContainer">
         <div class="no-indicators">Nenhum indicador selecionado.</div>
       </div>
@@ -1830,42 +1829,44 @@
     <!-- ODS MANAGEMENT SECTION -->
     <div id="odsSection" style="display:none;">
 
-      <!-- Seção 1: ODS Sugeridas -->
       <div class="card" style="margin-bottom:16px;">
         <div class="ods-section-header">
           <div>
             <div class="card-title" style="margin-bottom:2px;">ODS Sugeridas</div>
-            <div style="font-size:12px; color:var(--gray-text);">ODS identificadas a partir dos indicadores selecionados. Clique para adicionar à seleção.</div>
+            <div style="font-size:12px; color:var(--gray-text);">ODS identificadas a partir dos indicadores
+              selecionados. Clique para adicionar à seleção.</div>
           </div>
         </div>
         <div class="ods-suggested-row" id="odsSuggestedRow"></div>
       </div>
 
-      <!-- Seção 2: ODS Selecionadas -->
       <div class="card" style="margin-bottom:16px;">
         <div class="ods-section-header">
           <div>
             <div class="card-title" style="margin-bottom:2px;">Selecionadas</div>
-            <div style="font-size:12px; color:var(--gray-text);">ODS confirmadas para este projeto. Clique em × para remover.</div>
+            <div style="font-size:12px; color:var(--gray-text);">ODS confirmadas para este projeto. Clique em × para
+              remover.</div>
           </div>
         </div>
         <div class="ods-selected-grid" id="odsSelectedGrid"></div>
       </div>
 
-      <!-- Seção 3: Campo ESG -->
       <div class="esg-section">
         <label class="esg-label">
           Impactos do Projeto no Âmbito Ambiental, Social e de Governança (ESG)
           <span class="esg-required-badge">Obrigatório</span>
         </label>
         <div class="esg-subtitle">Descreva os impactos ambientais, sociais e de governança do projeto.</div>
-        <textarea class="esg-textarea" id="esgTextarea" placeholder="Descreva como este projeto contribui para o meio ambiente, para a sociedade e para a boa governança..." oninput="esgText = this.value; clearEsgError()"></textarea>
+        <textarea class="esg-textarea" id="esgTextarea"
+          placeholder="Descreva como este projeto contribui para o meio ambiente, para a sociedade e para a boa governança..."
+          oninput="esgText = this.value; clearEsgError()"></textarea>
         <div class="esg-error-msg" id="esgErrorMsg">⚠ O campo de impacto ESG é obrigatório para concluir o DIC.</div>
       </div>
 
       <div class="navigation-buttons" style="margin-top:20px;">
         <button class="nav-btn" onclick="goToDashboard()">← Voltar</button>
-        <button class="nav-btn" style="background:var(--blue); color:white; border-color:var(--blue);" onclick="concluirDIC()">Concluir →</button>
+        <button class="nav-btn" style="background:var(--blue); color:white; border-color:var(--blue);"
+          onclick="concluirDIC()">Concluir →</button>
       </div>
     </div>
   </div>
@@ -1874,31 +1875,31 @@
     const YEARS = [2023, 2024, 2025, 2026];
 
     let catalogIndicators = [
-      { id: 1, name: 'NÚMERO DE MATRÍCULAS EM EDUCAÇÃO PROFISSIONAL', formula: 'Somatório total de matrículas ativas nos cursos técnicos e profissionalizantes', orgao: 'Secretaria de Educação - SEDUC', valorBase: 12000, unidadeMedida: 'Número de matrículas', metas: { 2023: 15000, 2024: 18000, 2025: 21000, 2026: 25000 }, desafios: ['Atender necessidades de educação profissional'], isCustom: false, ods: 4 },
-      { id: 2, name: 'TAXA DE EVASÃO TÉCNICO', formula: '(Número de alunos evadidos / Total de alunos matriculados) x 100', orgao: 'Secretaria de Educação - SEDUC', valorBase: 10.2, unidadeMedida: 'Percentual (%)', metas: { 2023: 8.5, 2024: 7.2, 2025: 6.0, 2026: 5.0 }, desafios: ['Atender necessidades de educação profissional'], isCustom: false, ods: 4 },
-      { id: 3, name: 'TAXA DE PROFESSORES EFETIVOS', formula: '(Número de professores efetivos / Total de professores) x 100', orgao: 'Secretaria de Educação - SEDUC', valorBase: 65.0, unidadeMedida: 'Percentual (%)', metas: { 2023: 70, 2024: 75, 2025: 80, 2026: 85 }, desafios: ['Atender necessidades de educação profissional'], isCustom: false, ods: 4 },
-      { id: 4, name: 'ÍNDICE DE EMPREGABILIDADE DE EGRESSOS', formula: '(Número de egressos empregados / Total de egressos) x 100', orgao: 'Secretaria de Educação - SEDUC', valorBase: 65.0, unidadeMedida: 'Percentual (%)', metas: { 2023: 70, 2024: 75, 2025: 80, 2026: 85 }, desafios: ['Atender necessidades de educação profissional'], isCustom: false, ods: 4 },
-      { id: 5, name: 'INVESTIMENTO PÚBLICO EM CULTURA', formula: 'Somatório de recursos destinados à cultura via orçamento público', orgao: 'Secretaria de Cultura - SECULT', valorBase: 25000000, unidadeMedida: 'R$ (milhões)', metas: { 2023: 30, 2024: 35, 2025: 40, 2026: 45 }, desafios: ['Fomentar investimento em cultura'], isCustom: false, ods: 11 },
-      { id: 6, name: 'NÚMERO DE PROJETOS CULTURAIS APOIADOS', formula: 'Contagem de projetos contemplados por editais de fomento', orgao: 'Secretaria de Cultura - SECULT', valorBase: 45, unidadeMedida: 'Número de projetos', metas: { 2023: 60, 2024: 75, 2025: 90, 2026: 110 }, desafios: ['Fomentar investimento em cultura'], isCustom: false, ods: 11 },
-      { id: 7, name: 'ÍNDICE DE PARTICIPAÇÃO CULTURAL', formula: '(Pessoas que frequentaram eventos culturais / População total) x 100', orgao: 'Secretaria de Cultura - SECULT', valorBase: 35.0, unidadeMedida: 'Percentual (%)', metas: { 2023: 40, 2024: 45, 2025: 50, 2026: 55 }, desafios: ['Fomentar investimento em cultura'], isCustom: false, ods: 11 },
-      { id: 8, name: 'NÚMERO DE EQUIPAMENTOS CULTURAIS REFORMADOS', formula: 'Contagem de teatros, museus, bibliotecas e centros culturais reformados', orgao: 'Secretaria de Cultura - SECULT', valorBase: 8, unidadeMedida: 'Número de equipamentos', metas: { 2023: 12, 2024: 15, 2025: 18, 2026: 22 }, desafios: ['Fomentar investimento em cultura'], isCustom: false, ods: 11 },
-      { id: 9, name: 'ESCOLAS COM EDUCAÇÃO INTEGRAL', formula: 'Número de escolas que implementaram programa de educação integral', orgao: 'Secretaria de Educação - SEDUC', valorBase: 50, unidadeMedida: 'Número de escolas', metas: { 2023: 80, 2024: 110, 2025: 140, 2026: 170 }, desafios: ['Fortalecer educação integral'], isCustom: false, ods: 4 },
-      { id: 10, name: 'IDEB - ÍNDICE DE DESENVOLVIMENTO DA EDUCAÇÃO BÁSICA', formula: 'Média de desempenho em avaliações + fluxo escolar', orgao: 'INEP/MEC', valorBase: 5.2, unidadeMedida: 'Índice (0-10)', metas: { 2023: 5.5, 2024: 5.8, 2025: 6.1, 2026: 6.5 }, desafios: ['Fortalecer educação integral'], isCustom: false, ods: 4 },
-      { id: 11, name: 'ALUNOS ATENDIDOS EM TEMPO INTEGRAL', formula: 'Somatório de alunos matriculados em escolas de tempo integral', orgao: 'Secretaria de Educação - SEDUC', valorBase: 25000, unidadeMedida: 'Número de alunos', metas: { 2023: 35000, 2024: 45000, 2025: 55000, 2026: 70000 }, desafios: ['Fortalecer educação integral'], isCustom: false, ods: 4 },
-      { id: 12, name: 'BOLSAS DE ESTUDO CONCEDIDAS', formula: 'Número total de bolsas de estudo para estudantes de baixa renda', orgao: 'Secretaria de Educação - SEDUC', valorBase: 5000, unidadeMedida: 'Número de bolsas', metas: { 2023: 7000, 2024: 9000, 2025: 11000, 2026: 13000 }, desafios: ['Políticas de equidade'], isCustom: false, ods: 10 },
-      { id: 13, name: 'ÍNDICE DE EQUIDADE RACIAL NA EDUCAÇÃO', formula: '(Taxa de conclusão de alunos negros / Taxa de conclusão de alunos brancos) x 100', orgao: 'Secretaria de Educação - SEDUC', valorBase: 85.0, unidadeMedida: 'Percentual (%)', metas: { 2023: 88, 2024: 91, 2025: 94, 2026: 97 }, desafios: ['Políticas de equidade'], isCustom: false, ods: 10 },
-      { id: 14, name: 'ACESSIBILIDADE NAS ESCOLAS', formula: '(Escolas com acessibilidade / Total de escolas) x 100', orgao: 'Secretaria de Educação - SEDUC', valorBase: 60.0, unidadeMedida: 'Percentual (%)', metas: { 2023: 70, 2024: 80, 2025: 90, 2026: 95 }, desafios: ['Políticas de equidade'], isCustom: false, ods: 10 },
-      { id: 15, name: 'COBERTURA DE ATENÇÃO BÁSICA', formula: '(População coberta pela ESF / População total) x 100', orgao: 'Secretaria de Saúde - SES', valorBase: 70.0, unidadeMedida: 'Percentual (%)', metas: { 2023: 75, 2024: 80, 2025: 85, 2026: 90 }, desafios: ['Ampliar cobertura de saúde'], isCustom: false, ods: 3 },
-      { id: 16, name: 'NÚMERO DE UNIDADES BÁSICAS DE SAÚDE (UBS)', formula: 'Contagem total de UBS em funcionamento', orgao: 'Secretaria de Saúde - SES', valorBase: 120, unidadeMedida: 'Número de unidades', metas: { 2023: 135, 2024: 150, 2025: 165, 2026: 180 }, desafios: ['Ampliar cobertura de saúde'], isCustom: false, ods: 3 },
-      { id: 17, name: 'CONSULTAS MÉDICAS REALIZADAS', formula: 'Somatório de consultas médicas realizadas na rede pública', orgao: 'Secretaria de Saúde - SES', valorBase: 500000, unidadeMedida: 'Número de consultas', metas: { 2023: 600000, 2024: 700000, 2025: 800000, 2026: 900000 }, desafios: ['Ampliar cobertura de saúde'], isCustom: false, ods: 3 },
-      { id: 18, name: 'TAXA DE MORTALIDADE INFANTIL', formula: '(Número de óbitos de crianças menores de 1 ano / Número de nascidos vivos) x 1000', orgao: 'Secretaria de Saúde - SES', valorBase: 13.5, unidadeMedida: 'Óbitos por 1.000 nascidos vivos', metas: { 2023: 12.5, 2024: 11.8, 2025: 11.0, 2026: 10.2 }, desafios: ['Reduzir mortalidade infantil'], isCustom: false, ods: 3 },
-      { id: 19, name: 'COBERTURA VACINAL INFANTIL', formula: '(Crianças vacinadas / Total de crianças) x 100', orgao: 'Secretaria de Saúde - SES', valorBase: 85.0, unidadeMedida: 'Percentual (%)', metas: { 2023: 88, 2024: 91, 2025: 94, 2026: 96 }, desafios: ['Reduzir mortalidade infantil'], isCustom: false, ods: 3 },
-      { id: 20, name: 'PRÉ-NATAL DE ALTO RISCO', formula: '(Gestantes de alto risco acompanhadas / Total de gestantes de alto risco) x 100', orgao: 'Secretaria de Saúde - SES', valorBase: 75.0, unidadeMedida: 'Percentual (%)', metas: { 2023: 80, 2024: 85, 2025: 90, 2026: 95 }, desafios: ['Reduzir mortalidade infantil'], isCustom: false, ods: 3 },
-      { id: 22, name: 'NÚMERO DE STARTUPS APOIADAS', formula: 'Contagem total de startups incubadas e apoiadas', orgao: 'Secretaria de Desenvolvimento Econômico - SEDE', valorBase: 15, unidadeMedida: 'Número de startups', metas: { 2023: 25, 2024: 35, 2025: 45, 2026: 60 }, desafios: ['Estimular inovação e tecnologia'], isCustom: false, ods: 9 },
-      { id: 23, name: 'INVESTIMENTO EM P&D', formula: 'Recursos aplicados em pesquisa e desenvolvimento', orgao: 'Secretaria de Ciência e Tecnologia - SECTI', valorBase: 120000000, unidadeMedida: 'R$ (milhões)', metas: { 2023: 150, 2024: 180, 2025: 210, 2026: 250 }, desafios: ['Estimular inovação e tecnologia'], isCustom: false, ods: 9 },
-      { id: 26, name: 'TAXA DE DESEMPREGO', formula: '(Número de desempregados / População economicamente ativa) x 100', orgao: 'Secretaria do Trabalho - SETRAB', valorBase: 11.5, unidadeMedida: 'Percentual (%)', metas: { 2023: 9.5, 2024: 8.5, 2025: 7.5, 2026: 6.5 }, desafios: ['Geração de empregos'], isCustom: false, ods: 8 },
-      { id: 27, name: 'EMPREGOS FORMAIS CRIADOS', formula: 'Saldo de empregos com carteira assinada', orgao: 'Ministério do Trabalho - MTE', valorBase: 35000, unidadeMedida: 'Número de empregos', metas: { 2023: 45000, 2024: 55000, 2025: 65000, 2026: 75000 }, desafios: ['Geração de empregos'], isCustom: false, ods: 8 },
-      { id: 28, name: 'PROGRAMAS DE QUALIFICAÇÃO PROFISSIONAL', formula: 'Número de pessoas capacitadas em cursos profissionalizantes', orgao: 'Secretaria do Trabalho - SETRAB', valorBase: 8000, unidadeMedida: 'Número de pessoas', metas: { 2023: 12000, 2024: 16000, 2025: 20000, 2026: 25000 }, desafios: ['Geração de empregos'], isCustom: false, ods: 8 }
+      { id: 1, name: 'NÚMERO DE MATRÍCULAS EM EDUCAÇÃO PROFISSIONAL', formula: 'Somatório total de matrículas ativas nos cursos técnicos e profissionalizantes', orgao: 'Secretaria de Educação - SEDUC', valorBase: '25000 (2026)', unidadeMedida: 'Número de matrículas', metas: { 2023: 15000, 2024: 18000, 2025: 21000, 2026: 25000 }, desafios: ['Atender necessidades de educação profissional'], isCustom: false, ods: 4 },
+      { id: 2, name: 'TAXA DE EVASÃO TÉCNICO', formula: '(Número de alunos evadidos / Total de alunos matriculados) x 100', orgao: 'Secretaria de Educação - SEDUC', valorBase: '5.0 (2026)', unidadeMedida: 'Percentual (%)', metas: { 2023: 8.5, 2024: 7.2, 2025: 6.0, 2026: 5.0 }, desafios: ['Atender necessidades de educação profissional'], isCustom: false, ods: 4 },
+      { id: 3, name: 'TAXA DE PROFESSORES EFETIVOS', formula: '(Número de professores efetivos / Total de professores) x 100', orgao: 'Secretaria de Educação - SEDUC', valorBase: '85 (2026)', unidadeMedida: 'Percentual (%)', metas: { 2023: 70, 2024: 75, 2025: 80, 2026: 85 }, desafios: ['Atender necessidades de educação profissional'], isCustom: false, ods: 4 },
+      { id: 4, name: 'ÍNDICE DE EMPREGABILIDADE DE EGRESSOS', formula: '(Número de egressos empregados / Total de egressos) x 100', orgao: 'Secretaria de Educação - SEDUC', valorBase: '85 (2026)', unidadeMedida: 'Percentual (%)', metas: { 2023: 70, 2024: 75, 2025: 80, 2026: 85 }, desafios: ['Atender necessidades de educação profissional'], isCustom: false, ods: 4 },
+      { id: 5, name: 'INVESTIMENTO PÚBLICO EM CULTURA', formula: 'Somatório de recursos destinados à cultura via orçamento público', orgao: 'Secretaria de Cultura - SECULT', valorBase: '45 (2026)', unidadeMedida: 'R$ (milhões)', metas: { 2023: 30, 2024: 35, 2025: 40, 2026: 45 }, desafios: ['Fomentar investimento em cultura'], isCustom: false, ods: 11 },
+      { id: 6, name: 'NÚMERO DE PROJETOS CULTURAIS APOIADOS', formula: 'Contagem de projetos contemplados por editais de fomento', orgao: 'Secretaria de Cultura - SECULT', valorBase: '110 (2026)', unidadeMedida: 'Número de projetos', metas: { 2023: 60, 2024: 75, 2025: 90, 2026: 110 }, desafios: ['Fomentar investimento em cultura'], isCustom: false, ods: 11 },
+      { id: 7, name: 'ÍNDICE DE PARTICIPAÇÃO CULTURAL', formula: '(Pessoas que frequentaram eventos culturais / População total) x 100', orgao: 'Secretaria de Cultura - SECULT', valorBase: '55 (2026)', unidadeMedida: 'Percentual (%)', metas: { 2023: 40, 2024: 45, 2025: 50, 2026: 55 }, desafios: ['Fomentar investimento em cultura'], isCustom: false, ods: 11 },
+      { id: 8, name: 'NÚMERO DE EQUIPAMENTOS CULTURAIS REFORMADOS', formula: 'Contagem de teatros, museus, bibliotecas e centros culturais reformados', orgao: 'Secretaria de Cultura - SECULT', valorBase: '22 (2026)', unidadeMedida: 'Número de equipamentos', metas: { 2023: 12, 2024: 15, 2025: 18, 2026: 22 }, desafios: ['Fomentar investimento em cultura'], isCustom: false, ods: 11 },
+      { id: 9, name: 'ESCOLAS COM EDUCAÇÃO INTEGRAL', formula: 'Número de escolas que implementaram programa de educação integral', orgao: 'Secretaria de Educação - SEDUC', valorBase: '170 (2026)', unidadeMedida: 'Número de escolas', metas: { 2023: 80, 2024: 110, 2025: 140, 2026: 170 }, desafios: ['Fortalecer educação integral'], isCustom: false, ods: 4 },
+      { id: 10, name: 'IDEB - ÍNDICE DE DESENVOLVIMENTO DA EDUCAÇÃO BÁSICA', formula: 'Média de desempenho em avaliações + fluxo escolar', orgao: 'INEP/MEC', valorBase: '6.5 (2026)', unidadeMedida: 'Índice (0-10)', metas: { 2023: 5.5, 2024: 5.8, 2025: 6.1, 2026: 6.5 }, desafios: ['Fortalecer educação integral'], isCustom: false, ods: 4 },
+      { id: 11, name: 'ALUNOS ATENDIDOS EM TEMPO INTEGRAL', formula: 'Somatório de alunos matriculados em escolas de tempo integral', orgao: 'Secretaria de Educação - SEDUC', valorBase: '70000 (2026)', unidadeMedida: 'Número de alunos', metas: { 2023: 35000, 2024: 45000, 2025: 55000, 2026: 70000 }, desafios: ['Fortalecer educação integral'], isCustom: false, ods: 4 },
+      { id: 12, name: 'BOLSAS DE ESTUDO CONCEDIDAS', formula: 'Número total de bolsas de estudo para estudantes de baixa renda', orgao: 'Secretaria de Educação - SEDUC', valorBase: '13000 (2026)', unidadeMedida: 'Número de bolsas', metas: { 2023: 7000, 2024: 9000, 2025: 11000, 2026: 13000 }, desafios: ['Políticas de equidade'], isCustom: false, ods: 10 },
+      { id: 13, name: 'ÍNDICE DE EQUIDADE RACIAL NA EDUCAÇÃO', formula: '(Taxa de conclusão de alunos negros / Taxa de conclusão de alunos brancos) x 100', orgao: 'Secretaria de Educação - SEDUC', valorBase: '97 (2026)', unidadeMedida: 'Percentual (%)', metas: { 2023: 88, 2024: 91, 2025: 94, 2026: 97 }, desafios: ['Políticas de equidade'], isCustom: false, ods: 10 },
+      { id: 14, name: 'ACESSIBILIDADE NAS ESCOLAS', formula: '(Escolas com acessibilidade / Total de escolas) x 100', orgao: 'Secretaria de Educação - SEDUC', valorBase: '95 (2026)', unidadeMedida: 'Percentual (%)', metas: { 2023: 70, 2024: 80, 2025: 90, 2026: 95 }, desafios: ['Políticas de equidade'], isCustom: false, ods: 10 },
+      { id: 15, name: 'COBERTURA DE ATENÇÃO BÁSICA', formula: '(População coberta pela ESF / População total) x 100', orgao: 'Secretaria de Saúde - SES', valorBase: '90 (2026)', unidadeMedida: 'Percentual (%)', metas: { 2023: 75, 2024: 80, 2025: 85, 2026: 90 }, desafios: ['Ampliar cobertura de saúde'], isCustom: false, ods: 3 },
+      { id: 16, name: 'NÚMERO DE UNIDADES BÁSICAS DE SAÚDE (UBS)', formula: 'Contagem total de UBS em funcionamento', orgao: 'Secretaria de Saúde - SES', valorBase: '180 (2026)', unidadeMedida: 'Número de unidades', metas: { 2023: 135, 2024: 150, 2025: 165, 2026: 180 }, desafios: ['Ampliar cobertura de saúde'], isCustom: false, ods: 3 },
+      { id: 17, name: 'CONSULTAS MÉDICAS REALIZADAS', formula: 'Somatório de consultas médicas realizadas na rede pública', orgao: 'Secretaria de Saúde - SES', valorBase: '900000 (2026)', unidadeMedida: 'Número de consultas', metas: { 2023: 600000, 2024: 700000, 2025: 800000, 2026: 900000 }, desafios: ['Ampliar cobertura de saúde'], isCustom: false, ods: 3 },
+      { id: 18, name: 'TAXA DE MORTALIDADE INFANTIL', formula: '(Número de óbitos de crianças menores de 1 ano / Número de nascidos vivos) x 1000', orgao: 'Secretaria de Saúde - SES', valorBase: '10.2 (2026)', unidadeMedida: 'Óbitos por 1.000 nascidos vivos', metas: { 2023: 12.5, 2024: 11.8, 2025: 11.0, 2026: 10.2 }, desafios: ['Reduzir mortalidade infantil'], isCustom: false, ods: 3 },
+      { id: 19, name: 'COBERTURA VACINAL INFANTIL', formula: '(Crianças vacinadas / Total de crianças) x 100', orgao: 'Secretaria de Saúde - SES', valorBase: '96 (2026)', unidadeMedida: 'Percentual (%)', metas: { 2023: 88, 2024: 91, 2025: 94, 2026: 96 }, desafios: ['Reduzir mortalidade infantil'], isCustom: false, ods: 3 },
+      { id: 20, name: 'PRÉ-NATAL DE ALTO RISCO', formula: '(Gestantes de alto risco acompanhadas / Total de gestantes de alto risco) x 100', orgao: 'Secretaria de Saúde - SES', valorBase: '95 (2026)', unidadeMedida: 'Percentual (%)', metas: { 2023: 80, 2024: 85, 2025: 90, 2026: 95 }, desafios: ['Reduzir mortalidade infantil'], isCustom: false, ods: 3 },
+      { id: 22, name: 'NÚMERO DE STARTUPS APOIADAS', formula: 'Contagem total de startups incubadas e apoiadas', orgao: 'Secretaria de Desenvolvimento Econômico - SEDE', valorBase: '60 (2026)', unidadeMedida: 'Número de startups', metas: { 2023: 25, 2024: 35, 2025: 45, 2026: 60 }, desafios: ['Estimular inovação e tecnologia'], isCustom: false, ods: 9 },
+      { id: 23, name: 'INVESTIMENTO EM P&D', formula: 'Recursos aplicados em pesquisa e desenvolvimento', orgao: 'Secretaria de Ciência e Tecnologia - SECTI', valorBase: '250 (2026)', unidadeMedida: 'R$ (milhões)', metas: { 2023: 150, 2024: 180, 2025: 210, 2026: 250 }, desafios: ['Estimular inovação e tecnologia'], isCustom: false, ods: 9 },
+      { id: 26, name: 'TAXA DE DESEMPREGO', formula: '(Número de desempregados / População economicamente ativa) x 100', orgao: 'Secretaria do Trabalho - SETRAB', valorBase: '6.5 (2026)', unidadeMedida: 'Percentual (%)', metas: { 2023: 9.5, 2024: 8.5, 2025: 7.5, 2026: 6.5 }, desafios: ['Geração de empregos'], isCustom: false, ods: 8 },
+      { id: 27, name: 'EMPREGOS FORMAIS CRIADOS', formula: 'Saldo de empregos com carteira assinada', orgao: 'Ministério do Trabalho - MTE', valorBase: '75000 (2026)', unidadeMedida: 'Número de empregos', metas: { 2023: 45000, 2024: 55000, 2025: 65000, 2026: 75000 }, desafios: ['Geração de empregos'], isCustom: false, ods: 8 },
+      { id: 28, name: 'PROGRAMAS DE QUALIFICAÇÃO PROFISSIONAL', formula: 'Número de pessoas capacitadas em cursos profissionalizantes', orgao: 'Secretaria do Trabalho - SETRAB', valorBase: '25000 (2026)', unidadeMedida: 'Número de pessoas', metas: { 2023: 12000, 2024: 16000, 2025: 20000, 2026: 25000 }, desafios: ['Geração de empregos'], isCustom: false, ods: 8 }
     ];
 
     let currentTab = 'indicadores';
@@ -1934,13 +1935,9 @@
       16: 'ODS 16 - Paz, Justiça e Instituições Eficazes'
     };
 
-    /* ── PESQUISA AUTOCOMPLETE ── */
     function handleSearchInput(val) {
       const resultsDiv = document.getElementById('searchResults');
-      if (!val.trim()) {
-        resultsDiv.classList.remove('show');
-        return;
-      }
+      if (!val.trim()) { resultsDiv.classList.remove('show'); return; }
       const matches = catalogIndicators.filter(i => i.name.toLowerCase().includes(val.toLowerCase())).slice(0, 8);
       if (matches.length === 0) {
         resultsDiv.innerHTML = '<div style="padding:16px; color:#64748b; font-size:12px; text-align:center;">Nenhum indicador encontrado.</div>';
@@ -1948,8 +1945,7 @@
         resultsDiv.innerHTML = matches.map(m => `
           <div class="search-item" onclick="selectSearchResult('${esc(m.name).replace(/'/g, "\\'")}')">
             <strong>${esc(m.name)}</strong>
-          </div>
-        `).join('');
+          </div>`).join('');
       }
       resultsDiv.classList.add('show');
     }
@@ -1962,93 +1958,46 @@
     function renderAppliedBadges() {
       const container = document.getElementById('appliedFilterContainer');
       let badgesHtml = '';
-
       if (activeOds) {
         const odsName = ODS_METADATA_FILTER[activeOds] || 'ODS ' + activeOds;
-        badgesHtml += `
-          <div class="applied-desafio-badge" title="${esc(odsName)}">
-            <span class="badge-category">ODS</span>
-            <span class="badge-val">${esc(odsName)} <span class="clear-filter" onclick="clearOdsFilter(event)">✕</span></span>
-          </div>
-        `;
+        badgesHtml += `<div class="applied-desafio-badge" title="${esc(odsName)}"><span class="badge-category">ODS</span><span class="badge-val">${esc(odsName)} <span class="clear-filter" onclick="clearOdsFilter(event)">✕</span></span></div>`;
       }
-
       activeEixos.forEach(eixo => {
-        badgesHtml += `
-          <div class="applied-desafio-badge" title="${esc(eixo)}">
-            <span class="badge-category">Eixo</span>
-            <span class="badge-val">${esc(eixo)} <span class="clear-filter" onclick="removeSpecificFilter('eixo', '${esc(eixo).replace(/'/g, "\\'")}', event)">✕</span></span>
-          </div>
-        `;
+        badgesHtml += `<div class="applied-desafio-badge" title="${esc(eixo)}"><span class="badge-category">Eixo</span><span class="badge-val">${esc(eixo)} <span class="clear-filter" onclick="removeSpecificFilter('eixo', '${esc(eixo).replace(/'/g, "\\'")}', event)">✕</span></span></div>`;
       });
-
       activeAreaTemas.forEach(area => {
-        badgesHtml += `
-          <div class="applied-desafio-badge" title="${esc(area)}">
-            <span class="badge-category">Área Temática</span>
-            <span class="badge-val">${esc(area)} <span class="clear-filter" onclick="removeSpecificFilter('areaTema', '${esc(area).replace(/'/g, "\\'")}', event)">✕</span></span>
-          </div>
-        `;
+        badgesHtml += `<div class="applied-desafio-badge" title="${esc(area)}"><span class="badge-category">Área Temática</span><span class="badge-val">${esc(area)} <span class="clear-filter" onclick="removeSpecificFilter('areaTema', '${esc(area).replace(/'/g, "\\'")}', event)">✕</span></span></div>`;
       });
-
       activeDesafios.forEach(desafio => {
-        badgesHtml += `
-          <div class="applied-desafio-badge" title="${esc(desafio)}">
-            <span class="badge-category">Desafio</span>
-            <span class="badge-val">${esc(desafio)} <span class="clear-filter" onclick="removeSpecificFilter('desafio', '${esc(desafio).replace(/'/g, "\\'")}', event)">✕</span></span>
-          </div>
-        `;
+        badgesHtml += `<div class="applied-desafio-badge" title="${esc(desafio)}"><span class="badge-category">Desafio</span><span class="badge-val">${esc(desafio)} <span class="clear-filter" onclick="removeSpecificFilter('desafio', '${esc(desafio).replace(/'/g, "\\'")}', event)">✕</span></span></div>`;
       });
-
       const term = document.getElementById('indicatorSearch')?.value.trim();
       if (term) {
-        badgesHtml += `
-          <div class="applied-desafio-badge" title="Busca Textual">
-            <span class="badge-category">Indicador (Busca)</span>
-            <span class="badge-val">"${esc(term)}" <span class="clear-filter" onclick="clearSearchFilter(event)">✕</span></span>
-          </div>
-        `;
+        badgesHtml += `<div class="applied-desafio-badge" title="Busca Textual"><span class="badge-category">Indicador (Busca)</span><span class="badge-val">"${esc(term)}" <span class="clear-filter" onclick="clearSearchFilter(event)">✕</span></span></div>`;
       }
-
       container.innerHTML = badgesHtml;
     }
 
     function clearOdsFilter(e) {
       if (e) e.stopPropagation();
-      activeOds = null;
-      pendingOds = null;
+      activeOds = null; pendingOds = null;
       if (document.getElementById('odsFilterSelect')) document.getElementById('odsFilterSelect').value = '';
       renderAppliedBadges();
-      if (currentTab === 'ods') {
-        renderODSView();
-      } else {
-        renderIndicatorList();
-      }
+      renderIndicatorList();
     }
 
     function removeSpecificFilter(type, value, e) {
       if (e) e.stopPropagation();
-      
-      // Sync pendings to current active so logic applies correctly
       pendingEixos = new Set(activeEixos);
       pendingAreaTemas = new Set(activeAreaTemas);
       pendingDesafios = new Set(activeDesafios);
-
-      if (type === 'eixo') {
-        pendingEixos.delete(value);
-      } else if (type === 'areaTema') {
-        pendingAreaTemas.delete(value);
-      } else if (type === 'desafio') {
-        pendingDesafios.delete(value);
-      }
-      
-      initFilterDropdowns(); // Updates pending cascades and checks
-
-      // Commit changes to Active state
+      if (type === 'eixo') pendingEixos.delete(value);
+      else if (type === 'areaTema') pendingAreaTemas.delete(value);
+      else if (type === 'desafio') pendingDesafios.delete(value);
+      initFilterDropdowns();
       activeEixos = new Set(pendingEixos);
       activeAreaTemas = new Set(pendingAreaTemas);
       activeDesafios = new Set(pendingDesafios);
-
       renderAppliedBadges();
       renderIndicatorList();
     }
@@ -2057,66 +2006,31 @@
       if (e) e.stopPropagation();
       const search = document.getElementById('indicatorSearch');
       if (search) search.value = '';
-      handleSearchInput(''); // clear predictions if any live
+      handleSearchInput('');
       renderAppliedBadges();
       renderIndicatorList();
     }
 
-    function clearDesafioFilterAll(e) {
-      if (e) e.stopPropagation();
-      activeDesafios.clear();
-      pendingDesafios.clear();
-      activeEixos.clear();
-      pendingEixos.clear();
-      activeAreaTemas.clear();
-      pendingAreaTemas.clear();
-      const search = document.getElementById('indicatorSearch');
-      if (search) search.value = '';
-      handleSearchInput(''); // clear predictions
-      initFilterDropdowns(); // reflect clear state
-      renderAppliedBadges();
-      renderIndicatorList();
-    }
-
-    /* ── LISTA DE INDICADORES (painel de seleção) ── */
     function renderIndicatorList() {
       const container = document.getElementById('indicatorList');
       const tag = document.getElementById('activeDesafioTag');
       if (!container) return;
-
       let filterTags = [];
       if (activeOds) filterTags.push(ODS_METADATA_FILTER[activeOds] || 'ODS ' + activeOds);
       if (activeDesafios.size > 0) filterTags.push(`${activeDesafios.size} Desafio(s)`);
+      if (filterTags.length > 0) { tag.textContent = filterTags.join(' + '); tag.style.display = 'inline-block'; }
+      else if (tag) tag.style.display = 'none';
 
-      if (filterTags.length > 0) {
-        tag.textContent = filterTags.join(' + ');
-        tag.style.display = 'inline-block';
-      } else {
-        if (tag) tag.style.display = 'none';
-      }
-
-      // If user typed in the quick search (optional, this mockup ties search directly to selection in `handleSearchInput`)
       let term = document.getElementById('indicatorSearch')?.value.toLowerCase().trim() || "";
-
       let filtered = catalogIndicators;
-      if (activeOds) {
-        filtered = filtered.filter(ind => ind.ods && ind.ods.toString() === activeOds);
-      }
-      
-      // se tem fitro de desafio, mostra os indicadores que correspondem a QUALQUER UM dos desafios selecionados
-      if (activeDesafios.size > 0) {
-        filtered = filtered.filter(ind => ind.desafios && ind.desafios.some(d => activeDesafios.has(d)));
-      }
-
-      if (term) {
-        filtered = filtered.filter(ind => ind.name.toLowerCase().includes(term));
-      }
+      if (activeOds) filtered = filtered.filter(ind => ind.ods && ind.ods.toString() === activeOds);
+      if (activeDesafios.size > 0) filtered = filtered.filter(ind => ind.desafios && ind.desafios.some(d => activeDesafios.has(d)));
+      if (term) filtered = filtered.filter(ind => ind.name.toLowerCase().includes(term));
 
       if (filtered.length === 0) {
         container.innerHTML = '<div class="indicator-empty">Nenhum indicador encontrado para os filtros selecionados.</div>';
         return;
       }
-
       container.innerHTML = filtered.map(ind => {
         const sel = selectedIndicators.includes(ind.name);
         return `<div class="indicator-option ${sel ? 'selected' : ''}" onclick="toggleIndicator(${ind.id})">
@@ -2125,22 +2039,16 @@
       }).join('');
     }
 
-    /* ── TOGGLE INDICADOR ── */
     function toggleIndicator(id) {
       const ind = catalogIndicators.find(i => i.id === id);
       if (!ind) return;
       const name = ind.name;
-      if (selectedIndicators.includes(name)) {
-        selectedIndicators = selectedIndicators.filter(n => n !== name);
-      } else {
-        selectedIndicators.push(name);
-      }
-      /* re-renderiza lista (marca/desmarca) sem mudar o desafio ativo */
+      if (selectedIndicators.includes(name)) selectedIndicators = selectedIndicators.filter(n => n !== name);
+      else selectedIndicators.push(name);
       renderIndicatorList();
       renderIndicators();
     }
 
-    /* ── REMOVER CARD ── */
     function removeIndicator(name, isCustom) {
       selectedIndicators = selectedIndicators.filter(n => n !== name);
       if (isCustom) {
@@ -2151,11 +2059,9 @@
       renderIndicators();
     }
 
-    /* ── FORMULÁRIO NOVO INDICADOR ── */
     function showNewIndicatorForm() {
       document.getElementById('newIndicatorModal').classList.add('show');
       document.getElementById('modalOverlay').classList.add('show');
-      // Fecha o modal de filtros se estiver aberto
       document.getElementById('filterModal').classList.remove('show');
     }
 
@@ -2166,14 +2072,14 @@
 
     function saveNewIndicator() {
       const name = document.getElementById('fName')?.value.trim();
-      if (!name) { alert('Por favor, informe o nome do indicador'); return }
+      if (!name) { alert('Por favor, informe o nome do indicador'); return; }
       const metas = {};
-      YEARS.forEach(y => { const v = document.getElementById('fm_' + y)?.value; if (v) metas[y] = parseFloat(v) });
+      YEARS.forEach(y => { const v = document.getElementById('fm_' + y)?.value; if (v) metas[y] = parseFloat(v); });
       const newInd = {
         id: nextId++, name,
         formula: document.getElementById('fFormula')?.value.trim() || '',
         orgao: document.getElementById('fOrgao')?.value.trim() || '',
-        valorBase: parseFloat(document.getElementById('fValorBase')?.value) || 0,
+        valorBase: document.getElementById('fValorBase')?.value.trim() || '',   // ← string
         unidadeMedida: document.getElementById('fUnidade')?.value.trim() || '',
         metas, desafios: ['_custom'], isCustom: true, ods: 17
       };
@@ -2184,12 +2090,8 @@
       renderIndicators();
     }
 
-    /* ── RENDER CARDS ── */
     function renderIndicators() {
       const container = document.getElementById('indicatorsContainer');
-      const form = document.getElementById('newIndicatorForm');
-
-      /* limpa sem apagar o formulário se estiver aberto */
       const children = [...container.children].filter(el => el.id !== 'newIndicatorForm');
       children.forEach(el => el.remove());
 
@@ -2202,41 +2104,35 @@
         const d = catalogIndicators.find(i => i.name === name);
         if (!d) return '';
         return `<div class="indicator-card">
-      <div class="indicator-header">
-        <div class="indicator-name">${esc(d.name)}</div>
-        <div class="remove-indicator-btn" onclick="removeIndicator('${esc(d.name).replace(/'/g, "\\'")}',${d.isCustom})">✖</div>
-      </div>
-      <div class="indicator-details">
-        <div class="detail-row"><span class="detail-label">FÓRMULA:</span><span class="detail-value">${esc(d.formula) || 'Não informada'}</span></div>
-        <div class="detail-row"><span class="detail-label">FONTE:</span><span class="detail-value">${esc(d.orgao) || 'Não informado'}</span></div>
-        <div class="detail-row">
-          <span class="detail-label" style="min-width:auto; margin-right:8px;">UNIDADE DE MEDIDA:</span>
-          <span class="detail-value" style="margin-right:24px;">${esc(d.unidadeMedida) || 'Não informada'}</span>
-          <span class="detail-label" style="min-width:auto; margin-right:8px;">VALOR BASE DE REFERÊNCIA:</span>
-          <span class="detail-value">${d.valorBase ? d.valorBase.toLocaleString() : 'Não informado'}</span>
-        </div>
-
-        <span class="meta-section-label">META:</span>
-        <div class="meta-grid">
-          ${YEARS.map(y => `
-            <div class="meta-item">
-              <span class="meta-year">${y}</span>
-              <span class="meta-value">${d.metas[y] ? d.metas[y].toLocaleString() : '-'}</span>
-            </div>`).join('')}
-        </div>
-      </div>
-    </div>`;
+          <div class="indicator-header">
+            <div class="indicator-name">${esc(d.name)}</div>
+            <div class="remove-indicator-btn" onclick="removeIndicator('${esc(d.name).replace(/'/g, "\\'")}',${d.isCustom})">✖</div>
+          </div>
+          <div class="indicator-details">
+            <div class="detail-row"><span class="detail-label">FÓRMULA:</span><span class="detail-value">${esc(d.formula) || 'Não informada'}</span></div>
+            <div class="detail-row"><span class="detail-label">FONTE:</span><span class="detail-value">${esc(d.orgao) || 'Não informado'}</span></div>
+            <div class="detail-row">
+              <span class="detail-label" style="min-width:auto; margin-right:8px;">UNIDADE DE MEDIDA:</span>
+              <span class="detail-value" style="margin-right:24px;">${esc(d.unidadeMedida) || 'Não informada'}</span>
+              <span class="detail-label" style="min-width:auto; margin-right:8px;">BASE DE REFERÊNCIA:</span>
+              <span class="detail-value">${d.valorBase ? esc(String(d.valorBase)) : 'Não informado'}</span>
+            </div>
+            <span class="meta-section-label">META:</span>
+            <div class="meta-grid">
+              ${YEARS.map(y => `
+                <div class="meta-item">
+                  <span class="meta-year">${y}</span>
+                  <span class="meta-value">${d.metas[y] ? d.metas[y].toLocaleString() : '-'}</span>
+                </div>`).join('')}
+            </div>
+          </div>
+        </div>`;
       }).join('');
 
       container.insertAdjacentHTML('beforeend', html);
     }
 
-    function updateMeta(name, year, value) {
-      const ind = catalogIndicators.find(i => i.name === name);
-      if (ind) { if (!ind.metas) ind.metas = {}; ind.metas[year] = parseFloat(value) }
-    }
-
-    /* ── MODAL TOGGLE & ACTIONS ── */
+    /* ── MODAL ── */
     const filtrosBtn = document.getElementById('filtrosBtn');
     const filterModal = document.getElementById('filterModal');
     const modalOverlay = document.getElementById('modalOverlay');
@@ -2258,12 +2154,9 @@
     function toggleDropdown(id, boxEl) {
       const drop = document.getElementById(id);
       const isShowing = drop.classList.contains('show');
-      
-      // Close all open
       document.querySelectorAll('.multi-select-dropdown.show').forEach(el => el.classList.remove('show'));
       document.querySelectorAll('.multi-select-box.active').forEach(el => el.classList.remove('active'));
       activeDropdownBox = null;
-
       if (!isShowing) {
         if (boxEl.hasAttribute('disabled')) return;
         drop.classList.add('show');
@@ -2273,7 +2166,6 @@
     }
 
     document.addEventListener('click', (e) => {
-      // Close dropdown if clicking outside
       if (activeDropdownBox && !e.target.closest('.multi-select-container')) {
         document.querySelectorAll('.multi-select-dropdown.show').forEach(el => el.classList.remove('show'));
         document.querySelectorAll('.multi-select-box.active').forEach(el => el.classList.remove('active'));
@@ -2285,42 +2177,28 @@
       {
         eixo: 'Eixo 1: + Qualidade de vida',
         areas: [
-          {
-            nome: 'Área Temática: Educação, Cultura, Esporte e Lazer',
-            desafios: ['Atender necessidades de educação profissional', 'Fomentar investimento em cultura', 'Fortalecer educação integral', 'Políticas de equidade']
-          },
-          {
-            nome: 'Área Temática: Saúde',
-            desafios: ['Ampliar cobertura de saúde', 'Reduzir mortalidade infantil']
-          }
+          { nome: 'Área Temática: Educação, Cultura, Esporte e Lazer', desafios: ['Atender necessidades de educação profissional', 'Fomentar investimento em cultura', 'Fortalecer educação integral', 'Políticas de equidade'] },
+          { nome: 'Área Temática: Saúde', desafios: ['Ampliar cobertura de saúde', 'Reduzir mortalidade infantil'] }
         ]
       },
       {
         eixo: 'Eixo 2: Desenvolvimento Econômico',
         areas: [
-          {
-            nome: 'Área Temática: Inovação e Emprego',
-            desafios: ['Estimular inovação e tecnologia', 'Geração de empregos']
-          }
+          { nome: 'Área Temática: Inovação e Emprego', desafios: ['Estimular inovação e tecnologia', 'Geração de empregos'] }
         ]
       }
     ];
 
     function getAvailableAreas() {
-      if (pendingEixos.size === 0) {
-        return [];
-      } else {
-        let areas = [];
-        FILTER_DATA_HIERARCHY.filter(e => pendingEixos.has(e.eixo)).forEach(e => areas.push(...e.areas));
-        return areas;
-      }
+      if (pendingEixos.size === 0) return [];
+      let areas = [];
+      FILTER_DATA_HIERARCHY.filter(e => pendingEixos.has(e.eixo)).forEach(e => areas.push(...e.areas));
+      return areas;
     }
 
     function getAvailableDesafios() {
       let activeAreas = getAvailableAreas();
-      if (pendingAreaTemas.size === 0) {
-        return [];
-      }
+      if (pendingAreaTemas.size === 0) return [];
       activeAreas = activeAreas.filter(a => pendingAreaTemas.has(a.nome));
       let defs = [];
       activeAreas.forEach(a => defs.push(...a.desafios));
@@ -2332,34 +2210,20 @@
       if (type === 'eixo') isChecked = pendingEixos.has(value);
       if (type === 'areaTema') isChecked = pendingAreaTemas.has(value);
       if (type === 'desafio') isChecked = pendingDesafios.has(value);
-
-      return `
-        <label class="multi-option" onclick="event.stopPropagation()">
-          <input type="checkbox" value="${esc(value)}" ${isChecked ? 'checked' : ''} onchange="handleCheckboxChange(this, '${type}')">
-          ${esc(label)}
-        </label>
-      `;
+      return `<label class="multi-option" onclick="event.stopPropagation()"><input type="checkbox" value="${esc(value)}" ${isChecked ? 'checked' : ''} onchange="handleCheckboxChange(this, '${type}')">${esc(label)}</label>`;
     }
 
     function updateBoxText(boxId, type) {
       const boxText = document.getElementById(boxId);
       const set = type === 'eixo' ? pendingEixos : (type === 'areaTema' ? pendingAreaTemas : pendingDesafios);
-      
-      if (set.size === 0) {
-        boxText.textContent = "Todos";
-      } else if (set.size === 1) {
-        boxText.textContent = Array.from(set)[0];
-      } else {
-        boxText.textContent = `${set.size} selecionados`;
-      }
+      if (set.size === 0) boxText.textContent = "Todos";
+      else if (set.size === 1) boxText.textContent = Array.from(set)[0];
+      else boxText.textContent = `${set.size} selecionados`;
     }
 
     function initFilterDropdowns() {
       const eixoDrop = document.getElementById('eixoDropdown');
-      if (eixoDrop) {
-        eixoDrop.innerHTML = FILTER_DATA_HIERARCHY.map(e => generateCheckboxOption(e.eixo, e.eixo, 'eixo')).join('');
-        updateBoxText('eixoText', 'eixo');
-      }
+      if (eixoDrop) { eixoDrop.innerHTML = FILTER_DATA_HIERARCHY.map(e => generateCheckboxOption(e.eixo, e.eixo, 'eixo')).join(''); updateBoxText('eixoText', 'eixo'); }
       updateAreaTemasDropdown();
       updateDesafiosDropdown();
     }
@@ -2367,20 +2231,9 @@
     function handleCheckboxChange(checkbox, type) {
       const val = checkbox.value;
       const isChecked = checkbox.checked;
-      
-      if (type === 'eixo') {
-        if (isChecked) pendingEixos.add(val); else pendingEixos.delete(val);
-        updateBoxText('eixoText', 'eixo');
-        updateAreaTemasDropdown();
-        updateDesafiosDropdown();
-      } else if (type === 'areaTema') {
-        if (isChecked) pendingAreaTemas.add(val); else pendingAreaTemas.delete(val);
-        updateBoxText('areaTemaText', 'areaTema');
-        updateDesafiosDropdown();
-      } else if (type === 'desafio') {
-        if (isChecked) pendingDesafios.add(val); else pendingDesafios.delete(val);
-        updateBoxText('desafioText', 'desafio');
-      }
+      if (type === 'eixo') { if (isChecked) pendingEixos.add(val); else pendingEixos.delete(val); updateBoxText('eixoText', 'eixo'); updateAreaTemasDropdown(); updateDesafiosDropdown(); }
+      else if (type === 'areaTema') { if (isChecked) pendingAreaTemas.add(val); else pendingAreaTemas.delete(val); updateBoxText('areaTemaText', 'areaTema'); updateDesafiosDropdown(); }
+      else if (type === 'desafio') { if (isChecked) pendingDesafios.add(val); else pendingDesafios.delete(val); updateBoxText('desafioText', 'desafio'); }
     }
 
     function updateAreaTemasDropdown() {
@@ -2389,25 +2242,11 @@
       const box = document.getElementById('areaTemaBox');
       const text = document.getElementById('areaTemaText');
       if (!drop || !box) return;
-      
       const availableAreaNames = new Set(areaTemas.map(a => a.nome));
-      for (const t of pendingAreaTemas) {
-        if (!availableAreaNames.has(t)) pendingAreaTemas.delete(t);
-      }
-
-      if (pendingEixos.size === 0) {
-        box.setAttribute('disabled', 'true');
-        drop.innerHTML = '';
-        text.textContent = 'Selecione Eixo(s)';
-      } else if (areaTemas.length === 0) {
-        box.setAttribute('disabled', 'true');
-        drop.innerHTML = '';
-        text.textContent = 'Sem áreas disponíveis';
-      } else {
-        box.removeAttribute('disabled');
-        drop.innerHTML = Array.from(availableAreaNames).map(nome => generateCheckboxOption(nome, nome, 'areaTema')).join('');
-        updateBoxText('areaTemaText', 'areaTema');
-      }
+      for (const t of pendingAreaTemas) { if (!availableAreaNames.has(t)) pendingAreaTemas.delete(t); }
+      if (pendingEixos.size === 0) { box.setAttribute('disabled', 'true'); drop.innerHTML = ''; text.textContent = 'Selecione Eixo(s)'; }
+      else if (areaTemas.length === 0) { box.setAttribute('disabled', 'true'); drop.innerHTML = ''; text.textContent = 'Sem áreas disponíveis'; }
+      else { box.removeAttribute('disabled'); drop.innerHTML = Array.from(availableAreaNames).map(nome => generateCheckboxOption(nome, nome, 'areaTema')).join(''); updateBoxText('areaTemaText', 'areaTema'); }
     }
 
     function updateDesafiosDropdown() {
@@ -2416,58 +2255,37 @@
       const box = document.getElementById('desafioBox');
       const text = document.getElementById('desafioText');
       if (!drop || !box) return;
-
       const availableDesafioNames = new Set(desafios);
-      for (const d of pendingDesafios) {
-        if (!availableDesafioNames.has(d)) pendingDesafios.delete(d);
-      }
-
-      if (pendingAreaTemas.size === 0) {
-        box.setAttribute('disabled', 'true');
-        drop.innerHTML = '';
-        text.textContent = pendingEixos.size === 0 ? 'Selecione a Área' : 'Selecione a Área';
-      } else if (desafios.length === 0) {
-        box.setAttribute('disabled', 'true');
-        drop.innerHTML = '';
-        text.textContent = 'Sem desafios disponíveis';
-      } else {
-        box.removeAttribute('disabled');
-        drop.innerHTML = Array.from(availableDesafioNames).map(nome => generateCheckboxOption(nome, nome, 'desafio')).join('');
-        updateBoxText('desafioText', 'desafio');
-      }
+      for (const d of pendingDesafios) { if (!availableDesafioNames.has(d)) pendingDesafios.delete(d); }
+      if (pendingAreaTemas.size === 0) { box.setAttribute('disabled', 'true'); drop.innerHTML = ''; text.textContent = 'Selecione a Área'; }
+      else if (desafios.length === 0) { box.setAttribute('disabled', 'true'); drop.innerHTML = ''; text.textContent = 'Sem desafios disponíveis'; }
+      else { box.removeAttribute('disabled'); drop.innerHTML = Array.from(availableDesafioNames).map(nome => generateCheckboxOption(nome, nome, 'desafio')).join(''); updateBoxText('desafioText', 'desafio'); }
     }
 
-    filtrosBtn.addEventListener('click', () => {
-      toggleModal(true);
-    });
-
+    filtrosBtn.addEventListener('click', () => toggleModal(true));
     if (closeModal) closeModal.addEventListener('click', () => toggleModal(false));
-    if (modalOverlay) modalOverlay.addEventListener('click', () => toggleModal(false));
+    if (modalOverlay) modalOverlay.addEventListener('click', () => {
+      // Only close filter modal if new indicator modal is not open
+      if (!document.getElementById('newIndicatorModal').classList.contains('show')) toggleModal(false);
+    });
 
     function applyFilter() {
       activeEixos = new Set(pendingEixos);
       activeAreaTemas = new Set(pendingAreaTemas);
       activeDesafios = new Set(pendingDesafios);
-
       renderIndicatorList();
       renderAppliedBadges();
       toggleModal(false);
     }
 
     function clearPendingFilter() {
-      pendingEixos.clear();
-      pendingAreaTemas.clear();
-      pendingDesafios.clear();
-      
+      pendingEixos.clear(); pendingAreaTemas.clear(); pendingDesafios.clear();
       const search = document.getElementById('indicatorSearch');
       if (search) search.value = '';
       handleSearchInput('');
-      
       initFilterDropdowns();
     }
 
-
-    /* ── STARTUP ── */
     function init() {
       renderIndicators();
       renderIndicatorList();
@@ -2475,55 +2293,42 @@
       populateOdsFilterDropdown();
     }
 
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', init);
-    } else {
-      init();
-    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+    else init();
 
-    /* ── ODS VIEW LOGIC ── */
+    /* ── ODS ── */
     const ODS_METADATA = {
-      1:  { name: 'Erradicação da Pobreza',                         color: '#E5243B', description: 'Erradicar a pobreza em todas as suas formas, em todos os lugares, garantindo proteção social e acesso a recursos econômicos.' },
-      2:  { name: 'Fome Zero e Agricultura Sustentável',             color: '#DDA63A', description: 'Acabar com a fome, alcançar a segurança alimentar, melhorar a nutrição e promover a agricultura sustentável.' },
-      3:  { name: 'Saúde e Bem-Estar',                               color: '#4C9F38', description: 'Assegurar uma vida saudável e promover o bem-estar para todos, em todas as idades.' },
-      4:  { name: 'Educação de Qualidade',                           color: '#C5192D', description: 'Garantir educação inclusiva, equitativa e de qualidade, e promover oportunidades de aprendizagem ao longo da vida para todos.' },
-      5:  { name: 'Igualdade de Gênero',                              color: '#FF3A21', description: 'Alcançar a igualdade de gênero e empoderar todas as mulheres e meninas.' },
-      6:  { name: 'Água Potável e Saneamento',                        color: '#26BDE2', description: 'Garantir disponibilidade e manejo sustentável da água e saneamento para todos.' },
-      7:  { name: 'Energia Limpa e Acessível',                       color: '#FCC30B', description: 'Garantir acesso à energia fiável, sustentável, moderna e acessível para todos.' },
-      8:  { name: 'Trabalho Decente e Crescimento Econômico',        color: '#A21942', description: 'Promover o crescimento econômico sustentado, inclusivo e sustentável, emprego pleno e produtivo e trabalho decente para todos.' },
-      9:  { name: 'Indústria, Inovação e Infraestrutura',            color: '#FD6925', description: 'Construir infraestrutura resiliente, promover a industrialização inclusiva e sustentável e fomentar a inovação.' },
-      10: { name: 'Redução das Desigualdades',                       color: '#DD1367', description: 'Reduzir a desigualdade dentro dos países e entre eles, promovendo a inclusão social, econômica e política.' },
-      11: { name: 'Cidades e Comunidades Sustentáveis',              color: '#FD9D24', description: 'Tornar as cidades e os assentamentos humanos inclusivos, seguros, resilientes e sustentáveis.' },
-      12: { name: 'Consumo e Produção Responsáveis',                 color: '#BF8B2E', description: 'Assegurar padrões de produção e de consumo sustentáveis.' },
-      13: { name: 'Ação Contra a Mudança Global do Clima',           color: '#3F7E44', description: 'Tomar medidas urgentes para combater a mudança do clima e seus impactos.' },
-      14: { name: 'Vida na Água',                                    color: '#0A97D9', description: 'Conservar e usar sustentavelmente os oceanos, mares e recursos marinhos para o desenvolvimento sustentável.' },
-      15: { name: 'Vida Terrestre',                                  color: '#56C02B', description: 'Proteger, recuperar e promover o uso sustentável dos ecossistemas terrestres, gerir de forma sustentável as florestas.' },
-      16: { name: 'Paz, Justiça e Instituições Eficazes',            color: '#00689D', description: 'Promover sociedades pacíficas e inclusivas, proporcionar acesso à justiça e construir instituições eficazes, transparentes e responsáveis.' },
-      17: { name: 'Parcerias e Meios de Implementação',             color: '#19486A', description: 'Fortalecer os meios de implementação e revitalizar a parceria global para o desenvolvimento sustentável.' }
+      1: { name: 'Erradicação da Pobreza', color: '#E5243B' },
+      2: { name: 'Fome Zero e Agricultura Sustentável', color: '#DDA63A' },
+      3: { name: 'Saúde e Bem-Estar', color: '#4C9F38' },
+      4: { name: 'Educação de Qualidade', color: '#C5192D' },
+      5: { name: 'Igualdade de Gênero', color: '#FF3A21' },
+      6: { name: 'Água Potável e Saneamento', color: '#26BDE2' },
+      7: { name: 'Energia Limpa e Acessível', color: '#FCC30B' },
+      8: { name: 'Trabalho Decente e Crescimento Econômico', color: '#A21942' },
+      9: { name: 'Indústria, Inovação e Infraestrutura', color: '#FD6925' },
+      10: { name: 'Redução das Desigualdades', color: '#DD1367' },
+      11: { name: 'Cidades e Comunidades Sustentáveis', color: '#FD9D24' },
+      12: { name: 'Consumo e Produção Responsáveis', color: '#BF8B2E' },
+      13: { name: 'Ação Contra a Mudança Global do Clima', color: '#3F7E44' },
+      14: { name: 'Vida na Água', color: '#0A97D9' },
+      15: { name: 'Vida Terrestre', color: '#56C02B' },
+      16: { name: 'Paz, Justiça e Instituições Eficazes', color: '#00689D' },
+      17: { name: 'Parcerias e Meios de Implementação', color: '#19486A' }
     };
 
     function goToODS() {
-      if (selectedIndicators.length === 0) {
-        alert('Selecione pelo menos um indicador para avançar.');
-        return;
-      }
+      if (selectedIndicators.length === 0) { alert('Selecione pelo menos um indicador para avançar.'); return; }
       currentTab = 'ods';
-
-      // Pre-populate selectedOds from indicators
       selectedOds = new Set();
-      catalogIndicators
-        .filter(ind => selectedIndicators.includes(ind.name))
-        .forEach(ind => { if (ind.ods) selectedOds.add(ind.ods); });
-
+      catalogIndicators.filter(ind => selectedIndicators.includes(ind.name)).forEach(ind => { if (ind.ods) selectedOds.add(ind.ods); });
       document.getElementById('indicatorSection').style.display = 'none';
       document.querySelector('.indicator-list-card').style.display = 'none';
       const gestaoBadge = document.querySelector('.gestao-badge');
       if (gestaoBadge) gestaoBadge.style.display = 'none';
       document.getElementById('odsSection').style.display = 'block';
-
       document.querySelectorAll('.tabs span').forEach(s => s.classList.remove('active'));
       document.querySelectorAll('.tabs span')[2].classList.add('active');
-
       renderAppliedBadges();
       renderODSTab();
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2531,8 +2336,8 @@
 
     function populateOdsFilterDropdown() {
       const sel = document.getElementById('odsFilterSelect');
-      if (!sel || sel.options.length > 1) return; // already populated
-      Object.keys(ODS_METADATA).sort((a,b) => a-b).forEach(id => {
+      if (!sel || sel.options.length > 1) return;
+      Object.keys(ODS_METADATA).sort((a, b) => a - b).forEach(id => {
         const opt = document.createElement('option');
         opt.value = id;
         opt.textContent = `ODS ${id} — ${ODS_METADATA[id].name}`;
@@ -2547,120 +2352,51 @@
       document.querySelector('.indicator-list-card').style.display = 'block';
       const gestaoBadge = document.querySelector('.gestao-badge');
       if (gestaoBadge) gestaoBadge.style.display = 'inline-flex';
-
       document.querySelectorAll('.tabs span').forEach(s => s.classList.remove('active'));
       document.querySelectorAll('.tabs span')[1].classList.add('active');
-
       renderAppliedBadges();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function renderODSTab() {
-      renderODSSuggested();
-      renderODSSelected();
-    }
+    function renderODSTab() { renderODSSuggested(); renderODSSelected(); }
 
-    // Render "ODS Sugeridas" — ALL non-selected ODS shown as gray/disabled cards
     function renderODSSuggested() {
       const row = document.getElementById('odsSuggestedRow');
       if (!row) return;
-
-      // Build set of ODS IDs linked to selected indicators
       const linkedOdsIds = new Set();
-      catalogIndicators
-        .filter(ind => selectedIndicators.includes(ind.name) && ind.ods)
-        .forEach(ind => linkedOdsIds.add(ind.ods));
-
-      // Show only ODS that are NOT yet selected, sorted: linked ones first, then rest
-      const availableIds = Object.keys(ODS_METADATA).map(Number)
-        .filter(id => !selectedOds.has(id))
-        .sort((a, b) => {
-          const aLinked = linkedOdsIds.has(a) ? 0 : 1;
-          const bLinked = linkedOdsIds.has(b) ? 0 : 1;
-          return aLinked - bLinked || a - b;
-        });
-
-      if (availableIds.length === 0) {
-        row.innerHTML = `<div style="padding:20px; color:var(--gray-text); font-size:13px; text-align:center;">🌟 Todas as ODS já foram selecionadas!</div>`;
-        return;
-      }
-
+      catalogIndicators.filter(ind => selectedIndicators.includes(ind.name) && ind.ods).forEach(ind => linkedOdsIds.add(ind.ods));
+      const availableIds = Object.keys(ODS_METADATA).map(Number).filter(id => !selectedOds.has(id)).sort((a, b) => { const aL = linkedOdsIds.has(a) ? 0 : 1; const bL = linkedOdsIds.has(b) ? 0 : 1; return aL - bL || a - b; });
+      if (availableIds.length === 0) { row.innerHTML = `<div style="padding:20px; color:var(--gray-text); font-size:13px; text-align:center;">🌟 Todas as ODS já foram selecionadas!</div>`; return; }
       row.innerHTML = availableIds.map(oId => {
         const meta = ODS_METADATA[oId];
         const isLinked = linkedOdsIds.has(oId);
-        const linkedInd = isLinked
-          ? catalogIndicators.find(ind => selectedIndicators.includes(ind.name) && ind.ods === oId)
-          : null;
-
-        return `
-          <div class="ods-suggested-card" onclick="addSuggestedOds(${oId})" title="Clique para selecionar ODS ${oId}">
-            <div class="ods-sug-top" style="background:#9ca3af;"></div>
-            <div class="ods-sug-body">
-              <div class="ods-sug-badge" style="background:#9ca3af;">${oId}</div>
-              <div class="ods-sug-name">${esc(meta.name)}</div>
-              ${linkedInd ? `<div class="ods-sug-ind">${esc(linkedInd.name)}</div>` : ''}
-              ${isLinked
-                ? '<div class="ods-sug-suggested">★ Sugerida</div>'
-                : '<div class="ods-sug-add">+ Adicionar</div>'}
-            </div>
-          </div>`;
+        const linkedInd = isLinked ? catalogIndicators.find(ind => selectedIndicators.includes(ind.name) && ind.ods === oId) : null;
+        return `<div class="ods-suggested-card" onclick="addSuggestedOds(${oId})" title="Clique para selecionar ODS ${oId}">
+          <div class="ods-sug-top" style="background:#9ca3af;"></div>
+          <div class="ods-sug-body">
+            <div class="ods-sug-badge" style="background:#9ca3af;">${oId}</div>
+            <div class="ods-sug-name">${esc(meta.name)}</div>
+            ${linkedInd ? `<div class="ods-sug-ind">${esc(linkedInd.name)}</div>` : ''}
+            ${isLinked ? '<div class="ods-sug-suggested">★ Sugerida</div>' : '<div class="ods-sug-add">+ Adicionar</div>'}
+          </div>
+        </div>`;
       }).join('');
     }
 
-    // Render "Selecionadas" — wrapping grid of smaller cards with X
     function renderODSSelected() {
       const grid = document.getElementById('odsSelectedGrid');
       if (!grid) return;
-
-      if (selectedOds.size === 0) {
-        grid.innerHTML = `
-          <div class="ods-empty-state">
-            <div class="ods-empty-icon">🌱</div>
-            <div>Nenhuma ODS selecionada.</div>
-            <div style="font-size:11px; margin-top:4px;">Clique em uma ODS sugerida acima para adicioná-la.</div>
-          </div>`;
-        return;
-      }
-
+      if (selectedOds.size === 0) { grid.innerHTML = `<div class="ods-empty-state"><div class="ods-empty-icon">🌱</div><div>Nenhuma ODS selecionada.</div><div style="font-size:11px; margin-top:4px;">Clique em uma ODS sugerida acima para adicioná-la.</div></div>`; return; }
       const sorted = Array.from(selectedOds).sort((a, b) => a - b);
       grid.innerHTML = sorted.map(oId => {
         const meta = ODS_METADATA[oId] || { name: 'Outros', color: '#a1a1a1' };
-        // Count indicators linked
         const indsCount = catalogIndicators.filter(ind => selectedIndicators.includes(ind.name) && ind.ods === oId).length;
-        return `
-          <div class="ods-sel-card">
-            <div class="ods-sel-top" style="background:${meta.color};"></div>
-            <div class="ods-sel-body">
-              <div class="ods-sel-header">
-                <div class="ods-sel-badge" style="background:${meta.color};">${oId}</div>
-                <button class="ods-sel-remove" onclick="removeOdsFromSelection(${oId})" title="Remover">×</button>
-              </div>
-              <div class="ods-sel-name">${esc(meta.name)}</div>
-              ${indsCount > 0 ? `<div class="ods-sel-count">${indsCount} indicador${indsCount > 1 ? 'es' : ''} vinculado${indsCount > 1 ? 's' : ''}</div>` : ''}
-            </div>
-          </div>`;
+        return `<div class="ods-sel-card"><div class="ods-sel-top" style="background:${meta.color};"></div><div class="ods-sel-body"><div class="ods-sel-header"><div class="ods-sel-badge" style="background:${meta.color};">${oId}</div><button class="ods-sel-remove" onclick="removeOdsFromSelection(${oId})" title="Remover">×</button></div><div class="ods-sel-name">${esc(meta.name)}</div>${indsCount > 0 ? `<div class="ods-sel-count">${indsCount} indicador${indsCount > 1 ? 'es' : ''} vinculado${indsCount > 1 ? 's' : ''}</div>` : ''}</div></div>`;
       }).join('');
     }
 
-    function toggleSuggestedOds(odsId) {
-      if (selectedOds.has(odsId)) {
-        selectedOds.delete(odsId);
-      } else {
-        selectedOds.add(odsId);
-      }
-      renderODSTab();
-    }
-
-    // Add from Sugeridas to Selecionadas (one-way, no toggle)
-    function addSuggestedOds(odsId) {
-      selectedOds.add(odsId);
-      renderODSTab();
-    }
-
-    function removeOdsFromSelection(odsId) {
-      selectedOds.delete(odsId);
-      renderODSTab();
-    }
+    function addSuggestedOds(odsId) { selectedOds.add(odsId); renderODSTab(); }
+    function removeOdsFromSelection(odsId) { selectedOds.delete(odsId); renderODSTab(); }
 
     function clearEsgError() {
       document.getElementById('esgTextarea')?.classList.remove('error');
@@ -2669,12 +2405,7 @@
 
     function concluirDIC() {
       const esgVal = document.getElementById('esgTextarea')?.value.trim();
-      if (!esgVal) {
-        document.getElementById('esgTextarea')?.classList.add('error');
-        document.getElementById('esgErrorMsg')?.classList.add('show');
-        document.getElementById('esgTextarea')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        return;
-      }
+      if (!esgVal) { document.getElementById('esgTextarea')?.classList.add('error'); document.getElementById('esgErrorMsg')?.classList.add('show'); document.getElementById('esgTextarea')?.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
       esgText = esgVal;
       alert('DIC concluído com sucesso! \n\nODS selecionadas: ' + Array.from(selectedOds).map(id => 'ODS ' + id).join(', '));
     }
