@@ -679,7 +679,7 @@
 
     .navigation-buttons {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       gap: 16px;
       margin-top: 24px;
       border-top: 1px solid #f1f5f9;
@@ -690,8 +690,8 @@
       background: var(--white);
       color: var(--navy-dark);
       border: 1px solid var(--gray-border);
-      padding: 12px 32px;
-      border-radius: 12px;
+      padding: 12px 20px;
+      border-radius: 50px;
       font-weight: 600;
       font-size: 13px;
       cursor: pointer;
@@ -1821,8 +1821,8 @@
         <div class="no-indicators">Nenhum indicador selecionado.</div>
       </div>
       <div class="navigation-buttons">
-        <button class="nav-btn" onclick="window.history.back()">← Voltar</button>
-        <button class="nav-btn" id="avancarBtn" onclick="goToODS()">Avançar →</button>
+        <button class="nav-btn" onclick="window.history.back()">←</button>
+        <button class="nav-btn" id="avancarBtn" onclick="goToODS()">→</button>
       </div>
     </div>
 
@@ -1864,9 +1864,10 @@
       </div>
 
       <div class="navigation-buttons" style="margin-top:20px;">
-        <button class="nav-btn" onclick="goToDashboard()">← Voltar</button>
+        <button class="nav-btn" onclick="goToDashboard()">←
+        </button>
         <button class="nav-btn" style="background:var(--blue); color:white; border-color:var(--blue);"
-          onclick="concluirDIC()">Concluir →</button>
+          onclick="concluirDIC()">→</button>
       </div>
     </div>
   </div>
