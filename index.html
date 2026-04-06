@@ -88,24 +88,43 @@
       color: var(--blue-dark);
     }
 
+    #appliedFilterContainer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
     .applied-desafio-badge {
       background: var(--white);
       border: 1px solid var(--gray-border);
       color: var(--navy-dark);
-      padding: 10px 20px;
+      padding: 8px 16px;
       border-radius: 12px;
-      font-size: 13px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+      box-shadow: var(--shadow);
+      box-sizing: border-box;
+      min-height: 44px;
+    }
+
+    .applied-desafio-badge .badge-category {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      opacity: 0.7;
       font-weight: 600;
+    }
+
+    .applied-desafio-badge .badge-val {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--blue-dark);
       display: flex;
       align-items: center;
-      gap: 12px;
-      max-width: 450px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      box-shadow: var(--shadow);
-      min-height: 44px;
-      box-sizing: border-box;
+      gap: 8px;
     }
 
     .clear-filter {
@@ -974,52 +993,7 @@
       cursor: pointer;
     }
 
-    /* Modal Accordion Styles (White Theme) */
-    .filter-modal .accordion-item {
-      border-color: #e2e8f0;
-      background: transparent;
-      margin: 12px 0;
-    }
-
-    .filter-modal .accordion-header {
-      background: #f8fafc;
-      color: #1e293b;
-      border-bottom: 1px solid #e2e8f0;
-    }
-
-    .filter-modal .accordion-header:hover {
-      background: #f1f5f9;
-    }
-
-    .filter-modal .accordion-body {
-      background: #ffffff;
-    }
-
-    .filter-modal .sub-accordion {
-      border-color: #f1f5f9;
-    }
-
-    .filter-modal .sub-accordion .accordion-header {
-      background: #ffffff;
-      color: #475569;
-    }
-
-    .filter-modal .desafio-item {
-      color: #64748b;
-      border-bottom-color: #f8fafc;
-    }
-
-    .filter-modal .desafio-item:hover {
-      background: #f8fafc;
-      color: var(--navy-dark);
-    }
-
-    .filter-modal .desafio-item.active {
-      background: #f0f7ff;
-      color: var(--blue);
-      border-left-color: var(--blue);
-    }
-
+    /* Removed old accordion styles that are no longer used */
     .filter-modal .desafio-dot {
       border-color: #cbd5e1;
     }
@@ -1031,6 +1005,651 @@
 
     .main-container {
       padding: 20px;
+    }
+
+    .filter-select {
+      width: 100%;
+      padding: 10px 16px;
+      border: 1px solid var(--gray-border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      background: #fcfdfe;
+      color: var(--navy-dark);
+      cursor: pointer;
+      outline: none;
+      transition: all 0.2s;
+      appearance: none;
+      min-height: 40px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%235a6a7a' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+    }
+
+    .filter-select:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+      background-color: #fff;
+    }
+
+    .search-input {
+      padding-left: 40px;
+      margin-bottom: 20px;
+      background-image: none;
+    }
+
+    .multi-select-container {
+      position: relative;
+      width: 100%;
+    }
+
+    .multi-select-box {
+      width: 100%;
+      padding: 10px 32px 10px 16px;
+      border: 1px solid var(--gray-border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      background: #fcfdfe;
+      color: var(--navy-dark);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      min-height: 40px;
+      transition: all 0.2s;
+    }
+
+    .multi-select-box::after {
+      content: '';
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 12px;
+      height: 12px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%235a6a7a' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      pointer-events: none;
+    }
+
+    .multi-select-box.active {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+      background-color: #fff;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    .multi-select-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: #fff;
+      border: 1px solid var(--blue);
+      border-top: none;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 1000;
+      display: none;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .multi-select-dropdown.show {
+      display: block;
+    }
+
+    .multi-option {
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--navy-dark);
+      border-bottom: 1px solid #f8fafc;
+      transition: background 0.1s;
+    }
+
+    .multi-option:last-child {
+      border-bottom: none;
+    }
+
+    .multi-option:hover {
+      background: #f0f7ff;
+    }
+
+    .multi-option input[type="checkbox"] {
+      accent-color: var(--blue);
+      cursor: pointer;
+      width: 16px;
+      height: 16px;
+    }
+
+    .multi-select-text {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex-grow: 1;
+      padding-right: 16px;
+      display: inline-block;
+    }
+
+    .multi-select-box[disabled] {
+      background: #f1f5f9;
+      color: #94a3b8;
+      cursor: not-allowed;
+      border-color: var(--gray-border);
+    }
+    
+    .multi-select-box[disabled]::after {
+      opacity: 0.5;
+    }
+    .filter-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .col-4 { grid-column: span 4; }
+    .col-6 { grid-column: span 6; }
+    
+    @media (max-width: 768px) {
+      .col-4, .col-6 { grid-column: span 12; }
+    }
+
+    /* ── ODS MANAGEMENT TAB ── */
+    .ods-management-grid {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .ods-cards-panel, .ods-add-panel {
+      background: var(--white);
+      border: 1px solid var(--gray-border);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .ods-panel-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gray-text);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--gray-border);
+    }
+
+    .ods-cards-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 80px;
+    }
+
+    .ods-card {
+      border: 1px solid var(--gray-border);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: box-shadow .2s;
+    }
+
+    .ods-card:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,.08);
+    }
+
+    .ods-card-top {
+      height: 5px;
+    }
+
+    .ods-card-body {
+      padding: 14px 16px;
+    }
+
+    .ods-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .ods-icon-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 800;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .ods-card-info {
+      flex: 1;
+    }
+
+    .ods-card-number {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      opacity: 0.7;
+    }
+
+    .ods-card-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--navy-dark);
+      line-height: 1.3;
+    }
+
+    .ods-card-remove {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: #fee2e2;
+      color: var(--red);
+      font-size: 12px;
+      flex-shrink: 0;
+      transition: background .15s;
+      border: none;
+    }
+
+    .ods-card-remove:hover {
+      background: #fca5a5;
+    }
+
+    .ods-card-desc {
+      font-size: 12px;
+      color: var(--gray-text);
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+
+    .ods-card-indicators {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .ods-indicator-chip {
+      background: var(--blue-light);
+      color: var(--blue-dark);
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      max-width: 320px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: inline-block;
+    }
+
+    .ods-empty-state {
+      text-align: center;
+      padding: 32px 16px;
+      color: var(--gray-text);
+      font-size: 13px;
+      border: 1px dashed var(--gray-border);
+      border-radius: 8px;
+    }
+
+    .ods-empty-state .ods-empty-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .ods-add-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 420px;
+      overflow-y: auto;
+    }
+
+    .ods-add-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background .1s;
+      border: 1px solid transparent;
+    }
+
+    .ods-add-item:hover {
+      background: var(--blue-light);
+      border-color: #bfdbfe;
+    }
+
+    .ods-add-item input[type=checkbox] {
+      accent-color: var(--blue);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .ods-add-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 800;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .ods-add-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--navy-dark);
+      line-height: 1.3;
+    }
+
+    /* ESG Section */
+    .esg-section {
+      background: var(--white);
+      border: 1px solid var(--gray-border);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-top: 20px;
+    }
+
+    .esg-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--navy-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .esg-required-badge {
+      background: #fee2e2;
+      color: var(--red);
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .esg-subtitle {
+      font-size: 12px;
+      color: var(--gray-text);
+      margin-bottom: 12px;
+    }
+
+    .esg-textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 12px 14px;
+      border: 1px solid var(--gray-border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 13px;
+      color: var(--navy-dark);
+      resize: vertical;
+      transition: border-color .2s;
+      outline: none;
+    }
+
+    .esg-textarea:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(26,111,196,.08);
+    }
+
+    .esg-textarea.error {
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px rgba(192,57,43,.08);
+    }
+
+    .esg-error-msg {
+      display: none;
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+
+    .esg-error-msg.show {
+      display: block;
+    }
+
+    /* ── NEW ODS PAGE LAYOUT ── */
+    .ods-section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--gray-border);
+    }
+
+    /* Sugeridas: horizontal scrollable row */
+    .ods-suggested-row {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .ods-suggested-row::-webkit-scrollbar {
+      height: 5px;
+    }
+    .ods-suggested-row::-webkit-scrollbar-thumb {
+      background: #c8d3de;
+      border-radius: 3px;
+    }
+
+    .ods-suggested-card {
+      flex-shrink: 0;
+      width: 160px;
+      border: 1.5px solid #d1d5db;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all .2s;
+      background: #f9fafb;
+      filter: grayscale(0.7);
+      opacity: 0.75;
+    }
+
+    .ods-suggested-card:hover {
+      filter: grayscale(0.3);
+      opacity: 0.95;
+      box-shadow: 0 3px 10px rgba(0,0,0,.1);
+      transform: translateY(-1px);
+    }
+
+    .ods-suggested-card--active {
+      border-color: var(--blue);
+      box-shadow: 0 4px 16px rgba(26,111,196,.15);
+    }
+
+    .ods-sug-top {
+      height: 6px;
+    }
+
+    .ods-sug-body {
+      padding: 12px 14px;
+    }
+
+    .ods-sug-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 10px;
+    }
+
+    .ods-sug-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--navy-dark);
+      line-height: 1.35;
+      margin-bottom: 6px;
+    }
+
+    .ods-sug-ind {
+      font-size: 10px;
+      color: var(--gray-text);
+      line-height: 1.3;
+      margin-bottom: 8px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      line-clamp: 2;
+      overflow: hidden;
+    }
+
+    .ods-sug-check {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--blue-dark);
+      background: var(--blue-light);
+      padding: 3px 8px;
+      border-radius: 20px;
+      display: inline-block;
+    }
+
+    .ods-sug-add {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--gray-text);
+      padding: 3px 0;
+      display: inline-block;
+    }
+
+    .ods-sug-suggested {
+      font-size: 10px;
+      font-weight: 700;
+      color: #78350f;
+      background: #fef3c7;
+      padding: 3px 8px;
+      border-radius: 20px;
+      display: inline-block;
+    }
+
+    .ods-suggested-card--linked {
+      border-color: #f59e0b;
+      box-shadow: 0 2px 8px rgba(245,158,11,.15);
+    }
+
+    /* Selecionadas: wrapping grid of smaller cards */
+    .ods-selected-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      min-height: 60px;
+    }
+
+    .ods-sel-card {
+      width: 155px;
+      border: 1px solid var(--gray-border);
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--white);
+      transition: box-shadow .15s;
+    }
+
+    .ods-sel-card:hover {
+      box-shadow: 0 3px 12px rgba(0,0,0,.08);
+    }
+
+    .ods-sel-top {
+      height: 5px;
+    }
+
+    .ods-sel-body {
+      padding: 10px 12px;
+    }
+
+    .ods-sel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .ods-sel-badge {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 800;
+      color: white;
+    }
+
+    .ods-sel-remove {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: #fee2e2;
+      color: var(--red);
+      font-size: 14px;
+      font-weight: 700;
+      border: none;
+      transition: background .15s;
+      line-height: 1;
+      padding: 0;
+    }
+
+    .ods-sel-remove:hover {
+      background: #fca5a5;
+    }
+
+    .ods-sel-name {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--navy-dark);
+      line-height: 1.3;
+      margin-bottom: 4px;
+    }
+
+    .ods-sel-count {
+      font-size: 10px;
+      color: var(--blue-dark);
+      background: var(--blue-light);
+      padding: 2px 6px;
+      border-radius: 10px;
+      display: inline-block;
+      font-weight: 600;
     }
   </style>
 </head>
@@ -1044,119 +1663,60 @@
       <div class="close-modal" id="closeModal" onclick="toggleModal(false)">✖</div>
     </div>
 
-    <!-- Campo de Busca Autocomplete -->
-    <div class="search-group" id="searchGroupContainer">
-      <label class="search-label">Buscar Indicador Estratégico</label>
-      <div class="search-input-wrapper">
-        <span class="search-icon">🔍</span>
-        <input type="text" class="search-input" id="indicatorSearch" placeholder="Digite o nome do indicador..."
-          oninput="handleSearchInput(this.value)">
-      </div>
-      <div id="searchResults" class="search-results"></div>
-    </div>
-
-    <div class="filter-scroll" style="padding: 10px 0; max-height: 45vh; overflow-y: auto;">
-
-      <div id="desafiosAccordionContainer">
-        <div class="accordion-item">
-          <div class="accordion-header" onclick="toggleAccordion(this)">
-            <span class="arrow">▲</span> Eixo 1: + Qualidade de vida
-          </div>
-          <div class="accordion-body open">
-            <div class="sub-accordion">
-              <div class="accordion-header" onclick="toggleAccordion(this)">
-                <span class="arrow">▲</span> Área Temática: Educação, Cultura, Esporte e Lazer
-              </div>
-              <div class="accordion-body open">
-                <div class="desafio-item" data-val="Atender necessidades de educação profissional"
-                  onclick="selectDesafio('Atender necessidades de educação profissional', this)">
-                  <div class="desafio-dot"></div>
-                  Desafio: Atender as Necessidades do Estado referentes à educação profissional...
-                </div>
-                <div class="desafio-item" data-val="Fomentar investimento em cultura"
-                  onclick="selectDesafio('Fomentar investimento em cultura', this)">
-                  <div class="desafio-dot"></div>
-                  Desafio: Fomentar o investimento público e privado nos setores de cultura...
-                </div>
-                <div class="desafio-item" data-val="Fortalecer educação integral"
-                  onclick="selectDesafio('Fortalecer educação integral', this)">
-                  <div class="desafio-dot"></div>
-                  Desafio: Fortalecer a educação integral possibilitando o desenvolvimento...
-                </div>
-                <div class="desafio-item" data-val="Políticas de equidade"
-                  onclick="selectDesafio('Políticas de equidade', this)">
-                  <div class="desafio-dot"></div>
-                  Desafio: Fortalecer e desenvolver políticas voltadas à promoção da equidade...
-                </div>
-              </div>
-            </div>
-
-            <div class="sub-accordion">
-              <div class="accordion-header" onclick="toggleAccordion(this)">
-                <span class="arrow">▼</span> Área Temática: Saúde
-              </div>
-              <div class="accordion-body">
-                <div class="desafio-item" data-val="Ampliar cobertura de saúde"
-                  onclick="selectDesafio('Ampliar cobertura de saúde', this)">
-                  <div class="desafio-dot"></div>
-                  Desafio: Ampliar cobertura de saúde...
-                </div>
-                <div class="desafio-item" data-val="Reduzir mortalidade infantil"
-                  onclick="selectDesafio('Reduzir mortalidade infantil', this)">
-                  <div class="desafio-dot"></div>
-                  Desafio: Reduzir mortalidade infantil...
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="accordion-item">
-          <div class="accordion-header" onclick="toggleAccordion(this)">
-            <span class="arrow">▼</span> Eixo 2: Desenvolvimento Econômico
-          </div>
-          <div class="accordion-body">
-            <div class="sub-accordion">
-              <div class="accordion-header" onclick="toggleAccordion(this)">
-                <span class="arrow">▼</span> Área Temática: Inovação e Emprego
-              </div>
-              <div class="accordion-body">
-                <div class="desafio-item" data-val="Estimular inovação e tecnologia"
-                  onclick="selectDesafio('Estimular inovação e tecnologia', this)">
-                  <div class="desafio-dot"></div>
-                  Desafio: Estimular inovação e tecnologia...
-                </div>
-                <div class="desafio-item" data-val="Geração de empregos"
-                  onclick="selectDesafio('Geração de empregos', this)">
-                  <div class="desafio-dot"></div>
-                  Desafio: Geração de empregos...
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Fim Desafios Accordion -->
-
-      <div id="odsDropdownContainer" style="display: none;">
-        <label class="search-label"
-          style="font-size: 13px; margin-bottom: 12px; display: block; color: var(--navy-dark);">Selecione o ODS</label>
-        <select id="odsFilterSelect"
-          style="width: 100%; padding: 12px 16px; border: 1px solid var(--gray-border); border-radius: 8px; font-size: 14px; outline: none; background: #fcfdfe; color: var(--navy-dark); cursor: pointer;">
-          <option value="">Todos os ODS (Remover filtro)</option>
-          <option value="1">ODS 1 - Erradicação da Pobreza</option>
-          <option value="2">ODS 2 - Fome Zero e Agricultura Sustentável</option>
-          <option value="3">ODS 3 - Saúde e Bem-Estar</option>
-          <option value="4">ODS 4 - Educação de Qualidade</option>
-          <option value="5">ODS 5 - Igualdade de Gênero</option>
-          <option value="8">ODS 8 - Trabalho Decente e Crescimento Econômico</option>
-          <option value="9">ODS 9 - Indústria, Inovação e Infraestrutura</option>
-          <option value="10">ODS 10 - Redução das Desigualdades</option>
-          <option value="11">ODS 11 - Cidades e Comunidades Sustentáveis</option>
-          <option value="16">ODS 16 - Paz, Justiça e Instituições Eficazes</option>
+    <div class="filter-grid">
+      <div class="filter-field col-4">
+        <label class="filter-label">Gestão Administrativa</label>
+        <select class="filter-select" id="gestaoSelect">
+          <option value="23-26">Gestão 23-26</option>
         </select>
       </div>
 
+      <div class="filter-field col-4">
+        <label class="filter-label">ODS</label>
+        <select class="filter-select" id="odsFilterSelect" onchange="pendingOds = this.value || null">
+          <option value="">Todas as ODS</option>
+        </select>
+      </div>
+
+      <div class="filter-field col-4">
+        <label class="filter-label">Eixo (Programação)</label>
+        <div class="multi-select-container" id="eixoContainer">
+          <div class="multi-select-box" onclick="toggleDropdown('eixoDropdown', this)">
+            <span class="multi-select-text" id="eixoText">Todos</span>
+          </div>
+          <div class="multi-select-dropdown" id="eixoDropdown"></div>
+        </div>
+      </div>
+
+      <div class="filter-field col-4">
+        <label class="filter-label">Área Tema</label>
+        <div class="multi-select-container" id="areaTemaContainer">
+          <div class="multi-select-box" onclick="toggleDropdown('areaTemaDropdown', this)" id="areaTemaBox">
+            <span class="multi-select-text" id="areaTemaText">Todos</span>
+          </div>
+          <div class="multi-select-dropdown" id="areaTemaDropdown"></div>
+        </div>
+      </div>
+
+      <div class="filter-field col-4">
+        <label class="filter-label">Desafio</label>
+        <div class="multi-select-container" id="desafioContainer">
+          <div class="multi-select-box" onclick="toggleDropdown('desafioDropdown', this)" id="desafioBox">
+            <span class="multi-select-text" id="desafioText">Todos</span>
+          </div>
+          <div class="multi-select-dropdown" id="desafioDropdown"></div>
+        </div>
+      </div>
+
+      <div class="filter-field col-4" style="position: relative;">
+        <label class="filter-label">Busca Textual</label>
+        <div class="search-input-wrapper">
+          <span class="search-icon" style="top: 10px;">🔍</span>
+          <input type="text" class="search-input" id="indicatorSearch" placeholder="Nome do indicador" style="margin-bottom:0;"
+            oninput="handleSearchInput(this.value)">
+        </div>
+        <div id="searchResults" class="search-results"></div>
+      </div>
     </div>
     <div class="modal-footer">
       <button class="btn-restaurar" onclick="clearPendingFilter()">Restaurar Filtros</button>
@@ -1267,12 +1827,45 @@
       </div>
     </div>
 
-    <!-- ODS VIEW SECTION -->
-    <div id="odsSection">
-      <div id="odsViewContainer"></div>
-      <div class="navigation-buttons" style="margin-top:24px;">
+    <!-- ODS MANAGEMENT SECTION -->
+    <div id="odsSection" style="display:none;">
+
+      <!-- Seção 1: ODS Sugeridas -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="ods-section-header">
+          <div>
+            <div class="card-title" style="margin-bottom:2px;">ODS Sugeridas</div>
+            <div style="font-size:12px; color:var(--gray-text);">ODS identificadas a partir dos indicadores selecionados. Clique para adicionar à seleção.</div>
+          </div>
+        </div>
+        <div class="ods-suggested-row" id="odsSuggestedRow"></div>
+      </div>
+
+      <!-- Seção 2: ODS Selecionadas -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="ods-section-header">
+          <div>
+            <div class="card-title" style="margin-bottom:2px;">Selecionadas</div>
+            <div style="font-size:12px; color:var(--gray-text);">ODS confirmadas para este projeto. Clique em × para remover.</div>
+          </div>
+        </div>
+        <div class="ods-selected-grid" id="odsSelectedGrid"></div>
+      </div>
+
+      <!-- Seção 3: Campo ESG -->
+      <div class="esg-section">
+        <label class="esg-label">
+          Impactos do Projeto no Âmbito Ambiental, Social e de Governança (ESG)
+          <span class="esg-required-badge">Obrigatório</span>
+        </label>
+        <div class="esg-subtitle">Descreva os impactos ambientais, sociais e de governança do projeto.</div>
+        <textarea class="esg-textarea" id="esgTextarea" placeholder="Descreva como este projeto contribui para o meio ambiente, para a sociedade e para a boa governança..." oninput="esgText = this.value; clearEsgError()"></textarea>
+        <div class="esg-error-msg" id="esgErrorMsg">⚠ O campo de impacto ESG é obrigatório para concluir o DIC.</div>
+      </div>
+
+      <div class="navigation-buttons" style="margin-top:20px;">
         <button class="nav-btn" onclick="goToDashboard()">← Voltar</button>
-        <button class="nav-btn">Concluir</button>
+        <button class="nav-btn" style="background:var(--blue); color:white; border-color:var(--blue);" onclick="concluirDIC()">Concluir →</button>
       </div>
     </div>
   </div>
@@ -1310,11 +1903,17 @@
 
     let currentTab = 'indicadores';
     let nextId = 30;
-    let activeOds = null;       // Filtro APLICADO (o que aparece na página)
-    let pendingOds = null;      // Filtro SELECIONADO no modal (ainda não aplicado)
-    let activeDesafio = null;
-    let pendingDesafio = null;
-    let selectedIndicators = [];    // nomes dos indicadores adicionados aos cards
+    let activeOds = null;
+    let pendingOds = null;
+    let activeDesafios = new Set();
+    let pendingDesafios = new Set();
+    let activeEixos = new Set();
+    let pendingEixos = new Set();
+    let activeAreaTemas = new Set();
+    let pendingAreaTemas = new Set();
+    let selectedIndicators = [];
+    let selectedOds = new Set();
+    let esgText = '';
     let showForm = false;
 
     function esc(str) {
@@ -1349,7 +1948,6 @@
         resultsDiv.innerHTML = matches.map(m => `
           <div class="search-item" onclick="selectSearchResult('${esc(m.name).replace(/'/g, "\\'")}')">
             <strong>${esc(m.name)}</strong>
-            <span class="item-sub">${m.ods ? 'ODS ' + m.ods : 'Geral'}</span>
           </div>
         `).join('');
       }
@@ -1357,15 +1955,8 @@
     }
 
     function selectSearchResult(name) {
-      const ind = catalogIndicators.find(i => i.name === name);
-      if (!ind) return;
-      if (!selectedIndicators.includes(name)) {
-        selectedIndicators.push(name);
-        renderIndicators();
-        renderIndicatorList();
-      }
+      document.getElementById('indicatorSearch').value = name;
       document.getElementById('searchResults').classList.remove('show');
-      document.getElementById('indicatorSearch').value = '';
     }
 
     function renderAppliedBadges() {
@@ -1376,17 +1967,45 @@
         const odsName = ODS_METADATA_FILTER[activeOds] || 'ODS ' + activeOds;
         badgesHtml += `
           <div class="applied-desafio-badge" title="${esc(odsName)}">
-            ${esc(odsName)}
-            <span class="clear-filter" onclick="clearOdsFilter(event)">✕</span>
+            <span class="badge-category">ODS</span>
+            <span class="badge-val">${esc(odsName)} <span class="clear-filter" onclick="clearOdsFilter(event)">✕</span></span>
           </div>
         `;
       }
 
-      if (activeDesafio) {
+      activeEixos.forEach(eixo => {
         badgesHtml += `
-          <div class="applied-desafio-badge" title="${esc(activeDesafio)}">
-            ${esc(activeDesafio)}
-            <span class="clear-filter" onclick="clearDesafioFilter(event)">✕</span>
+          <div class="applied-desafio-badge" title="${esc(eixo)}">
+            <span class="badge-category">Eixo</span>
+            <span class="badge-val">${esc(eixo)} <span class="clear-filter" onclick="removeSpecificFilter('eixo', '${esc(eixo).replace(/'/g, "\\'")}', event)">✕</span></span>
+          </div>
+        `;
+      });
+
+      activeAreaTemas.forEach(area => {
+        badgesHtml += `
+          <div class="applied-desafio-badge" title="${esc(area)}">
+            <span class="badge-category">Área Temática</span>
+            <span class="badge-val">${esc(area)} <span class="clear-filter" onclick="removeSpecificFilter('areaTema', '${esc(area).replace(/'/g, "\\'")}', event)">✕</span></span>
+          </div>
+        `;
+      });
+
+      activeDesafios.forEach(desafio => {
+        badgesHtml += `
+          <div class="applied-desafio-badge" title="${esc(desafio)}">
+            <span class="badge-category">Desafio</span>
+            <span class="badge-val">${esc(desafio)} <span class="clear-filter" onclick="removeSpecificFilter('desafio', '${esc(desafio).replace(/'/g, "\\'")}', event)">✕</span></span>
+          </div>
+        `;
+      });
+
+      const term = document.getElementById('indicatorSearch')?.value.trim();
+      if (term) {
+        badgesHtml += `
+          <div class="applied-desafio-badge" title="Busca Textual">
+            <span class="badge-category">Indicador (Busca)</span>
+            <span class="badge-val">"${esc(term)}" <span class="clear-filter" onclick="clearSearchFilter(event)">✕</span></span>
           </div>
         `;
       }
@@ -1407,11 +2026,54 @@
       }
     }
 
-    function clearDesafioFilter(e) {
+    function removeSpecificFilter(type, value, e) {
       if (e) e.stopPropagation();
-      activeDesafio = null;
-      pendingDesafio = null;
-      refreshDesafioUI();
+      
+      // Sync pendings to current active so logic applies correctly
+      pendingEixos = new Set(activeEixos);
+      pendingAreaTemas = new Set(activeAreaTemas);
+      pendingDesafios = new Set(activeDesafios);
+
+      if (type === 'eixo') {
+        pendingEixos.delete(value);
+      } else if (type === 'areaTema') {
+        pendingAreaTemas.delete(value);
+      } else if (type === 'desafio') {
+        pendingDesafios.delete(value);
+      }
+      
+      initFilterDropdowns(); // Updates pending cascades and checks
+
+      // Commit changes to Active state
+      activeEixos = new Set(pendingEixos);
+      activeAreaTemas = new Set(pendingAreaTemas);
+      activeDesafios = new Set(pendingDesafios);
+
+      renderAppliedBadges();
+      renderIndicatorList();
+    }
+
+    function clearSearchFilter(e) {
+      if (e) e.stopPropagation();
+      const search = document.getElementById('indicatorSearch');
+      if (search) search.value = '';
+      handleSearchInput(''); // clear predictions if any live
+      renderAppliedBadges();
+      renderIndicatorList();
+    }
+
+    function clearDesafioFilterAll(e) {
+      if (e) e.stopPropagation();
+      activeDesafios.clear();
+      pendingDesafios.clear();
+      activeEixos.clear();
+      pendingEixos.clear();
+      activeAreaTemas.clear();
+      pendingAreaTemas.clear();
+      const search = document.getElementById('indicatorSearch');
+      if (search) search.value = '';
+      handleSearchInput(''); // clear predictions
+      initFilterDropdowns(); // reflect clear state
       renderAppliedBadges();
       renderIndicatorList();
     }
@@ -1424,7 +2086,7 @@
 
       let filterTags = [];
       if (activeOds) filterTags.push(ODS_METADATA_FILTER[activeOds] || 'ODS ' + activeOds);
-      if (activeDesafio) filterTags.push(activeDesafio);
+      if (activeDesafios.size > 0) filterTags.push(`${activeDesafios.size} Desafio(s)`);
 
       if (filterTags.length > 0) {
         tag.textContent = filterTags.join(' + ');
@@ -1433,16 +2095,25 @@
         if (tag) tag.style.display = 'none';
       }
 
+      // If user typed in the quick search (optional, this mockup ties search directly to selection in `handleSearchInput`)
+      let term = document.getElementById('indicatorSearch')?.value.toLowerCase().trim() || "";
+
       let filtered = catalogIndicators;
       if (activeOds) {
         filtered = filtered.filter(ind => ind.ods && ind.ods.toString() === activeOds);
       }
-      if (activeDesafio) {
-        filtered = filtered.filter(ind => ind.desafios && ind.desafios.includes(activeDesafio));
+      
+      // se tem fitro de desafio, mostra os indicadores que correspondem a QUALQUER UM dos desafios selecionados
+      if (activeDesafios.size > 0) {
+        filtered = filtered.filter(ind => ind.desafios && ind.desafios.some(d => activeDesafios.has(d)));
+      }
+
+      if (term) {
+        filtered = filtered.filter(ind => ind.name.toLowerCase().includes(term));
       }
 
       if (filtered.length === 0) {
-        container.innerHTML = '<div class="indicator-empty">Nenhum indicador cadastrado para os filtros selecionados.</div>';
+        container.innerHTML = '<div class="indicator-empty">Nenhum indicador encontrado para os filtros selecionados.</div>';
         return;
       }
 
@@ -1574,56 +2245,199 @@
     function toggleModal(show) {
       filterModal.classList.toggle('show', show);
       modalOverlay.classList.toggle('show', show);
-    }
-
-    function toggleAccordion(el) {
-      const body = el.nextElementSibling;
-      const arrow = el.querySelector('.arrow');
-      if (body.classList.contains('open')) {
-        body.classList.remove('open');
-        if (arrow) arrow.textContent = '▼';
-      } else {
-        body.classList.add('open');
-        if (arrow) arrow.textContent = '▲';
+      if (show) {
+        pendingEixos = new Set(activeEixos);
+        pendingAreaTemas = new Set(activeAreaTemas);
+        pendingDesafios = new Set(activeDesafios);
+        initFilterDropdowns();
       }
     }
 
-    function selectDesafio(val, el) {
-      document.querySelectorAll('.desafio-item').forEach(i => i.classList.remove('active'));
-      if (pendingDesafio === val) {
-        pendingDesafio = null;
-      } else {
-        pendingDesafio = val;
-        if (el) el.classList.add('active');
+    let activeDropdownBox = null;
+
+    function toggleDropdown(id, boxEl) {
+      const drop = document.getElementById(id);
+      const isShowing = drop.classList.contains('show');
+      
+      // Close all open
+      document.querySelectorAll('.multi-select-dropdown.show').forEach(el => el.classList.remove('show'));
+      document.querySelectorAll('.multi-select-box.active').forEach(el => el.classList.remove('active'));
+      activeDropdownBox = null;
+
+      if (!isShowing) {
+        if (boxEl.hasAttribute('disabled')) return;
+        drop.classList.add('show');
+        boxEl.classList.add('active');
+        activeDropdownBox = drop;
       }
     }
 
-    function refreshDesafioUI() {
-      document.querySelectorAll('.desafio-item').forEach(i => {
-        if (i.dataset.val === pendingDesafio) {
-          i.classList.add('active');
-        } else {
-          i.classList.remove('active');
-        }
-      });
+    document.addEventListener('click', (e) => {
+      // Close dropdown if clicking outside
+      if (activeDropdownBox && !e.target.closest('.multi-select-container')) {
+        document.querySelectorAll('.multi-select-dropdown.show').forEach(el => el.classList.remove('show'));
+        document.querySelectorAll('.multi-select-box.active').forEach(el => el.classList.remove('active'));
+        activeDropdownBox = null;
+      }
+    });
+
+    const FILTER_DATA_HIERARCHY = [
+      {
+        eixo: 'Eixo 1: + Qualidade de vida',
+        areas: [
+          {
+            nome: 'Área Temática: Educação, Cultura, Esporte e Lazer',
+            desafios: ['Atender necessidades de educação profissional', 'Fomentar investimento em cultura', 'Fortalecer educação integral', 'Políticas de equidade']
+          },
+          {
+            nome: 'Área Temática: Saúde',
+            desafios: ['Ampliar cobertura de saúde', 'Reduzir mortalidade infantil']
+          }
+        ]
+      },
+      {
+        eixo: 'Eixo 2: Desenvolvimento Econômico',
+        areas: [
+          {
+            nome: 'Área Temática: Inovação e Emprego',
+            desafios: ['Estimular inovação e tecnologia', 'Geração de empregos']
+          }
+        ]
+      }
+    ];
+
+    function getAvailableAreas() {
+      if (pendingEixos.size === 0) {
+        return [];
+      } else {
+        let areas = [];
+        FILTER_DATA_HIERARCHY.filter(e => pendingEixos.has(e.eixo)).forEach(e => areas.push(...e.areas));
+        return areas;
+      }
+    }
+
+    function getAvailableDesafios() {
+      let activeAreas = getAvailableAreas();
+      if (pendingAreaTemas.size === 0) {
+        return [];
+      }
+      activeAreas = activeAreas.filter(a => pendingAreaTemas.has(a.nome));
+      let defs = [];
+      activeAreas.forEach(a => defs.push(...a.desafios));
+      return defs;
+    }
+
+    function generateCheckboxOption(label, value, type) {
+      let isChecked = false;
+      if (type === 'eixo') isChecked = pendingEixos.has(value);
+      if (type === 'areaTema') isChecked = pendingAreaTemas.has(value);
+      if (type === 'desafio') isChecked = pendingDesafios.has(value);
+
+      return `
+        <label class="multi-option" onclick="event.stopPropagation()">
+          <input type="checkbox" value="${esc(value)}" ${isChecked ? 'checked' : ''} onchange="handleCheckboxChange(this, '${type}')">
+          ${esc(label)}
+        </label>
+      `;
+    }
+
+    function updateBoxText(boxId, type) {
+      const boxText = document.getElementById(boxId);
+      const set = type === 'eixo' ? pendingEixos : (type === 'areaTema' ? pendingAreaTemas : pendingDesafios);
+      
+      if (set.size === 0) {
+        boxText.textContent = "Todos";
+      } else if (set.size === 1) {
+        boxText.textContent = Array.from(set)[0];
+      } else {
+        boxText.textContent = `${set.size} selecionados`;
+      }
+    }
+
+    function initFilterDropdowns() {
+      const eixoDrop = document.getElementById('eixoDropdown');
+      if (eixoDrop) {
+        eixoDrop.innerHTML = FILTER_DATA_HIERARCHY.map(e => generateCheckboxOption(e.eixo, e.eixo, 'eixo')).join('');
+        updateBoxText('eixoText', 'eixo');
+      }
+      updateAreaTemasDropdown();
+      updateDesafiosDropdown();
+    }
+
+    function handleCheckboxChange(checkbox, type) {
+      const val = checkbox.value;
+      const isChecked = checkbox.checked;
+      
+      if (type === 'eixo') {
+        if (isChecked) pendingEixos.add(val); else pendingEixos.delete(val);
+        updateBoxText('eixoText', 'eixo');
+        updateAreaTemasDropdown();
+        updateDesafiosDropdown();
+      } else if (type === 'areaTema') {
+        if (isChecked) pendingAreaTemas.add(val); else pendingAreaTemas.delete(val);
+        updateBoxText('areaTemaText', 'areaTema');
+        updateDesafiosDropdown();
+      } else if (type === 'desafio') {
+        if (isChecked) pendingDesafios.add(val); else pendingDesafios.delete(val);
+        updateBoxText('desafioText', 'desafio');
+      }
+    }
+
+    function updateAreaTemasDropdown() {
+      const areaTemas = getAvailableAreas();
+      const drop = document.getElementById('areaTemaDropdown');
+      const box = document.getElementById('areaTemaBox');
+      const text = document.getElementById('areaTemaText');
+      if (!drop || !box) return;
+      
+      const availableAreaNames = new Set(areaTemas.map(a => a.nome));
+      for (const t of pendingAreaTemas) {
+        if (!availableAreaNames.has(t)) pendingAreaTemas.delete(t);
+      }
+
+      if (pendingEixos.size === 0) {
+        box.setAttribute('disabled', 'true');
+        drop.innerHTML = '';
+        text.textContent = 'Selecione Eixo(s)';
+      } else if (areaTemas.length === 0) {
+        box.setAttribute('disabled', 'true');
+        drop.innerHTML = '';
+        text.textContent = 'Sem áreas disponíveis';
+      } else {
+        box.removeAttribute('disabled');
+        drop.innerHTML = Array.from(availableAreaNames).map(nome => generateCheckboxOption(nome, nome, 'areaTema')).join('');
+        updateBoxText('areaTemaText', 'areaTema');
+      }
+    }
+
+    function updateDesafiosDropdown() {
+      const desafios = getAvailableDesafios();
+      const drop = document.getElementById('desafioDropdown');
+      const box = document.getElementById('desafioBox');
+      const text = document.getElementById('desafioText');
+      if (!drop || !box) return;
+
+      const availableDesafioNames = new Set(desafios);
+      for (const d of pendingDesafios) {
+        if (!availableDesafioNames.has(d)) pendingDesafios.delete(d);
+      }
+
+      if (pendingAreaTemas.size === 0) {
+        box.setAttribute('disabled', 'true');
+        drop.innerHTML = '';
+        text.textContent = pendingEixos.size === 0 ? 'Selecione a Área' : 'Selecione a Área';
+      } else if (desafios.length === 0) {
+        box.setAttribute('disabled', 'true');
+        drop.innerHTML = '';
+        text.textContent = 'Sem desafios disponíveis';
+      } else {
+        box.removeAttribute('disabled');
+        drop.innerHTML = Array.from(availableDesafioNames).map(nome => generateCheckboxOption(nome, nome, 'desafio')).join('');
+        updateBoxText('desafioText', 'desafio');
+      }
     }
 
     filtrosBtn.addEventListener('click', () => {
-      if (currentTab === 'ods') {
-        document.getElementById('desafiosAccordionContainer').style.display = 'none';
-        document.getElementById('searchGroupContainer').style.display = 'none';
-        document.getElementById('odsDropdownContainer').style.display = 'block';
-        pendingOds = activeOds;
-        if (document.getElementById('odsFilterSelect')) document.getElementById('odsFilterSelect').value = pendingOds || '';
-        document.querySelector('.card-title').textContent = 'FILTRO ODS';
-      } else {
-        document.getElementById('desafiosAccordionContainer').style.display = 'block';
-        document.getElementById('searchGroupContainer').style.display = 'block';
-        document.getElementById('odsDropdownContainer').style.display = 'none';
-        pendingDesafio = activeDesafio;
-        refreshDesafioUI();
-        document.querySelector('.card-title').textContent = 'FILTRO POR';
-      }
       toggleModal(true);
     });
 
@@ -1631,33 +2445,34 @@
     if (modalOverlay) modalOverlay.addEventListener('click', () => toggleModal(false));
 
     function applyFilter() {
-      if (currentTab === 'ods') {
-        pendingOds = document.getElementById('odsFilterSelect').value || null;
-        activeOds = pendingOds;
-        renderODSView();
-      } else {
-        activeDesafio = pendingDesafio;
-        renderIndicatorList();
-      }
+      activeEixos = new Set(pendingEixos);
+      activeAreaTemas = new Set(pendingAreaTemas);
+      activeDesafios = new Set(pendingDesafios);
+
+      renderIndicatorList();
       renderAppliedBadges();
       toggleModal(false);
     }
 
     function clearPendingFilter() {
-      if (currentTab === 'ods') {
-        pendingOds = null;
-        if (document.getElementById('odsFilterSelect')) document.getElementById('odsFilterSelect').value = '';
-      } else {
-        pendingDesafio = null;
-        refreshDesafioUI();
-      }
+      pendingEixos.clear();
+      pendingAreaTemas.clear();
+      pendingDesafios.clear();
+      
+      const search = document.getElementById('indicatorSearch');
+      if (search) search.value = '';
+      handleSearchInput('');
+      
+      initFilterDropdowns();
     }
+
 
     /* ── STARTUP ── */
     function init() {
       renderIndicators();
       renderIndicatorList();
       renderAppliedBadges();
+      populateOdsFilterDropdown();
     }
 
     if (document.readyState === 'loading') {
@@ -1668,16 +2483,23 @@
 
     /* ── ODS VIEW LOGIC ── */
     const ODS_METADATA = {
-      1: { name: 'Erradicação da Pobreza', color: '#E5243B' },
-      2: { name: 'Fome Zero e Agricultura Sustentável', color: '#DDA63A' },
-      3: { name: 'Saúde e Bem-Estar', color: '#4C9F38' },
-      4: { name: 'Educação de Qualidade', color: '#C5192D' },
-      5: { name: 'Igualdade de Gênero', color: '#FF3A21' },
-      8: { name: 'Trabalho Decente e Crescimento Econômico', color: '#A21942' },
-      9: { name: 'Indústria, Inovação e Infraestrutura', color: '#FD6925' },
-      10: { name: 'Redução das Desigualdades', color: '#DD1367' },
-      11: { name: 'Cidades e Comunidades Sustentáveis', color: '#FD9D24' },
-      16: { name: 'Paz, Justiça e Instituições Eficazes', color: '#00689D' }
+      1:  { name: 'Erradicação da Pobreza',                         color: '#E5243B', description: 'Erradicar a pobreza em todas as suas formas, em todos os lugares, garantindo proteção social e acesso a recursos econômicos.' },
+      2:  { name: 'Fome Zero e Agricultura Sustentável',             color: '#DDA63A', description: 'Acabar com a fome, alcançar a segurança alimentar, melhorar a nutrição e promover a agricultura sustentável.' },
+      3:  { name: 'Saúde e Bem-Estar',                               color: '#4C9F38', description: 'Assegurar uma vida saudável e promover o bem-estar para todos, em todas as idades.' },
+      4:  { name: 'Educação de Qualidade',                           color: '#C5192D', description: 'Garantir educação inclusiva, equitativa e de qualidade, e promover oportunidades de aprendizagem ao longo da vida para todos.' },
+      5:  { name: 'Igualdade de Gênero',                              color: '#FF3A21', description: 'Alcançar a igualdade de gênero e empoderar todas as mulheres e meninas.' },
+      6:  { name: 'Água Potável e Saneamento',                        color: '#26BDE2', description: 'Garantir disponibilidade e manejo sustentável da água e saneamento para todos.' },
+      7:  { name: 'Energia Limpa e Acessível',                       color: '#FCC30B', description: 'Garantir acesso à energia fiável, sustentável, moderna e acessível para todos.' },
+      8:  { name: 'Trabalho Decente e Crescimento Econômico',        color: '#A21942', description: 'Promover o crescimento econômico sustentado, inclusivo e sustentável, emprego pleno e produtivo e trabalho decente para todos.' },
+      9:  { name: 'Indústria, Inovação e Infraestrutura',            color: '#FD6925', description: 'Construir infraestrutura resiliente, promover a industrialização inclusiva e sustentável e fomentar a inovação.' },
+      10: { name: 'Redução das Desigualdades',                       color: '#DD1367', description: 'Reduzir a desigualdade dentro dos países e entre eles, promovendo a inclusão social, econômica e política.' },
+      11: { name: 'Cidades e Comunidades Sustentáveis',              color: '#FD9D24', description: 'Tornar as cidades e os assentamentos humanos inclusivos, seguros, resilientes e sustentáveis.' },
+      12: { name: 'Consumo e Produção Responsáveis',                 color: '#BF8B2E', description: 'Assegurar padrões de produção e de consumo sustentáveis.' },
+      13: { name: 'Ação Contra a Mudança Global do Clima',           color: '#3F7E44', description: 'Tomar medidas urgentes para combater a mudança do clima e seus impactos.' },
+      14: { name: 'Vida na Água',                                    color: '#0A97D9', description: 'Conservar e usar sustentavelmente os oceanos, mares e recursos marinhos para o desenvolvimento sustentável.' },
+      15: { name: 'Vida Terrestre',                                  color: '#56C02B', description: 'Proteger, recuperar e promover o uso sustentável dos ecossistemas terrestres, gerir de forma sustentável as florestas.' },
+      16: { name: 'Paz, Justiça e Instituições Eficazes',            color: '#00689D', description: 'Promover sociedades pacíficas e inclusivas, proporcionar acesso à justiça e construir instituições eficazes, transparentes e responsáveis.' },
+      17: { name: 'Parcerias e Meios de Implementação',             color: '#19486A', description: 'Fortalecer os meios de implementação e revitalizar a parceria global para o desenvolvimento sustentável.' }
     };
 
     function goToODS() {
@@ -1686,19 +2508,36 @@
         return;
       }
       currentTab = 'ods';
+
+      // Pre-populate selectedOds from indicators
+      selectedOds = new Set();
+      catalogIndicators
+        .filter(ind => selectedIndicators.includes(ind.name))
+        .forEach(ind => { if (ind.ods) selectedOds.add(ind.ods); });
+
       document.getElementById('indicatorSection').style.display = 'none';
       document.querySelector('.indicator-list-card').style.display = 'none';
       const gestaoBadge = document.querySelector('.gestao-badge');
       if (gestaoBadge) gestaoBadge.style.display = 'none';
       document.getElementById('odsSection').style.display = 'block';
 
-      // Update Tab state
       document.querySelectorAll('.tabs span').forEach(s => s.classList.remove('active'));
-      document.querySelectorAll('.tabs span')[2].classList.add('active'); // ODS Tab
+      document.querySelectorAll('.tabs span')[2].classList.add('active');
 
       renderAppliedBadges();
-      renderODSView();
+      renderODSTab();
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function populateOdsFilterDropdown() {
+      const sel = document.getElementById('odsFilterSelect');
+      if (!sel || sel.options.length > 1) return; // already populated
+      Object.keys(ODS_METADATA).sort((a,b) => a-b).forEach(id => {
+        const opt = document.createElement('option');
+        opt.value = id;
+        opt.textContent = `ODS ${id} — ${ODS_METADATA[id].name}`;
+        sel.appendChild(opt);
+      });
     }
 
     function goToDashboard() {
@@ -1709,72 +2548,135 @@
       const gestaoBadge = document.querySelector('.gestao-badge');
       if (gestaoBadge) gestaoBadge.style.display = 'inline-flex';
 
-      // Update Tab state
       document.querySelectorAll('.tabs span').forEach(s => s.classList.remove('active'));
-      document.querySelectorAll('.tabs span')[1].classList.add('active'); // Indicadores Tab
+      document.querySelectorAll('.tabs span')[1].classList.add('active');
 
       renderAppliedBadges();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function renderODSView() {
-      const container = document.getElementById('odsViewContainer');
-      let selectedData = catalogIndicators.filter(ind => selectedIndicators.includes(ind.name));
+    function renderODSTab() {
+      renderODSSuggested();
+      renderODSSelected();
+    }
 
-      if (activeOds) {
-        selectedData = selectedData.filter(ind => ind.ods && ind.ods.toString() === activeOds);
-      }
+    // Render "ODS Sugeridas" — ALL non-selected ODS shown as gray/disabled cards
+    function renderODSSuggested() {
+      const row = document.getElementById('odsSuggestedRow');
+      if (!row) return;
 
-      if (selectedData.length === 0) {
-        container.innerHTML = '<div class="no-indicators">Nenhum indicador encontrado para o ODS selecionado.</div>';
+      // Build set of ODS IDs linked to selected indicators
+      const linkedOdsIds = new Set();
+      catalogIndicators
+        .filter(ind => selectedIndicators.includes(ind.name) && ind.ods)
+        .forEach(ind => linkedOdsIds.add(ind.ods));
+
+      // Show only ODS that are NOT yet selected, sorted: linked ones first, then rest
+      const availableIds = Object.keys(ODS_METADATA).map(Number)
+        .filter(id => !selectedOds.has(id))
+        .sort((a, b) => {
+          const aLinked = linkedOdsIds.has(a) ? 0 : 1;
+          const bLinked = linkedOdsIds.has(b) ? 0 : 1;
+          return aLinked - bLinked || a - b;
+        });
+
+      if (availableIds.length === 0) {
+        row.innerHTML = `<div style="padding:20px; color:var(--gray-text); font-size:13px; text-align:center;">🌟 Todas as ODS já foram selecionadas!</div>`;
         return;
       }
 
-      // Group by ODS
-      const groups = {};
-      selectedData.forEach(ind => {
-        const oId = ind.ods || 17;
-        if (!groups[oId]) groups[oId] = [];
-        groups[oId].push(ind);
-      });
+      row.innerHTML = availableIds.map(oId => {
+        const meta = ODS_METADATA[oId];
+        const isLinked = linkedOdsIds.has(oId);
+        const linkedInd = isLinked
+          ? catalogIndicators.find(ind => selectedIndicators.includes(ind.name) && ind.ods === oId)
+          : null;
 
-      let html = '';
-      Object.keys(groups).sort((a, b) => a - b).forEach(oId => {
-        const meta = ODS_METADATA[oId] || { name: 'Outros Objetivos', color: '#a1a1a1' };
-        html += `
-          <div class="ods-group-container">
-            <div class="ods-header">
-              <div class="ods-icon-circle" style="background-color: ${meta.color}">${oId}</div>
-              <div class="ods-title-info">
-                <span class="ods-number-label">ODS ${oId}</span>
-                <span class="ods-name-label">${meta.name}</span>
+        return `
+          <div class="ods-suggested-card" onclick="addSuggestedOds(${oId})" title="Clique para selecionar ODS ${oId}">
+            <div class="ods-sug-top" style="background:#9ca3af;"></div>
+            <div class="ods-sug-body">
+              <div class="ods-sug-badge" style="background:#9ca3af;">${oId}</div>
+              <div class="ods-sug-name">${esc(meta.name)}</div>
+              ${linkedInd ? `<div class="ods-sug-ind">${esc(linkedInd.name)}</div>` : ''}
+              ${isLinked
+                ? '<div class="ods-sug-suggested">★ Sugerida</div>'
+                : '<div class="ods-sug-add">+ Adicionar</div>'}
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    // Render "Selecionadas" — wrapping grid of smaller cards with X
+    function renderODSSelected() {
+      const grid = document.getElementById('odsSelectedGrid');
+      if (!grid) return;
+
+      if (selectedOds.size === 0) {
+        grid.innerHTML = `
+          <div class="ods-empty-state">
+            <div class="ods-empty-icon">🌱</div>
+            <div>Nenhuma ODS selecionada.</div>
+            <div style="font-size:11px; margin-top:4px;">Clique em uma ODS sugerida acima para adicioná-la.</div>
+          </div>`;
+        return;
+      }
+
+      const sorted = Array.from(selectedOds).sort((a, b) => a - b);
+      grid.innerHTML = sorted.map(oId => {
+        const meta = ODS_METADATA[oId] || { name: 'Outros', color: '#a1a1a1' };
+        // Count indicators linked
+        const indsCount = catalogIndicators.filter(ind => selectedIndicators.includes(ind.name) && ind.ods === oId).length;
+        return `
+          <div class="ods-sel-card">
+            <div class="ods-sel-top" style="background:${meta.color};"></div>
+            <div class="ods-sel-body">
+              <div class="ods-sel-header">
+                <div class="ods-sel-badge" style="background:${meta.color};">${oId}</div>
+                <button class="ods-sel-remove" onclick="removeOdsFromSelection(${oId})" title="Remover">×</button>
               </div>
+              <div class="ods-sel-name">${esc(meta.name)}</div>
+              ${indsCount > 0 ? `<div class="ods-sel-count">${indsCount} indicador${indsCount > 1 ? 'es' : ''} vinculado${indsCount > 1 ? 's' : ''}</div>` : ''}
             </div>
-            <div class="ods-indicators-grid">
-              ${groups[oId].map(ind => `
-                <div class="ods-indicator-card">
-                  <div style="font-size:10px; font-weight:700; color:#64748b; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px;">Indicador estratégico relacionado ao ODS:</div>
-                  <div class="ods-ind-name">${esc(ind.name)}</div>
-                  <div style="font-size:11px; font-weight:700; color:#64748b; margin-bottom:4px; text-transform:uppercase; margin-top:16px;">META:</div>
-                  <div class="ods-ind-meta-grid">
-                    ${YEARS.map(y => `
-                      <div class="ods-ind-meta-item">
-                        <span class="ods-meta-year">${y}</span>
-                        <span class="ods-meta-val">${ind.metas[y] ? ind.metas[y].toLocaleString() : '-'}</span>
-                      </div>
-                    `).join('')}
-                  </div>
-                  <div class="ods-ind-source">
-                    <strong>FONTE:</strong> ${esc(ind.orgao)}
-                  </div>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-        `;
-      });
+          </div>`;
+      }).join('');
+    }
 
-      container.innerHTML = html;
+    function toggleSuggestedOds(odsId) {
+      if (selectedOds.has(odsId)) {
+        selectedOds.delete(odsId);
+      } else {
+        selectedOds.add(odsId);
+      }
+      renderODSTab();
+    }
+
+    // Add from Sugeridas to Selecionadas (one-way, no toggle)
+    function addSuggestedOds(odsId) {
+      selectedOds.add(odsId);
+      renderODSTab();
+    }
+
+    function removeOdsFromSelection(odsId) {
+      selectedOds.delete(odsId);
+      renderODSTab();
+    }
+
+    function clearEsgError() {
+      document.getElementById('esgTextarea')?.classList.remove('error');
+      document.getElementById('esgErrorMsg')?.classList.remove('show');
+    }
+
+    function concluirDIC() {
+      const esgVal = document.getElementById('esgTextarea')?.value.trim();
+      if (!esgVal) {
+        document.getElementById('esgTextarea')?.classList.add('error');
+        document.getElementById('esgErrorMsg')?.classList.add('show');
+        document.getElementById('esgTextarea')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+      esgText = esgVal;
+      alert('DIC concluído com sucesso! \n\nODS selecionadas: ' + Array.from(selectedOds).map(id => 'ODS ' + id).join(', '));
     }
   </script>
 </body>
