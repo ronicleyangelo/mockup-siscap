@@ -1563,23 +1563,24 @@
     }
 
     .ods-selected-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
       min-height: 60px;
     }
 
     .ods-sel-card {
-      width: 155px;
       border: 1px solid var(--gray-border);
-      border-radius: 10px;
+      border-radius: 12px;
       overflow: hidden;
       background: var(--white);
-      transition: box-shadow .15s;
+      transition: box-shadow .2s;
+      display: flex;
+      flex-direction: column;
     }
 
     .ods-sel-card:hover {
-      box-shadow: 0 3px 12px rgba(0, 0, 0, .08);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .08);
     }
 
     .ods-sel-top {
@@ -1587,31 +1588,49 @@
     }
 
     .ods-sel-body {
-      padding: 10px 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
     }
 
     .ods-sel-header {
       display: flex;
       justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      padding-bottom: 0px;
+    }
+
+    .ods-sel-name-container {
+      display: flex;
       align-items: center;
-      margin-bottom: 8px;
+      gap: 12px;
     }
 
     .ods-sel-badge {
-      width: 28px;
-      height: 28px;
-      border-radius: 6px;
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 12px;
+      font-size: 16px;
       font-weight: 800;
       color: white;
+      flex-shrink: 0;
+    }
+
+    .ods-sel-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy-dark);
+      line-height: 1.3;
     }
 
     .ods-sel-remove {
-      width: 22px;
-      height: 22px;
+      width: 26px;
+      height: 26px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -1625,28 +1644,111 @@
       transition: background .15s;
       line-height: 1;
       padding: 0;
+      flex-shrink: 0;
     }
 
     .ods-sel-remove:hover {
       background: #fca5a5;
     }
 
-    .ods-sel-name {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--navy-dark);
-      line-height: 1.3;
-      margin-bottom: 4px;
+    .ods-sel-desc {
+      font-size: 12px;
+      color: var(--gray-text);
+      line-height: 1.5;
+      margin-bottom: 16px;
     }
 
-    .ods-sel-count {
+    .ods-sel-indicators {
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px solid #f1f5f9;
+    }
+
+    .ods-sel-ind-title {
       font-size: 10px;
+      font-weight: 700;
       color: var(--blue-dark);
-      background: var(--blue-light);
-      padding: 2px 6px;
-      border-radius: 10px;
-      display: inline-block;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .ods-sel-ind-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .ods-sel-ind-item {
+      font-size: 11.5px;
+      color: var(--navy-dark);
+      background: #f8fafc;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid #e2e8f0;
+      line-height: 1.3;
+    }
+
+    /* ── ODS DROPDOWN (na página ODS) ── */
+    .ods-page-filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding: 12px 16px;
+      background: var(--white);
+      border: 1px solid var(--gray-border);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .ods-page-filter-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--gray-text);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      white-space: nowrap;
+    }
+
+    .ods-page-filter-select {
+      flex: 1;
+      padding: 8px 36px 8px 12px;
+      border: 1px solid var(--gray-border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 13px;
+      background: #fcfdfe;
+      color: var(--navy-dark);
+      cursor: pointer;
+      outline: none;
+      transition: all 0.2s;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%235a6a7a' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+    }
+
+    .ods-page-filter-select:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    }
+
+    .ods-page-filter-btn {
+      background: var(--blue);
+      color: white;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 8px;
       font-weight: 600;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all .2s;
+      white-space: nowrap;
+    }
+
+    .ods-page-filter-btn:hover {
+      background: var(--blue-dark);
     }
   </style>
 </head>
@@ -1656,7 +1758,9 @@
   <div id="modalOverlay" class="modal-overlay"></div>
   <div id="filterModal" class="filter-modal">
     <div class="modal-header" style="justify-content: space-between; align-items: center; margin-bottom: 24px;">
-      <div class="card-title" style="margin-bottom:0; font-size: 18px; letter-spacing: -0.5px;">FILTRO POR</div>
+      <!-- INDICADORES -->
+      <div class="card-title" style="margin-bottom:0; font-size: 18px; letter-spacing: -0.5px;">FILTRO
+      </div>
       <div class="close-modal" id="closeModal" onclick="toggleModal(false)">✖</div>
     </div>
 
@@ -1669,14 +1773,7 @@
       </div>
 
       <div class="filter-field col-4">
-        <label class="filter-label">ODS</label>
-        <select class="filter-select" id="odsFilterSelect" onchange="pendingOds = this.value || null">
-          <option value="">Todas as ODS</option>
-        </select>
-      </div>
-
-      <div class="filter-field col-4">
-        <label class="filter-label">Eixo (Programação)</label>
+        <label class="filter-label">Eixos</label>
         <div class="multi-select-container" id="eixoContainer">
           <div class="multi-select-box" onclick="toggleDropdown('eixoDropdown', this)">
             <span class="multi-select-text" id="eixoText">Todos</span>
@@ -1686,7 +1783,7 @@
       </div>
 
       <div class="filter-field col-4">
-        <label class="filter-label">Área Tema</label>
+        <label class="filter-label">Áreas Temáticas</label>
         <div class="multi-select-container" id="areaTemaContainer">
           <div class="multi-select-box" onclick="toggleDropdown('areaTemaDropdown', this)" id="areaTemaBox">
             <span class="multi-select-text" id="areaTemaText">Todos</span>
@@ -1696,7 +1793,7 @@
       </div>
 
       <div class="filter-field col-4">
-        <label class="filter-label">Desafio</label>
+        <label class="filter-label">Desafios</label>
         <div class="multi-select-container" id="desafioContainer">
           <div class="multi-select-box" onclick="toggleDropdown('desafioDropdown', this)" id="desafioBox">
             <span class="multi-select-text" id="desafioText">Todos</span>
@@ -1721,6 +1818,34 @@
     </div>
   </div>
 
+  <div id="filterModalODS" class="filter-modal">
+    <div class="modal-header" style="justify-content: space-between; align-items: center; margin-bottom: 24px;">
+      <div class="card-title" style="margin-bottom:0; font-size: 18px; letter-spacing: -0.5px;">FILTRO</div>
+      <div class="close-modal" onclick="toggleModalODS(false)">✖</div>
+    </div>
+
+    <div class="filter-grid">
+      <div class="filter-field col-6">
+        <label class="filter-label">ODS</label>
+        <select class="filter-select" id="modalOdsSelect">
+          <option value="">Todas as ODS</option>
+        </select>
+      </div>
+      <div class="filter-field col-6" style="position: relative;">
+        <label class="filter-label">Busca Textual</label>
+        <div class="search-input-wrapper">
+          <span class="search-icon" style="top: 10px;">🔍</span>
+          <input type="text" class="search-input" id="odsSearchInput" placeholder="Nome da ODS" autocomplete="off"
+            style="margin-bottom:0;">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-restaurar" onclick="clearOdsFilter()">Restaurar Filtros</button>
+      <button class="btn-filtrar" onclick="applyOdsFilter()">Filtrar</button>
+    </div>
+  </div>
+
   <!-- ── MODAL: NOVO INDICADOR ── -->
   <div id="newIndicatorModal" class="indicator-form-modal">
     <div class="modal-header">
@@ -1738,7 +1863,6 @@
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
         <div class="form-row"><label>UNIDADE DE MEDIDA</label><input type="text" id="fUnidade" placeholder="Ex: %">
         </div>
-        <!-- BASE DE REFERÊNCIA agora aceita texto livre -->
         <div class="form-row"><label>BASE DE REFERÊNCIA</label><input type="text" id="fValorBase"
             placeholder="Ex: 25.000 (2022)"></div>
       </div>
@@ -1776,6 +1900,7 @@
       <span>DIC</span>
       <span class="active">Indicadores</span>
       <span>ODS</span>
+      <span>Rateio Por Ação</span>
     </div>
 
     <div class="filter-menu-card">
@@ -1791,6 +1916,10 @@
           <span>Filtros</span>
           <span style="font-size:14px">▽</span>
         </button>
+        <button class="filtros-btn" id="filtrosBtnODS" style="display:none;">
+          <span>Filtros</span>
+          <span style="font-size:14px">▽</span>
+        </button>
       </div>
     </div>
 
@@ -1801,7 +1930,7 @@
         <div class="indicator-filter-tag" id="activeDesafioTag" style="display:none"></div>
       </div>
       <div class="indicator-scroll" id="indicatorList">
-        <div class="indicator-empty">Filtre por ODS ou pesquise para ver e adicionar opções de indicadores.</div>
+        <div class="indicator-empty">Filtre por desafio ou pesquise para ver e adicionar opções de indicadores.</div>
       </div>
       <div class="indicator-list-footer">
         <div class="create-special-link"
@@ -1829,6 +1958,15 @@
     <!-- ODS MANAGEMENT SECTION -->
     <div id="odsSection" style="display:none;">
 
+      <!-- ── NOVO: Dropdown de ODS exclusivo desta página ── -->
+      <div class="ods-page-filter-bar" style="display:none;">
+        <span class="ods-page-filter-label">Filtrar / Adicionar por ODS:</span>
+        <select class="ods-page-filter-select" id="odsPageSelect">
+          <option value="">Todas as ODS</option>
+        </select>
+        <button class="ods-page-filter-btn" onclick="addOdsFromPageDropdown()">+ Adicionar</button>
+      </div>
+
       <div class="card" style="margin-bottom:16px;">
         <div class="ods-section-header">
           <div>
@@ -1843,7 +1981,7 @@
       <div class="card" style="margin-bottom:16px;">
         <div class="ods-section-header">
           <div>
-            <div class="card-title" style="margin-bottom:2px;">Selecionadas</div>
+            <div class="card-title" style="margin-bottom:2px;">ODS Selecionadas</div>
             <div style="font-size:12px; color:var(--gray-text);">ODS confirmadas para este projeto. Clique em × para
               remover.</div>
           </div>
@@ -1864,10 +2002,30 @@
       </div>
 
       <div class="navigation-buttons" style="margin-top:20px;">
-        <button class="nav-btn" onclick="goToDashboard()">←
-        </button>
+        <button class="nav-btn" onclick="goToDashboard()">←</button>
         <button class="nav-btn" style="background:var(--blue); color:white; border-color:var(--blue);"
           onclick="concluirDIC()">→</button>
+      </div>
+    </div>
+
+    <!-- RATEIO SECTION -->
+    <div id="rateioSection" style="display:none;">
+      <div class="card" style="margin-bottom:16px;">
+        <div class="ods-section-header">
+          <div>
+            <div class="card-title" style="margin-bottom:2px;">Rateio por Ação</div>
+            <div style="font-size:12px; color:var(--gray-text);">Distribuição financeira do projeto por ação.</div>
+          </div>
+        </div>
+        <div style="padding: 40px 16px; text-align: center; color: var(--gray-text); border: 1px dashed var(--gray-border); border-radius: 8px;">
+          <div style="font-size: 32px; margin-bottom: 8px;">📊</div>
+          Conteúdo da página de Rateio por Ação em construção...
+        </div>
+      </div>
+      <div class="navigation-buttons" style="margin-top:20px;">
+        <button class="nav-btn" onclick="goToODSFromRateio()">←</button>
+        <button class="nav-btn" style="background:var(--blue); color:white; border-color:var(--blue);"
+          onclick="finalizarProjeto()">Concluir</button>
       </div>
     </div>
   </div>
@@ -1959,10 +2117,6 @@
     function renderAppliedBadges() {
       const container = document.getElementById('appliedFilterContainer');
       let badgesHtml = '';
-      if (activeOds) {
-        const odsName = ODS_METADATA_FILTER[activeOds] || 'ODS ' + activeOds;
-        badgesHtml += `<div class="applied-desafio-badge" title="${esc(odsName)}"><span class="badge-category">ODS</span><span class="badge-val">${esc(odsName)} <span class="clear-filter" onclick="clearOdsFilter(event)">✕</span></span></div>`;
-      }
       activeEixos.forEach(eixo => {
         badgesHtml += `<div class="applied-desafio-badge" title="${esc(eixo)}"><span class="badge-category">Eixo</span><span class="badge-val">${esc(eixo)} <span class="clear-filter" onclick="removeSpecificFilter('eixo', '${esc(eixo).replace(/'/g, "\\'")}', event)">✕</span></span></div>`;
       });
@@ -1977,14 +2131,6 @@
         badgesHtml += `<div class="applied-desafio-badge" title="Busca Textual"><span class="badge-category">Indicador (Busca)</span><span class="badge-val">"${esc(term)}" <span class="clear-filter" onclick="clearSearchFilter(event)">✕</span></span></div>`;
       }
       container.innerHTML = badgesHtml;
-    }
-
-    function clearOdsFilter(e) {
-      if (e) e.stopPropagation();
-      activeOds = null; pendingOds = null;
-      if (document.getElementById('odsFilterSelect')) document.getElementById('odsFilterSelect').value = '';
-      renderAppliedBadges();
-      renderIndicatorList();
     }
 
     function removeSpecificFilter(type, value, e) {
@@ -2017,14 +2163,12 @@
       const tag = document.getElementById('activeDesafioTag');
       if (!container) return;
       let filterTags = [];
-      if (activeOds) filterTags.push(ODS_METADATA_FILTER[activeOds] || 'ODS ' + activeOds);
       if (activeDesafios.size > 0) filterTags.push(`${activeDesafios.size} Desafio(s)`);
       if (filterTags.length > 0) { tag.textContent = filterTags.join(' + '); tag.style.display = 'inline-block'; }
       else if (tag) tag.style.display = 'none';
 
       let term = document.getElementById('indicatorSearch')?.value.toLowerCase().trim() || "";
       let filtered = catalogIndicators;
-      if (activeOds) filtered = filtered.filter(ind => ind.ods && ind.ods.toString() === activeOds);
       if (activeDesafios.size > 0) filtered = filtered.filter(ind => ind.desafios && ind.desafios.some(d => activeDesafios.has(d)));
       if (term) filtered = filtered.filter(ind => ind.name.toLowerCase().includes(term));
 
@@ -2080,7 +2224,7 @@
         id: nextId++, name,
         formula: document.getElementById('fFormula')?.value.trim() || '',
         orgao: document.getElementById('fOrgao')?.value.trim() || '',
-        valorBase: document.getElementById('fValorBase')?.value.trim() || '',   // ← string
+        valorBase: document.getElementById('fValorBase')?.value.trim() || '',
         unidadeMedida: document.getElementById('fUnidade')?.value.trim() || '',
         metas, desafios: ['_custom'], isCustom: true, ods: 17
       };
@@ -2263,11 +2407,21 @@
       else { box.removeAttribute('disabled'); drop.innerHTML = Array.from(availableDesafioNames).map(nome => generateCheckboxOption(nome, nome, 'desafio')).join(''); updateBoxText('desafioText', 'desafio'); }
     }
 
+    function toggleModalODS(show) {
+      const modal = document.getElementById('filterModalODS');
+      modal.classList.toggle('show', show);
+      modalOverlay.classList.toggle('show', show);
+    }
+
     filtrosBtn.addEventListener('click', () => toggleModal(true));
+    document.getElementById('filtrosBtnODS').addEventListener('click', () => toggleModalODS(true));
+
     if (closeModal) closeModal.addEventListener('click', () => toggleModal(false));
     if (modalOverlay) modalOverlay.addEventListener('click', () => {
-      // Only close filter modal if new indicator modal is not open
-      if (!document.getElementById('newIndicatorModal').classList.contains('show')) toggleModal(false);
+      if (!document.getElementById('newIndicatorModal').classList.contains('show')) {
+        toggleModal(false);
+        toggleModalODS(false);
+      }
     });
 
     function applyFilter() {
@@ -2291,7 +2445,7 @@
       renderIndicators();
       renderIndicatorList();
       renderAppliedBadges();
-      populateOdsFilterDropdown();
+      populateOdsPageDropdown();
     }
 
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
@@ -2299,24 +2453,77 @@
 
     /* ── ODS ── */
     const ODS_METADATA = {
-      1: { name: 'Erradicação da Pobreza', color: '#E5243B' },
-      2: { name: 'Fome Zero e Agricultura Sustentável', color: '#DDA63A' },
-      3: { name: 'Saúde e Bem-Estar', color: '#4C9F38' },
-      4: { name: 'Educação de Qualidade', color: '#C5192D' },
-      5: { name: 'Igualdade de Gênero', color: '#FF3A21' },
-      6: { name: 'Água Potável e Saneamento', color: '#26BDE2' },
-      7: { name: 'Energia Limpa e Acessível', color: '#FCC30B' },
-      8: { name: 'Trabalho Decente e Crescimento Econômico', color: '#A21942' },
-      9: { name: 'Indústria, Inovação e Infraestrutura', color: '#FD6925' },
-      10: { name: 'Redução das Desigualdades', color: '#DD1367' },
-      11: { name: 'Cidades e Comunidades Sustentáveis', color: '#FD9D24' },
-      12: { name: 'Consumo e Produção Responsáveis', color: '#BF8B2E' },
-      13: { name: 'Ação Contra a Mudança Global do Clima', color: '#3F7E44' },
-      14: { name: 'Vida na Água', color: '#0A97D9' },
-      15: { name: 'Vida Terrestre', color: '#56C02B' },
-      16: { name: 'Paz, Justiça e Instituições Eficazes', color: '#00689D' },
-      17: { name: 'Parcerias e Meios de Implementação', color: '#19486A' }
+      1: { name: 'Erradicação da Pobreza', color: '#E5243B', desc: 'Erradicar a pobreza em todas as suas formas, em todos os lugares' },
+      2: { name: 'Fome Zero e Agricultura Sustentável', color: '#DDA63A', desc: 'Acabar com a fome, alcançar a segurança alimentar e melhoria da nutrição e promover a agricultura sustentável' },
+      3: { name: 'Saúde e Bem-Estar', color: '#4C9F38', desc: 'Assegurar uma vida saudável e promover o bem-estar para todas e todos, em todas as idades' },
+      4: { name: 'Educação de Qualidade', color: '#C5192D', desc: 'Assegurar a educação inclusiva, equitativa e de qualidade, e promover oportunidades de aprendizagem ao longo da vida para todos' },
+      5: { name: 'Igualdade de Gênero', color: '#FF3A21', desc: 'Alcançar a igualdade de gênero e empoderar todas as mulheres e meninas' },
+      6: { name: 'Água Potável e Saneamento', color: '#26BDE2', desc: 'Assegurar a disponibilidade e gestão sustentável da água e saneamento para todas e todos' },
+      7: { name: 'Energia Limpa e Acessível', color: '#FCC30B', desc: 'Assegurar o acesso confiável, sustentável, moderno e a preço acessível à energia para todas e todos' },
+      8: { name: 'Trabalho Decente e Crescimento Econômico', color: '#A21942', desc: 'Promover o crescimento econômico sustentado, inclusivo e sustentável, emprego pleno e produtivo e trabalho decente para todos' },
+      9: { name: 'Indústria, Inovação e Infraestrutura', color: '#FD6925', desc: 'Construir infraestruturas resilientes, promover a industrialização inclusiva e sustentável e fomentar a inovação' },
+      10: { name: 'Redução das Desigualdades', color: '#DD1367', desc: 'Reduzir a desigualdade dentro dos países e entre eles' },
+      11: { name: 'Cidades e Comunidades Sustentáveis', color: '#FD9D24', desc: 'Tornar as cidades e os assentamentos humanos inclusivos, seguros, resilientes e sustentáveis' },
+      12: { name: 'Consumo e Produção Responsáveis', color: '#BF8B2E', desc: 'Assegurar padrões de produção e de consumo sustentáveis' },
+      13: { name: 'Ação Contra a Mudança Global do Clima', color: '#3F7E44', desc: 'Tomar medidas urgentes para combater a mudança do clima e seus impactos' },
+      14: { name: 'Vida na Água', color: '#0A97D9', desc: 'Conservação e uso sustentável dos oceanos, dos mares e dos recursos marinhos para o desenvolvimento sustentável' },
+      15: { name: 'Vida Terrestre', color: '#56C02B', desc: 'Proteger, recuperar e promover o uso sustentável dos ecossistemas terrestres, gerir de forma sustentável as florestas, combater a desertificação, deter e reverter a degradação da terra e deter a perda de biodiversidade' },
+      16: { name: 'Paz, Justiça e Instituições Eficazes', color: '#00689D', desc: 'Promover sociedades pacíficas e inclusivas para o desenvolvimento sustentável, proporcionar o acesso à justiça para todos e construir instituições eficazes, responsáveis e inclusivas em todos os níveis' },
+      17: { name: 'Parcerias e Meios de Implementação', color: '#19486A', desc: 'Fortalecer os meios de implementação e revitalizar a parceria global para o desenvolvimento sustentável' }
     };
+
+    /* ── Popula o dropdown de ODS da página ODS ── */
+    function populateOdsPageDropdown() {
+      const sel = document.getElementById('odsPageSelect');
+      const modSel = document.getElementById('modalOdsSelect');
+
+      Object.keys(ODS_METADATA).sort((a, b) => a - b).forEach(id => {
+        const text = `ODS ${id} — ${ODS_METADATA[id].name}`;
+
+        if (sel && sel.options.length <= Object.keys(ODS_METADATA).length) {
+          const opt = document.createElement('option');
+          opt.value = id;
+          opt.textContent = text;
+          sel.appendChild(opt);
+        }
+
+        if (modSel && modSel.options.length <= Object.keys(ODS_METADATA).length) {
+          const opt2 = document.createElement('option');
+          opt2.value = id;
+          opt2.textContent = text;
+          modSel.appendChild(opt2);
+        }
+      });
+    }
+
+    let odsFilterSelectValue = '';
+    let odsFilterText = '';
+
+    function clearOdsFilter() {
+      document.getElementById('modalOdsSelect').value = '';
+      document.getElementById('odsSearchInput').value = '';
+      odsFilterSelectValue = '';
+      odsFilterText = '';
+      renderODSTab();
+    }
+
+    function applyOdsFilter() {
+      odsFilterSelectValue = document.getElementById('modalOdsSelect').value;
+      odsFilterText = document.getElementById('odsSearchInput').value.toLowerCase().trim();
+      toggleModalODS(false);
+      renderODSTab();
+    }
+
+    /* ── Adiciona ODS selecionada no dropdown da página ODS ── */
+    function addOdsFromPageDropdown() {
+      const sel = document.getElementById('odsPageSelect');
+      if (!sel || !sel.value) return;
+      const odsId = parseInt(sel.value);
+      if (!isNaN(odsId)) {
+        selectedOds.add(odsId);
+        renderODSTab();
+      }
+    }
 
     function goToODS() {
       if (selectedIndicators.length === 0) { alert('Selecione pelo menos um indicador para avançar.'); return; }
@@ -2328,6 +2535,8 @@
       const gestaoBadge = document.querySelector('.gestao-badge');
       if (gestaoBadge) gestaoBadge.style.display = 'none';
       document.getElementById('odsSection').style.display = 'block';
+      document.getElementById('filtrosBtn').style.display = 'none';
+      document.getElementById('filtrosBtnODS').style.display = 'flex';
       document.querySelectorAll('.tabs span').forEach(s => s.classList.remove('active'));
       document.querySelectorAll('.tabs span')[2].classList.add('active');
       renderAppliedBadges();
@@ -2335,20 +2544,11 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function populateOdsFilterDropdown() {
-      const sel = document.getElementById('odsFilterSelect');
-      if (!sel || sel.options.length > 1) return;
-      Object.keys(ODS_METADATA).sort((a, b) => a - b).forEach(id => {
-        const opt = document.createElement('option');
-        opt.value = id;
-        opt.textContent = `ODS ${id} — ${ODS_METADATA[id].name}`;
-        sel.appendChild(opt);
-      });
-    }
-
     function goToDashboard() {
       currentTab = 'indicadores';
       document.getElementById('odsSection').style.display = 'none';
+      document.getElementById('filtrosBtnODS').style.display = 'none';
+      document.getElementById('filtrosBtn').style.display = 'flex';
       document.getElementById('indicatorSection').style.display = 'block';
       document.querySelector('.indicator-list-card').style.display = 'block';
       const gestaoBadge = document.querySelector('.gestao-badge');
@@ -2366,8 +2566,20 @@
       if (!row) return;
       const linkedOdsIds = new Set();
       catalogIndicators.filter(ind => selectedIndicators.includes(ind.name) && ind.ods).forEach(ind => linkedOdsIds.add(ind.ods));
-      const availableIds = Object.keys(ODS_METADATA).map(Number).filter(id => !selectedOds.has(id)).sort((a, b) => { const aL = linkedOdsIds.has(a) ? 0 : 1; const bL = linkedOdsIds.has(b) ? 0 : 1; return aL - bL || a - b; });
-      if (availableIds.length === 0) { row.innerHTML = `<div style="padding:20px; color:var(--gray-text); font-size:13px; text-align:center;">🌟 Todas as ODS já foram selecionadas!</div>`; return; }
+
+      let filterIds = Object.keys(ODS_METADATA).map(Number);
+      if (odsFilterSelectValue) {
+        filterIds = [parseInt(odsFilterSelectValue)];
+      }
+
+      let availableIds = filterIds.filter(id => !selectedOds.has(id));
+      if (odsFilterText) {
+        availableIds = availableIds.filter(id => ODS_METADATA[id].name.toLowerCase().includes(odsFilterText) || `ods ${id}`.includes(odsFilterText));
+      }
+
+      availableIds = availableIds.sort((a, b) => { const aL = linkedOdsIds.has(a) ? 0 : 1; const bL = linkedOdsIds.has(b) ? 0 : 1; return aL - bL || a - b; });
+
+      if (availableIds.length === 0) { row.innerHTML = `<div style="padding:20px; color:var(--gray-text); font-size:13px; text-align:center;">🌟 Nenhuma ODS encontrada ou todas já foram selecionadas!</div>`; return; }
       row.innerHTML = availableIds.map(oId => {
         const meta = ODS_METADATA[oId];
         const isLinked = linkedOdsIds.has(oId);
@@ -2390,9 +2602,37 @@
       if (selectedOds.size === 0) { grid.innerHTML = `<div class="ods-empty-state"><div class="ods-empty-icon">🌱</div><div>Nenhuma ODS selecionada.</div><div style="font-size:11px; margin-top:4px;">Clique em uma ODS sugerida acima para adicioná-la.</div></div>`; return; }
       const sorted = Array.from(selectedOds).sort((a, b) => a - b);
       grid.innerHTML = sorted.map(oId => {
-        const meta = ODS_METADATA[oId] || { name: 'Outros', color: '#a1a1a1' };
-        const indsCount = catalogIndicators.filter(ind => selectedIndicators.includes(ind.name) && ind.ods === oId).length;
-        return `<div class="ods-sel-card"><div class="ods-sel-top" style="background:${meta.color};"></div><div class="ods-sel-body"><div class="ods-sel-header"><div class="ods-sel-badge" style="background:${meta.color};">${oId}</div><button class="ods-sel-remove" onclick="removeOdsFromSelection(${oId})" title="Remover">×</button></div><div class="ods-sel-name">${esc(meta.name)}</div>${indsCount > 0 ? `<div class="ods-sel-count">${indsCount} indicador${indsCount > 1 ? 'es' : ''} vinculado${indsCount > 1 ? 's' : ''}</div>` : ''}</div></div>`;
+        const meta = ODS_METADATA[oId] || { name: 'Outros', color: '#a1a1a1', desc: '' };
+        const linkedInds = catalogIndicators.filter(ind => selectedIndicators.includes(ind.name) && ind.ods === oId);
+
+        let indsHtml = '';
+        if (linkedInds.length > 0) {
+          indsHtml = `
+            <div class="ods-sel-indicators">
+              <div class="ods-sel-ind-title">Indicadores Vinculados</div>
+              <div class="ods-sel-ind-list">
+                ${linkedInds.map(i => `<div class="ods-sel-ind-item">${esc(i.name)}</div>`).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="ods-sel-card">
+            <div class="ods-sel-top" style="background:${meta.color};"></div>
+            <div class="ods-sel-body">
+              <div class="ods-sel-header">
+                <div class="ods-sel-name-container">
+                  <div class="ods-sel-badge" style="background:${meta.color};">${oId}</div>
+                  <div class="ods-sel-name">${oId} - ${esc(meta.name)}</div>
+                </div>
+                <button class="ods-sel-remove" onclick="removeOdsFromSelection(${oId})" title="Remover">×</button>
+              </div>
+              ${meta.desc ? `<div class="ods-sel-desc">${esc(meta.desc)}</div>` : ''}
+              ${indsHtml}
+            </div>
+          </div>
+        `;
       }).join('');
     }
 
@@ -2408,7 +2648,34 @@
       const esgVal = document.getElementById('esgTextarea')?.value.trim();
       if (!esgVal) { document.getElementById('esgTextarea')?.classList.add('error'); document.getElementById('esgErrorMsg')?.classList.add('show'); document.getElementById('esgTextarea')?.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
       esgText = esgVal;
-      alert('DIC concluído com sucesso! \n\nODS selecionadas: ' + Array.from(selectedOds).map(id => 'ODS ' + id).join(', '));
+      goToRateio();
+    }
+
+    function goToRateio() {
+      currentTab = 'rateio';
+      document.getElementById('odsSection').style.display = 'none';
+      document.getElementById('filtrosBtnODS').style.display = 'none';
+      
+      document.getElementById('rateioSection').style.display = 'block';
+      
+      document.querySelectorAll('.tabs span').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.tabs span')[3].classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function goToODSFromRateio() {
+      currentTab = 'ods';
+      document.getElementById('rateioSection').style.display = 'none';
+      document.getElementById('odsSection').style.display = 'block';
+      document.getElementById('filtrosBtnODS').style.display = 'flex';
+      
+      document.querySelectorAll('.tabs span').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.tabs span')[2].classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function finalizarProjeto() {
+      alert('DIC e Rateio concluídos com sucesso! \n\nODS selecionadas: ' + Array.from(selectedOds).map(id => 'ODS ' + id).join(', '));
     }
   </script>
 </body>
