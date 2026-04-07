@@ -1900,7 +1900,7 @@
       <span>DIC</span>
       <span class="active">Indicadores</span>
       <span>ODS</span>
-      <span>Rateio Por Ação</span>
+      <span>Regionalização</span>
     </div>
 
     <div class="filter-menu-card">
@@ -2017,15 +2017,16 @@
             <div style="font-size:12px; color:var(--gray-text);">Distribuição financeira do projeto por ação.</div>
           </div>
         </div>
-        <div style="padding: 40px 16px; text-align: center; color: var(--gray-text); border: 1px dashed var(--gray-border); border-radius: 8px;">
+        <div
+          style="padding: 40px 16px; text-align: center; color: var(--gray-text); border: 1px dashed var(--gray-border); border-radius: 8px;">
           <div style="font-size: 32px; margin-bottom: 8px;">📊</div>
           Conteúdo da página de Rateio por Ação em construção...
         </div>
       </div>
       <div class="navigation-buttons" style="margin-top:20px;">
         <button class="nav-btn" onclick="goToODSFromRateio()">←</button>
-        <button class="nav-btn" style="background:var(--blue); color:white; border-color:var(--blue);"
-          onclick="finalizarProjeto()">Concluir</button>
+        <!-- <button class="nav-btn" style="background:var(--blue); color:white; border-color:var(--blue);"
+          onclick="finalizarProjeto()">Concluir</button> -->
       </div>
     </div>
   </div>
@@ -2655,9 +2656,9 @@
       currentTab = 'rateio';
       document.getElementById('odsSection').style.display = 'none';
       document.getElementById('filtrosBtnODS').style.display = 'none';
-      
+
       document.getElementById('rateioSection').style.display = 'block';
-      
+
       document.querySelectorAll('.tabs span').forEach(s => s.classList.remove('active'));
       document.querySelectorAll('.tabs span')[3].classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2668,7 +2669,7 @@
       document.getElementById('rateioSection').style.display = 'none';
       document.getElementById('odsSection').style.display = 'block';
       document.getElementById('filtrosBtnODS').style.display = 'flex';
-      
+
       document.querySelectorAll('.tabs span').forEach(s => s.classList.remove('active'));
       document.querySelectorAll('.tabs span')[2].classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
