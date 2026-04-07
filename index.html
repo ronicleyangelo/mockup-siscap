@@ -2062,7 +2062,8 @@
 
         <div id="acoesContainer">
           <!-- Action Card 1 -->
-          <div style="margin-bottom:24px; padding-bottom: 20px; border-bottom: 1px dashed var(--gray-border);">
+          <div class="card-acao"
+            style="margin-bottom:24px; padding-bottom: 20px; border-bottom: 1px dashed var(--gray-border);">
             <div style="font-weight: 700; font-size: 14px; color: var(--navy-dark); margin-bottom: 12px;">Ação #1</div>
 
             <div class="form-row" style="margin-bottom: 16px;">
@@ -2081,7 +2082,8 @@
               <div class="form-row" style="margin-bottom:0">
                 <label>Valor Estimado <span style="font-size: 10px; cursor:help" title="Ajuda">ⓘ</span> <span
                     style="color:var(--red)">*</span></label>
-                <input type="text" placeholder="0,00" value="" oninput="formatacaoMoeda(this)"
+                <input type="text" placeholder="0,00" value="" class="action-total-value"
+                  oninput="formatacaoMoeda(this); atualizarReferenciaRateio(this)"
                   onfocus="this.setSelectionRange(this.value.length, this.value.length);"
                   onclick="this.setSelectionRange(this.value.length, this.value.length);"
                   style="background:#f1f5f9; border:none; padding:10px; font-family:inherit; text-align:right; width: 100%; border-radius: 8px; outline: none;">
@@ -2100,275 +2102,345 @@
                 style="background:#f1f5f9; border:none; padding:10px; resize:vertical; font-family:inherit;"></textarea>
             </div>
 
-            <div style="margin-top: 24px; margin-bottom: 12px;">
-              <div style="font-size: 13px; font-weight: 600; color: var(--navy-dark); margin-bottom: 8px;">Regiões
+            <div
+              style="margin-top: 24px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+              <div style="font-size: 13px; font-weight: 600; color: var(--navy-dark);">Regiões
                 Geográficas Atendidas <span style="font-size: 10px; cursor:help" title="Ajuda">ⓘ</span> <span
                   style="color:var(--red)">*</span></div>
+              <div id="rateioWarning" style="font-size: 11px; font-weight: 600; color: var(--red); display: none;">Soma
+                do rateio diferente do valor estimado do DIC.</div>
+            </div>
 
-              <div style="border: 1px solid var(--gray-border); border-radius: 8px; overflow: hidden;">
-                <div id="regioesAccordionHeader"
-                  style="display:flex; align-items:center; padding: 12px 16px; background:#f8fafc; border-bottom: 1px solid #eee; cursor:pointer;"
-                  onclick="toggleRegioesAccordion()">
-                  <span style="font-size: 13px; color: var(--navy-dark); flex: 1; font-weight:600;">Selecione as regiões
-                    de impacto</span>
-                  <span id="regioesAccordionIcon" class="toggle-main-icon"
-                    style="color: var(--gray-text); font-size:14px; font-weight:300;">︿</span>
+            <div style="border: 1px solid var(--gray-border); border-radius: 8px; overflow: hidden;">
+              <div id="regioesAccordionHeader"
+                style="display:flex; align-items:center; padding: 12px 16px; background:#f8fafc; border-bottom: 1px solid #eee; cursor:pointer;"
+                onclick="toggleRegioesAccordion()">
+                <span style="font-size: 13px; color: var(--navy-dark); flex: 1; font-weight:600;">Selecione as regiões
+                  de impacto</span>
+                <span id="regioesAccordionIcon" class="toggle-main-icon"
+                  style="color: var(--gray-text); font-size:14px; font-weight:300;">︿</span>
+              </div>
+
+              <div id="regioesAccordionContent" style="display: block;">
+                <div style="display:flex; align-items:center; padding: 12px 16px; border-bottom: 1px solid #eee;">
+                  <input type="checkbox" onchange="toggleAllState(this)"
+                    style="accent-color: var(--blue); width: 16px; height: 16px; margin-right: 12px;"
+                    onclick="event.stopPropagation()">
+                  <span style="font-size: 13px; color: var(--navy-dark); flex: 1; font-weight:500;">Todo o
+                    Estado</span>
+                  <div style="display: flex; gap: 16px; align-items: center;">
+                    <span class="rateio-total-pct"
+                      style="font-size: 12px; font-weight: 600; color:var(--red);">0,00%</span>
+                    <span class="rateio-total-val"
+                      style="font-size: 12px; font-weight: 600; color:var(--red); min-width: 120px; text-align:right;">R$
+                      0,00</span>
+                  </div>
                 </div>
 
-                <div id="regioesAccordionContent" style="display: block;">
-                  <div style="display:flex; align-items:center; padding: 12px 16px; border-bottom: 1px solid #eee;">
-                    <input type="checkbox" onchange="toggleAllState(this)"
-                      style="accent-color: var(--blue); width: 16px; height: 16px; margin-right: 12px;"
-                      onclick="event.stopPropagation()">
-                    <span style="font-size: 13px; color: var(--navy-dark); flex: 1; font-weight:500;">Todo o
-                      Estado</span>
-                    <span
-                      style="font-size: 11px; font-weight: 600; color:var(--red); width: 120px; text-align:right;">Sem
-                      Valor Estimado</span>
-                  </div>
-
-                  <div style="background: #ffffff; padding: 8px 16px;">
-                    <div style="display: flex; flex-direction: column; gap: 8px;">
-                      <!-- Metropolitana -->
-                      <div style="display: flex; flex-direction: column; gap: 4px;">
-                        <div
-                          style="background: #e2e8f0; padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; cursor: pointer;"
-                          onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'; this.querySelector('.toggle-icon').textContent = this.nextElementSibling.style.display === 'none' ? '﹀' : '︿'">
-                          <input type="checkbox"
-                            style="accent-color: var(--blue); width: 14px; height: 14px; margin-right: 10px; opacity: 0.5;"
-                            onclick="event.stopPropagation()">
-                          <span style="font-size: 12px; color: var(--gray-text); flex: 1;">Metropolitana</span>
-                          <span class="toggle-icon"
-                            style="color: var(--gray-text); font-size:14px; font-weight:300;">︿</span>
+                <div style="background: #ffffff; padding: 8px 16px;">
+                  <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <!-- Metropolitana -->
+                    <div style="display: flex; flex-direction: column; gap: 4px;">
+                      <div
+                        style="background: #e2e8f0; padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; cursor: pointer;"
+                        onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'; this.querySelector('.toggle-icon').textContent = this.nextElementSibling.style.display === 'none' ? '﹀' : '︿'">
+                        <input type="checkbox"
+                          style="accent-color: var(--blue); width: 14px; height: 14px; margin-right: 10px; opacity: 0.5;"
+                          onclick="event.stopPropagation()">
+                        <span style="font-size: 12px; color: var(--gray-text); flex: 1;">Metropolitana</span>
+                        <div class="rateio-inputs"
+                          style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                          <input type="text" placeholder="0%" class="pct-input"
+                            style="width: 60px; padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 11px; text-align: right;">
+                          <input type="text" placeholder="R$ 0,00" class="val-input"
+                            style="width: 100px; padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 11px; text-align: right;">
                         </div>
-                        <div
-                          style="display: block; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
-                          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
-                              type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
-                              style="font-size: 11px; color: var(--gray-text);">Cariacica</span></div>
-                          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
-                              type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
-                              style="font-size: 11px; color: var(--gray-text);">Fundão</span></div>
-                          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
-                              type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
-                              style="font-size: 11px; color: var(--gray-text);">Guarapari</span></div>
-                          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
-                              type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
-                              style="font-size: 11px; color: var(--gray-text);">Serra</span></div>
-                          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
-                              type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
-                              style="font-size: 11px; color: var(--gray-text);">Viana</span></div>
-                          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
-                              type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
-                              style="font-size: 11px; color: var(--gray-text);">Vila Velha</span></div>
-                          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
-                              type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
-                              style="font-size: 11px; color: var(--gray-text);">Vitória</span></div>
-                        </div>
+                        <span class="toggle-icon"
+                          style="color: var(--gray-text); font-size:14px; font-weight:300; margin-left: 12px;">︿</span>
                       </div>
-
-                      <div style="display: flex; flex-direction: column; gap: 4px;">
-                        <div
-                          style="background: #e2e8f0; padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; cursor: pointer;"
-                          onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'; this.querySelector('.toggle-icon').textContent = this.nextElementSibling.style.display === 'none' ? '﹀' : '︿'">
-                          <input type="checkbox"
-                            style="accent-color: var(--blue); width: 14px; height: 14px; margin-right: 10px; opacity: 0.5;"
-                            onclick="event.stopPropagation()">
-                          <span style="font-size: 12px; color: var(--gray-text); flex: 1;">Central Serrana</span>
-                          <span class="toggle-icon"
-                            style="color: var(--gray-text); font-size:14px; font-weight:300;">﹀</span>
-                        </div>
-                        <div
-                          style="display: none; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
-                          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
-                              type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
-                              style="font-size: 11px; color: var(--gray-text);">Afonso Cláudio</span></div>
-                          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
-                              type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
-                              style="font-size: 11px; color: var(--gray-text);">Itarana</span></div>
-                        </div>
+                      <div
+                        style="display: block; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text);">Cariacica</span></div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text);">Fundão</span></div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text);">Guarapari</span></div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text);">Serra</span></div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text);">Viana</span></div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text);">Vila Velha</span></div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text);">Vitória</span></div>
                       </div>
-
-                      <div style="display: flex; flex-direction: column; gap: 4px;">
-                        <div
-                          style="background: #e2e8f0; padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; cursor: pointer;"
-                          onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'; this.querySelector('.toggle-icon').textContent = this.nextElementSibling.style.display === 'none' ? '﹀' : '︿'">
-                          <input type="checkbox"
-                            style="accent-color: var(--blue); width: 14px; height: 14px; margin-right: 10px; opacity: 0.5;"
-                            onclick="event.stopPropagation()">
-                          <span style="font-size: 12px; color: var(--gray-text); flex: 1;">Sudoeste Serrana</span>
-                          <span class="toggle-icon"
-                            style="color: var(--gray-text); font-size:14px; font-weight:300;">﹀</span>
-                        </div>
-                        <div
-                          style="display: none; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
-                          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
-                              type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
-                              style="font-size: 11px; color: var(--gray-text);">Domingos Martins</span></div>
-                        </div>
-                      </div>
-
-                      <div style="display: flex; flex-direction: column; gap: 4px;">
-                        <div
-                          style="background: #e2e8f0; padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; cursor: pointer;"
-                          onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'; this.querySelector('.toggle-icon').textContent = this.nextElementSibling.style.display === 'none' ? '﹀' : '︿'">
-                          <input type="checkbox"
-                            style="accent-color: var(--blue); width: 14px; height: 14px; margin-right: 10px; opacity: 0.5;"
-                            onclick="event.stopPropagation()">
-                          <span style="font-size: 12px; color: var(--gray-text); flex: 1;">Litoral Sul</span>
-                          <span class="toggle-icon"
-                            style="color: var(--gray-text); font-size:14px; font-weight:300;">﹀</span>
-                        </div>
-                        <div
-                          style="display: none; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
-                          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
-                              type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
-                              style="font-size: 11px; color: var(--gray-text);">Anchieta</span></div>
-                        </div>
-                      </div>
-
-                      <div style="display: flex; flex-direction: column; gap: 4px;">
-                        <div
-                          style="background: #e2e8f0; padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; cursor: pointer;"
-                          onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'; this.querySelector('.toggle-icon').textContent = this.nextElementSibling.style.display === 'none' ? '﹀' : '︿'">
-                          <input type="checkbox"
-                            style="accent-color: var(--blue); width: 14px; height: 14px; margin-right: 10px; opacity: 0.5;"
-                            onclick="event.stopPropagation()">
-                          <span style="font-size: 12px; color: var(--gray-text); flex: 1;">Central Sul</span>
-                          <span class="toggle-icon"
-                            style="color: var(--gray-text); font-size:14px; font-weight:300;">﹀</span>
-                        </div>
-                        <div
-                          style="display: none; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
-                          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
-                              type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
-                              style="font-size: 11px; color: var(--gray-text);">Cachoeiro de Itapemirim</span></div>
-                          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
-                              type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
-                              style="font-size: 11px; color: var(--gray-text);">Castelo</span></div>
-                        </div>
-                      </div>
-
-                      <!-- Caparaó -->
-                      <div style="display: flex; flex-direction: column; gap: 4px;">
-                        <div
-                          style="background: #e2e8f0; padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; cursor: pointer;"
-                          onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'; this.querySelector('.toggle-icon').textContent = this.nextElementSibling.style.display === 'none' ? '﹀' : '︿'">
-                          <input type="checkbox"
-                            style="accent-color: var(--blue); width: 14px; height: 14px; margin-right: 10px; opacity: 0.5;"
-                            onclick="event.stopPropagation()">
-                          <span style="font-size: 12px; color: var(--gray-text); flex: 1;">Itaguaçu</span>
-                          <span class="toggle-icon"
-                            style="color: var(--gray-text); font-size:14px; font-weight:300;">﹀</span>
-                        </div>
-                        <div
-                          style="display: none; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
-                          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
-                              type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
-                              style="font-size: 11px; color: var(--gray-text);">Itarana</span></div>
-                        </div>
-                        <div
-                          style="display: none; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
-                          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
-                              type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
-                              style="font-size: 11px; color: var(--gray-text);">Santa Leopoldina</span></div>
-                        </div>
-                        <div
-                          style="display: none; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
-                          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
-                              type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
-                              style="font-size: 11px; color: var(--gray-text);">Santa Maria de Jetibá</span></div>
-                        </div>
-                        <div
-                          style="display: none; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
-                          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
-                              type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
-                              style="font-size: 11px; color: var(--gray-text);">Santa Maria</span></div>
-                        </div>
-                      </div>
-
-                      <!-- Rio Doce -->
-                      <div style="display: flex; flex-direction: column; gap: 4px;">
-                        <div
-                          style="background: #e2e8f0; padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; cursor: pointer;"
-                          onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'; this.querySelector('.toggle-icon').textContent = this.nextElementSibling.style.display === 'none' ? '﹀' : '︿'">
-                          <input type="checkbox"
-                            style="accent-color: var(--blue); width: 14px; height: 14px; margin-right: 10px; opacity: 0.5;"
-                            onclick="event.stopPropagation()">
-                          <span style="font-size: 12px; color: var(--gray-text); flex: 1;">Rio Doce</span>
-                          <span class="toggle-icon"
-                            style="color: var(--gray-text); font-size:14px; font-weight:300;">﹀</span>
-                        </div>
-                        <div
-                          style="display: none; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
-                          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
-                              type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
-                              style="font-size: 11px; color: var(--gray-text);">Linhares</span></div>
-                        </div>
-                      </div>
-
-                      <!-- Centro-Oeste -->
-                      <div style="display: flex; flex-direction: column; gap: 4px;">
-                        <div
-                          style="background: #e2e8f0; padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; cursor: pointer;"
-                          onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'; this.querySelector('.toggle-icon').textContent = this.nextElementSibling.style.display === 'none' ? '﹀' : '︿'">
-                          <input type="checkbox"
-                            style="accent-color: var(--blue); width: 14px; height: 14px; margin-right: 10px; opacity: 0.5;"
-                            onclick="event.stopPropagation()">
-                          <span style="font-size: 12px; color: var(--gray-text); flex: 1;">Centro-Oeste</span>
-                          <span class="toggle-icon"
-                            style="color: var(--gray-text); font-size:14px; font-weight:300;">﹀</span>
-                        </div>
-                        <div
-                          style="display: none; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
-                          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
-                              type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
-                              style="font-size: 11px; color: var(--gray-text);">Colatina</span></div>
-                        </div>
-                      </div>
-
-                      <!-- Nordeste -->
-                      <div style="display: flex; flex-direction: column; gap: 4px;">
-                        <div
-                          style="background: #e2e8f0; padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; cursor: pointer;"
-                          onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'; this.querySelector('.toggle-icon').textContent = this.nextElementSibling.style.display === 'none' ? '﹀' : '︿'">
-                          <input type="checkbox"
-                            style="accent-color: var(--blue); width: 14px; height: 14px; margin-right: 10px; opacity: 0.5;"
-                            onclick="event.stopPropagation()">
-                          <span style="font-size: 12px; color: var(--gray-text); flex: 1;">Nordeste</span>
-                          <span class="toggle-icon"
-                            style="color: var(--gray-text); font-size:14px; font-weight:300;">﹀</span>
-                        </div>
-                        <div
-                          style="display: none; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
-                          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
-                              type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
-                              style="font-size: 11px; color: var(--gray-text);">São Mateus</span></div>
-                        </div>
-                      </div>
-
-                      <!-- Noroeste -->
-                      <div style="display: flex; flex-direction: column; gap: 4px;">
-                        <div
-                          style="background: #e2e8f0; padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; cursor: pointer;"
-                          onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'; this.querySelector('.toggle-icon').textContent = this.nextElementSibling.style.display === 'none' ? '﹀' : '︿'">
-                          <input type="checkbox"
-                            style="accent-color: var(--blue); width: 14px; height: 14px; margin-right: 10px; opacity: 0.5;"
-                            onclick="event.stopPropagation()">
-                          <span style="font-size: 12px; color: var(--gray-text); flex: 1;">Noroeste</span>
-                          <span class="toggle-icon"
-                            style="color: var(--gray-text); font-size:14px; font-weight:300;">﹀</span>
-                        </div>
-                        <div
-                          style="display: none; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
-                          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
-                              type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
-                              style="font-size: 11px; color: var(--gray-text);">Barra de São Francisco</span></div>
-                        </div>
-                      </div>
-
-
                     </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 4px;">
+                      <div
+                        style="background: #e2e8f0; padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; cursor: pointer;"
+                        onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'; this.querySelector('.toggle-icon').textContent = this.nextElementSibling.style.display === 'none' ? '﹀' : '︿'">
+                        <input type="checkbox"
+                          style="accent-color: var(--blue); width: 14px; height: 14px; margin-right: 10px; opacity: 0.5;"
+                          onclick="event.stopPropagation()">
+                        <span style="font-size: 12px; color: var(--gray-text); flex: 1;">Central Serrana</span>
+                        <div class="rateio-inputs"
+                          style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                          <input type="text" placeholder="0%" class="pct-input"
+                            style="width: 60px; padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 11px; text-align: right;">
+                          <input type="text" placeholder="R$ 0,00" class="val-input"
+                            style="width: 100px; padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 11px; text-align: right;">
+                        </div>
+                        <span class="toggle-icon"
+                          style="color: var(--gray-text); font-size:14px; font-weight:300; margin-left: 12px;">﹀</span>
+                      </div>
+                      <div
+                        style="display: none; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text);">Afonso Cláudio</span></div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text);">Itarana</span></div>
+                      </div>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 4px;">
+                      <div
+                        style="background: #e2e8f0; padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; cursor: pointer;"
+                        onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'; this.querySelector('.toggle-icon').textContent = this.nextElementSibling.style.display === 'none' ? '﹀' : '︿'">
+                        <input type="checkbox"
+                          style="accent-color: var(--blue); width: 14px; height: 14px; margin-right: 10px; opacity: 0.5;"
+                          onclick="event.stopPropagation()">
+                        <span style="font-size: 12px; color: var(--gray-text); flex: 1;">Sudoeste Serrana</span>
+                        <div class="rateio-inputs"
+                          style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                          <input type="text" placeholder="0%" class="pct-input"
+                            style="width: 60px; padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 11px; text-align: right;">
+                          <input type="text" placeholder="R$ 0,00" class="val-input"
+                            style="width: 100px; padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 11px; text-align: right;">
+                        </div>
+                        <span class="toggle-icon"
+                          style="color: var(--gray-text); font-size:14px; font-weight:300; margin-left: 12px;">﹀</span>
+                      </div>
+                      <div
+                        style="display: none; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text);">Domingos Martins</span></div>
+                      </div>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 4px;">
+                      <div
+                        style="background: #e2e8f0; padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; cursor: pointer;"
+                        onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'; this.querySelector('.toggle-icon').textContent = this.nextElementSibling.style.display === 'none' ? '﹀' : '︿'">
+                        <input type="checkbox"
+                          style="accent-color: var(--blue); width: 14px; height: 14px; margin-right: 10px; opacity: 0.5;"
+                          onclick="event.stopPropagation()">
+                        <span style="font-size: 12px; color: var(--gray-text); flex: 1;">Litoral Sul</span>
+                        <div class="rateio-inputs"
+                          style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                          <input type="text" placeholder="0%" class="pct-input"
+                            style="width: 60px; padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 11px; text-align: right;">
+                          <input type="text" placeholder="R$ 0,00" class="val-input"
+                            style="width: 100px; padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 11px; text-align: right;">
+                        </div>
+                        <span class="toggle-icon"
+                          style="color: var(--gray-text); font-size:14px; font-weight:300; margin-left: 12px;">﹀</span>
+                      </div>
+                      <div
+                        style="display: none; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text);">Anchieta</span></div>
+                      </div>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 4px;">
+                      <div
+                        style="background: #e2e8f0; padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; cursor: pointer;"
+                        onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'; this.querySelector('.toggle-icon').textContent = this.nextElementSibling.style.display === 'none' ? '﹀' : '︿'">
+                        <input type="checkbox"
+                          style="accent-color: var(--blue); width: 14px; height: 14px; margin-right: 10px; opacity: 0.5;"
+                          onclick="event.stopPropagation()">
+                        <span style="font-size: 12px; color: var(--gray-text); flex: 1;">Central Sul</span>
+                        <div class="rateio-inputs"
+                          style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                          <input type="text" placeholder="0%" class="pct-input"
+                            style="width: 60px; padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 11px; text-align: right;">
+                          <input type="text" placeholder="R$ 0,00" class="val-input"
+                            style="width: 100px; padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 11px; text-align: right;">
+                        </div>
+                        <span class="toggle-icon"
+                          style="color: var(--gray-text); font-size:14px; font-weight:300; margin-left: 12px;">﹀</span>
+                      </div>
+                      <div
+                        style="display: none; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text);">Cachoeiro de Itapemirim</span></div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text);">Castelo</span></div>
+                      </div>
+                    </div>
+
+                    <!-- Caparaó -->
+                    <div style="display: flex; flex-direction: column; gap: 4px;">
+                      <div
+                        style="background: #e2e8f0; padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; cursor: pointer;"
+                        onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'; this.querySelector('.toggle-icon').textContent = this.nextElementSibling.style.display === 'none' ? '﹀' : '︿'">
+                        <input type="checkbox"
+                          style="accent-color: var(--blue); width: 14px; height: 14px; margin-right: 10px; opacity: 0.5;"
+                          onclick="event.stopPropagation()">
+                        <span style="font-size: 12px; color: var(--gray-text); flex: 1;">Itaguaçu</span>
+                        <div class="rateio-inputs"
+                          style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                          <input type="text" placeholder="0%" class="pct-input"
+                            style="width: 60px; padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 11px; text-align: right;">
+                          <input type="text" placeholder="R$ 0,00" class="val-input"
+                            style="width: 100px; padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 11px; text-align: right;">
+                        </div>
+                        <span class="toggle-icon"
+                          style="color: var(--gray-text); font-size:14px; font-weight:300; margin-left: 12px;">﹀</span>
+                      </div>
+                      <div
+                        style="display: none; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text);">Itarana</span></div>
+                      </div>
+                      <div
+                        style="display: none; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text);">Santa Leopoldina</span></div>
+                      </div>
+                      <div
+                        style="display: none; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text);">Santa Maria de Jetibá</span></div>
+                      </div>
+                      <div
+                        style="display: none; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text);">Santa Maria</span></div>
+                      </div>
+                    </div>
+
+                    <!-- Rio Doce -->
+                    <div style="display: flex; flex-direction: column; gap: 4px;">
+                      <div
+                        style="background: #e2e8f0; padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; cursor: pointer;"
+                        onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'; this.querySelector('.toggle-icon').textContent = this.nextElementSibling.style.display === 'none' ? '﹀' : '︿'">
+                        <input type="checkbox"
+                          style="accent-color: var(--blue); width: 14px; height: 14px; margin-right: 10px; opacity: 0.5;"
+                          onclick="event.stopPropagation()">
+                        <span style="font-size: 12px; color: var(--gray-text); flex: 1;">Rio Doce</span>
+                        <div class="rateio-inputs"
+                          style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                          <input type="text" placeholder="0%" class="pct-input"
+                            style="width: 60px; padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 11px; text-align: right;">
+                          <input type="text" placeholder="R$ 0,00" class="val-input"
+                            style="width: 100px; padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 11px; text-align: right;">
+                        </div>
+                        <span class="toggle-icon"
+                          style="color: var(--gray-text); font-size:14px; font-weight:300; margin-left: 12px;">﹀</span>
+                      </div>
+                      <div
+                        style="display: none; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text);">Linhares</span></div>
+                      </div>
+                    </div>
+
+                    <!-- Centro-Oeste -->
+                    <div style="display: flex; flex-direction: column; gap: 4px;">
+                      <div
+                        style="background: #e2e8f0; padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; cursor: pointer;"
+                        onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'; this.querySelector('.toggle-icon').textContent = this.nextElementSibling.style.display === 'none' ? '﹀' : '︿'">
+                        <input type="checkbox"
+                          style="accent-color: var(--blue); width: 14px; height: 14px; margin-right: 10px; opacity: 0.5;"
+                          onclick="event.stopPropagation()">
+                        <span style="font-size: 12px; color: var(--gray-text); flex: 1;">Centro-Oeste</span>
+                        <div class="rateio-inputs"
+                          style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                          <input type="text" placeholder="0%" class="pct-input"
+                            style="width: 60px; padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 11px; text-align: right;">
+                          <input type="text" placeholder="R$ 0,00" class="val-input"
+                            style="width: 100px; padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 11px; text-align: right;">
+                        </div>
+                        <span class="toggle-icon"
+                          style="color: var(--gray-text); font-size:14px; font-weight:300; margin-left: 12px;">﹀</span>
+                      </div>
+                      <div
+                        style="display: none; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text);">Colatina</span></div>
+                      </div>
+                    </div>
+
+                    <!-- Nordeste -->
+                    <div style="display: flex; flex-direction: column; gap: 4px;">
+                      <div
+                        style="background: #e2e8f0; padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; cursor: pointer;"
+                        onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'; this.querySelector('.toggle-icon').textContent = this.nextElementSibling.style.display === 'none' ? '﹀' : '︿'">
+                        <input type="checkbox"
+                          style="accent-color: var(--blue); width: 14px; height: 14px; margin-right: 10px; opacity: 0.5;"
+                          onclick="event.stopPropagation()">
+                        <span style="font-size: 12px; color: var(--gray-text); flex: 1;">Nordeste</span>
+                        <div class="rateio-inputs"
+                          style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                          <input type="text" placeholder="0%" class="pct-input"
+                            style="width: 60px; padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 11px; text-align: right;">
+                          <input type="text" placeholder="R$ 0,00" class="val-input"
+                            style="width: 100px; padding: 4px 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 11px; text-align: right;">
+                        </div>
+                        <span class="toggle-icon"
+                          style="color: var(--gray-text); font-size:14px; font-weight:300; margin-left: 12px;">﹀</span>
+                      </div>
+                      <div
+                        style="display: none; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text);">São Mateus</span></div>
+                      </div>
+                    </div>
+
+                    <!-- Noroeste -->
+                    <div style="display: flex; flex-direction: column; gap: 4px;">
+                      <div
+                        style="background: #e2e8f0; padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; cursor: pointer;"
+                        onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'; this.querySelector('.toggle-icon').textContent = this.nextElementSibling.style.display === 'none' ? '﹀' : '︿'">
+                        <input type="checkbox"
+                          style="accent-color: var(--blue); width: 14px; height: 14px; margin-right: 10px; opacity: 0.5;"
+                          onclick="event.stopPropagation()">
+                        <span style="font-size: 12px; color: var(--gray-text); flex: 1;">Noroeste</span>
+                        <span class="toggle-icon"
+                          style="color: var(--gray-text); font-size:14px; font-weight:300;">﹀</span>
+                      </div>
+                      <div
+                        style="display: none; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text);">Barra de São Francisco</span></div>
+                      </div>
+                    </div>
+
+
                   </div>
                 </div>
               </div>
@@ -2376,13 +2448,8 @@
           </div>
         </div>
       </div>
-
-      <div class="navigation-buttons" style="margin-top:20px;">
-        <button class="nav-btn" onclick="goToODSFromRateio()">←</button>
-        <button class="nav-btn" style="background:var(--blue); color:white; border-color:var(--blue);"
-          onclick="finalizarProjeto()">Concluir →</button>
-      </div>
     </div>
+  </div>
   </div>
 
   <script>
@@ -3063,6 +3130,14 @@
       const checkboxes = emptyCard.querySelectorAll('input[type="checkbox"]');
       checkboxes.forEach(cb => cb.checked = false);
 
+      // Reset rateio summary in the clone
+      const pctDisplay = emptyCard.querySelector('.rateio-total-pct');
+      const valDisplay = emptyCard.querySelector('.rateio-total-val');
+      const warning = emptyCard.querySelector('#rateioWarning');
+      if (pctDisplay) { pctDisplay.textContent = '0,00%'; pctDisplay.style.color = 'var(--red)'; }
+      if (valDisplay) { valDisplay.textContent = 'R$ 0,00'; valDisplay.style.color = 'var(--red)'; }
+      if (warning) warning.style.display = 'none';
+
       container.appendChild(emptyCard);
       recalcularSomaAcoes();
     }
@@ -3106,10 +3181,71 @@
 
     document.addEventListener('input', function (e) {
       if (e.target.matches('#acoesContainer input[placeholder="0,00"]')) {
-        // Optional: auto-format logic could go here, but strictly for sum:
         recalcularSomaAcoes();
       }
+      if (e.target.classList.contains('pct-input') || e.target.classList.contains('val-input')) {
+        const card = e.target.closest('.card-acao');
+        if (card) {
+          const totalInput = card.querySelector('.action-total-value');
+          let totalVal = 0;
+          if (totalInput) {
+            totalVal = parseFloat(totalInput.value.replace(/[^\d]/g, '')) / 100 || 0;
+          }
+
+          if (e.target.classList.contains('pct-input')) {
+            const pct = parseFloat(e.target.value.replace('%', '').replace(',', '.')) || 0;
+            const val = (totalVal * pct) / 100;
+            const valInput = e.target.nextElementSibling;
+            if (valInput) valInput.value = val > 0 ? val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : '';
+          } else {
+            // Se mudar o valor, calcula a porcentagem
+            let currentVal = parseFloat(e.target.value.replace(/[^\d]/g, '')) / 100 || 0;
+            const pct = totalVal > 0 ? (currentVal / totalVal) * 100 : 0;
+            const pctInput = e.target.previousElementSibling;
+            if (pctInput) pctInput.value = pct > 0 ? pct.toFixed(2).replace('.', ',') + '%' : '';
+            // Formata o próprio input de valor
+            e.target.value = currentVal > 0 ? currentVal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : '';
+          }
+          recalcularSomaDistribuicao(card, totalVal);
+        }
+      }
     });
+
+    function atualizarReferenciaRateio(input) {
+      const card = input.closest('.card-acao');
+      if (card) {
+        const totalVal = parseFloat(input.value.replace(/[^\d]/g, '')) / 100 || 0;
+        recalcularSomaDistribuicao(card, totalVal);
+      }
+    }
+
+    function recalcularSomaDistribuicao(card, totalEsperado) {
+      const valInputs = card.querySelectorAll('.val-input');
+      let sum = 0;
+      valInputs.forEach(inp => {
+        const val = parseFloat(inp.value.replace(/[^\d]/g, '')) / 100 || 0;
+        sum += val;
+      });
+
+      const pctDisplay = card.querySelector('.rateio-total-pct');
+      const valDisplay = card.querySelector('.rateio-total-val');
+      const warning = card.querySelector('#rateioWarning');
+
+      const totalPct = totalEsperado > 0 ? (sum / totalEsperado) * 100 : 0;
+
+      if (pctDisplay) pctDisplay.textContent = totalPct.toFixed(2).replace('.', ',') + '%';
+      if (valDisplay) valDisplay.textContent = sum.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+      if (Math.abs(sum - totalEsperado) > 0.01 && sum > 0) {
+        if (warning) warning.style.display = 'block';
+        if (pctDisplay) pctDisplay.style.color = 'var(--red)';
+        if (valDisplay) valDisplay.style.color = 'var(--red)';
+      } else {
+        if (warning) warning.style.display = 'none';
+        if (pctDisplay) pctDisplay.style.color = 'var(--green)';
+        if (valDisplay) valDisplay.style.color = 'var(--green)';
+      }
+    }
 
     function toggleRegioesAccordion() {
       const content = document.getElementById('regioesAccordionContent');
