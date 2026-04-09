@@ -674,6 +674,24 @@
       font-size: 12px
     }
 
+    .meta-value-input::-webkit-outer-spin-button,
+    .meta-value-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .meta-value-input[type=number] {
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+
+    .meta-value-input::placeholder {
+      color: #94a3b8;
+      font-weight: 400;
+      font-size: 11px;
+      text-align: right;
+    }
+
     .create-indicator-btn {
       background: var(--blue);
       color: white;
@@ -1831,16 +1849,6 @@
           <div class="multi-select-dropdown" id="desafioDropdown"></div>
         </div>
       </div>
-
-      <div class="filter-field col-4" style="position: relative;">
-        <label class="filter-label">Busca Textual</label>
-        <div class="search-input-wrapper">
-          <span class="search-icon" style="top: 10px;">🔍</span>
-          <input type="text" class="search-input" id="indicatorSearch" placeholder="Nome do indicador"
-            style="margin-bottom:0;" oninput="handleSearchInput(this.value)">
-        </div>
-        <div id="searchResults" class="search-results"></div>
-      </div>
     </div>
     <div class="modal-footer">
       <button class="btn-restaurar" onclick="clearPendingFilter()">Restaurar Filtros</button>
@@ -1861,14 +1869,6 @@
           <option value="">Todas as ODS</option>
         </select>
       </div>
-      <div class="filter-field col-6" style="position: relative;">
-        <label class="filter-label">Busca Textual</label>
-        <div class="search-input-wrapper">
-          <span class="search-icon" style="top: 10px;">🔍</span>
-          <input type="text" class="search-input" id="odsSearchInput" placeholder="Nome da ODS" autocomplete="off"
-            style="margin-bottom:0;">
-        </div>
-      </div>
     </div>
     <div class="modal-footer">
       <button class="btn-restaurar" onclick="clearOdsFilter()">Restaurar Filtros</button>
@@ -1879,7 +1879,7 @@
   <!-- ── MODAL: NOVO INDICADOR ── -->
   <div id="newIndicatorModal" class="indicator-form-modal">
     <div class="modal-header">
-      <div class="card-title" style="text-transform: uppercase;">NOVO INDICADOR DE PROJETO ESTRATÉGICO</div>
+      <div class="card-title" style="text-transform: uppercase;">CRIAR UM INDICADOR DE PROJETO ESTRATÉGICO</div>
       <span class="close-modal" onclick="cancelNewIndicator()">✕</span>
     </div>
     <div class="filter-scroll" style="max-height:70vh; overflow-y:auto; padding-right:10px;">
@@ -1920,7 +1920,7 @@
     </div>
     <div class="form-actions" style="margin-top:24px;">
       <button class="btn-secondary" onclick="cancelNewIndicator()">Cancelar</button>
-      <button class="btn-primary" onclick="saveNewIndicator()">Salvar Indicador</button>
+      <button class="btn-primary" onclick="saveNewIndicator()">Salvar</button>
     </div>
   </div>
 
@@ -1955,9 +1955,59 @@
 
     <!-- Selecione o indicador estratégico -->
     <div class="card indicator-list-card">
-      <div class="indicator-list-header">
-        <div class="card-title" style="margin-bottom:0">Selecione o indicador estratégico</div>
-        <div class="indicator-filter-tag" id="activeDesafioTag" style="display:none"></div>
+      <div class="indicator-list-header"
+        style="justify-content: space-between; align-items: center; position: relative;">
+        <div style="display: flex; align-items: center; gap: 12px; width: 100%;">
+          <div class="card-title" style="margin-bottom:0">Selecione o indicador estratégico</div>
+          <div class="indicator-filter-tag" id="activeDesafioTag" style="display:none"></div>
+
+          <div style="flex: 1;"></div>
+
+          <div id="inlineSearchContainer"
+            style="position: relative; display: flex; align-items: center; justify-content: flex-end;">
+            <div id="searchIconWrapper" onclick="toggleInlineSearch()"
+              style="cursor: pointer; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #f1f5f9; color: var(--navy-dark); transition: background 0.2s;">
+              <span style="font-size: 14px;">🔍</span>
+            </div>
+
+            <div id="searchInputWrapper"
+              style="display: none; position: absolute; right: 0; top: 50%; transform: translateY(-50%); z-index: 10;">
+              <div
+                style="display: flex; align-items: center; border: 1px solid var(--blue); border-radius: 20px; background: white; width: 320px; padding: 4px 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+                <span style="color: var(--blue); font-size: 14px; margin-right: 8px;">🔍</span>
+                <input type="text" id="indicatorSearch" placeholder="Nome do indicador"
+                  style="border: none; outline: none; width: 100%; font-size: 13px; color: var(--navy-dark); background: transparent;"
+                  oninput="handleSearchInput(this.value)">
+                <span onclick="fechaBuscaInline()"
+                  style="cursor: pointer; font-size: 12px; color: var(--gray-text); margin-left: 8px; padding: 4px;"
+                  title="Fechar Busca">✖</span>
+              </div>
+              <style>
+                #indicatorSearch::placeholder {
+                  text-align: right;
+                  color: #94a3b8;
+                }
+
+                #indicatorSearch {
+                  text-align: left;
+                }
+              </style>
+            </div>
+          </div>
+          <script>
+            function toggleInlineSearch() {
+              var w = document.getElementById('searchInputWrapper');
+              w.style.display = 'block';
+              document.getElementById('indicatorSearch').focus();
+            }
+            function fechaBuscaInline() {
+              var w = document.getElementById('searchInputWrapper');
+              w.style.display = 'none';
+              document.getElementById('indicatorSearch').value = '';
+              handleSearchInput('');
+            }
+          </script>
+        </div>
       </div>
       <div class="indicator-scroll" id="indicatorList">
         <div class="indicator-empty">Filtre por desafio ou pesquise para ver e adicionar opções de indicadores.</div>
@@ -1968,7 +2018,8 @@
           title="Caso nao encontrou um indicador estrategico desejado cria um novo"
           onclick="showNewIndicatorForm(); event.stopPropagation();" onmouseover="this.style.background='#eef6ff'"
           onmouseout="this.style.background='transparent'">
-          <span style="color:var(--blue); font-weight:700; font-size:12px;">+ Criar um Indicador de Projeto</span>
+          <span style="color:var(--blue); font-weight:700; font-size:12px;">+ Criar um Indicador de Projeto
+            Estratégico</span>
         </div>
       </div>
     </div>
@@ -2003,6 +2054,18 @@
             <div class="card-title" style="margin-bottom:2px;">ODS Sugeridas</div>
             <div style="font-size:12px; color:var(--gray-text);">ODS identificadas a partir dos indicadores
               selecionados. Clique para adicionar à seleção.</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <button id="odsSearchToggleBtn" class="nav-btn" type="button" onclick="toggleOdsSuggestedSearch()"
+              style="min-width: auto; width: 40px; height: 40px; padding: 0; font-size: 18px;">🔍</button>
+            <div id="odsSearchWrapper" style="display:none; position:relative; width: 280px;">
+              <input id="odsSuggestedSearchInput" class="search-input" type="text"
+                placeholder="Buscar ODS sugeridas" autocomplete="off"
+                style="margin-bottom:0; width: 100%; padding-right: 32px;"
+                oninput="handleOdsSuggestedSearch(this.value)">
+              <span onclick="closeOdsSuggestedSearch()"
+                style="position:absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--gray-text);">✕</span>
+            </div>
           </div>
         </div>
         <div class="ods-suggested-row" id="odsSuggestedRow"></div>
@@ -2045,14 +2108,15 @@
       <div class="card" style="margin-bottom: 20px;">
         <div
           style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; border-bottom: 1px solid var(--gray-border); padding-bottom: 16px;">
-          <div>
+          <div style="display: flex; align-items: center; gap: 12px;">
             <div
               style="font-size: 16px; font-weight: 700; color: var(--navy-dark); display: flex; align-items: center; gap: 12px;">
               Ações <span style="color:var(--red)">*</span>
-              <button class="nav-btn" title="Criar Nova Ação" onclick="adicionarNovaAcao()"
-                style="background: white; border: 1px dashed var(--blue); color: var(--blue); padding: 4px 12px; font-size: 12px; height: 32px; box-shadow: none;">+
-                CRIAR AÇÃO</button>
             </div>
+            <button class="nav-btn" title="Criar Nova Ação" onclick="adicionarNovaAcao()"
+              style="background: white; border: 1px dashed var(--blue); color: var(--blue); padding: 4px 12px; font-size: 12px; height: 32px; box-shadow: none;">
+              + CRIAR AÇÃO
+            </button>
           </div>
           <div style="font-size: 14px; font-weight: 600; color: var(--gray-text); text-align: right; margin-top:4px;">
             Soma valor estimado das ações:<br />
@@ -2163,57 +2227,78 @@
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Cariacica</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Fundão</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Guarapari</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Serra</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Viana</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Vila Velha</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Vitória</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                       </div>
@@ -2240,11 +2325,61 @@
                       </div>
                       <div
                         style="display: none; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Itaguaçu</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Itarana</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Santa Leopoldina</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Santa Maria de Jetibá</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Santa Teresa</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Itaguaçu</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Itarana</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Santa Leopoldina</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Santa Maria de Jetibá</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Santa Teresa</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
                       </div>
                     </div>
 
@@ -2269,13 +2404,83 @@
                       </div>
                       <div
                         style="display: none; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Afonso Cláudio</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Brejetuba</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Conceição do Castelo</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Domingos Martins</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Laranja da Terra</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Marechal Floriano</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Venda Nova do Imigrante</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Afonso Cláudio</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Brejetuba</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Conceição do Castelo</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Domingos Martins</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Laranja da Terra</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Marechal Floriano</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Venda Nova do Imigrante</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
                       </div>
                     </div>
 
@@ -2300,14 +2505,30 @@
                       </div>
                       <div
                         style="display: none; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text);">Alfredo Chaves</span></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text);">Anchieta</span></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text);">Iconha</span></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text);">Itapemirim</span></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text);">Marataízes</span></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text);">Piúma</span></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text);">Presidente Kennedy</span></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text);">Rio Novo do Sul</span></div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text);">Alfredo Chaves</span></div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text);">Anchieta</span></div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text);">Iconha</span></div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text);">Itapemirim</span></div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text);">Marataízes</span></div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text);">Piúma</span></div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text);">Presidente Kennedy</span></div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text);">Rio Novo do Sul</span></div>
                       </div>
                     </div>
 
@@ -2332,13 +2553,83 @@
                       </div>
                       <div
                         style="display: none; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Apiacá</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Atílio Vivácqua</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Cachoeiro de Itapemirim</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Castelo</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Mimoso do Sul</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Muqui</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Vargem Alta</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Apiacá</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Atílio Vivácqua</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Cachoeiro de Itapemirim</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Castelo</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Mimoso do Sul</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Muqui</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Vargem Alta</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
                       </div>
                     </div>
 
@@ -2363,18 +2654,138 @@
                       </div>
                       <div
                         style="display: none; padding-left: 28px; padding-top: 4px; padding-bottom: 8px; border-left: 2px solid #e2e8f0; margin-left:18px;">
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Alegre</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Bom Jesus do Norte</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Divino de São Lourenço</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Dores do Rio Preto</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Guaçuí</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Ibatiba</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Ibitirama</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Irupi</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Iúna</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Jerônimo Monteiro</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">Muniz Freire</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span style="font-size: 11px; color: var(--gray-text); flex: 1;">São José do Calçado</span><div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"></div></div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Alegre</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Bom Jesus do Norte</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Divino de São Lourenço</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Dores do Rio Preto</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Guaçuí</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Ibatiba</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Ibitirama</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Irupi</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Iúna</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Jerônimo Monteiro</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">Muniz Freire</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;"><input
+                            type="checkbox" style="accent-color:var(--blue); width:14px; height:14px"><span
+                            style="font-size: 11px; color: var(--gray-text); flex: 1;">São José do Calçado</span>
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;"><input type="text"
+                              placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;"><input
+                              type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          </div>
+                        </div>
                       </div>
                     </div>
 
@@ -2402,49 +2813,67 @@
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Aracruz</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Ibiraçu</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">João Neiva</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Linhares</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Rio Bananal</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Sooretama</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                       </div>
@@ -2474,81 +2903,111 @@
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Alto Rio Novo</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Baixo Guandu</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Colatina</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Governador Lindenberg</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Marilândia</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Pancas</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">São Domingos do Norte</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">São Gabriel da Palha</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">São Roque do Canaã</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Vila Valério</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                       </div>
@@ -2578,73 +3037,100 @@
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Boa Esperança</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Conceição da Barra</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Jaguaré</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Montanha</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Mucurici</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Pedro Canário</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Pinheiros</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Ponto Belo</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">São Mateus</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                       </div>
@@ -2674,71 +3160,103 @@
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Água Doce do Norte</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Águia Branca</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Barra de São Francisco</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Ecoporanga</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Mantenópolis</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Nova Venécia</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
                           <input type="checkbox" style="accent-color:var(--blue); width:14px; height:14px">
                           <span style="font-size: 11px; color: var(--gray-text); flex: 1;">Vila Pavão</span>
-                          <div class="rateio-inputs" style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
-                            <input type="text" placeholder="0%" class="pct-input" style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
-                            <input type="text" placeholder="R$ 0,00" class="val-input" style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                          <div class="rateio-inputs"
+                            style="display: flex; gap: 8px; align-items: center; margin-left: auto;">
+                            <input type="text" placeholder="0%" class="pct-input"
+                              style="width: 50px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
+                            <input type="text" placeholder="R$ 0,00" class="val-input"
+                              style="width: 80px; padding: 2px 6px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 10px; text-align: right;">
                           </div>
                         </div>
                       </div>
                     </div>
-
-
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+              <div class="navigation-buttons" style="margin-top:20px;">
+        <button class="nav-btn" onclick="goToODSFromRateio()">←</button>
+        <!-- <button class="nav-btn" style="background:var(--blue); color:white; border-color:var(--blue);"
+          onclick="concluirDIC()">→</button> -->
       </div>
+      </div>
+
     </div>
+
+      <!-- <div class="navigation-buttons" style="margin-top:20px;">
+        <button class="nav-btn" onclick="goToODSFromRateio()">← Voltar</button>
+        <button class="nav-btn" style="background:var(--blue); color:white; border-color:var(--blue);" onclick="finalizarProjeto()">Finalizar Projeto ✓</button>
+      </div> -->
+
   </div>
   </div>
 
@@ -2807,23 +3325,15 @@
     };
 
     function handleSearchInput(val) {
+      renderIndicatorList();
+      renderAppliedBadges();
       const resultsDiv = document.getElementById('searchResults');
-      if (!val.trim()) { resultsDiv.classList.remove('show'); return; }
-      const matches = catalogIndicators.filter(i => i.name.toLowerCase().includes(val.toLowerCase())).slice(0, 8);
-      if (matches.length === 0) {
-        resultsDiv.innerHTML = '<div style="padding:16px; color:#64748b; font-size:12px; text-align:center;">Nenhum indicador encontrado.</div>';
-      } else {
-        resultsDiv.innerHTML = matches.map(m => `
-          <div class="search-item" onclick="selectSearchResult('${esc(m.name).replace(/'/g, "\\'")}')">
-            <strong>${esc(m.name)}</strong>
-          </div>`).join('');
-      }
-      resultsDiv.classList.add('show');
+      if (resultsDiv) resultsDiv.classList.remove('show');
     }
 
     function selectSearchResult(name) {
       document.getElementById('indicatorSearch').value = name;
-      document.getElementById('searchResults').classList.remove('show');
+      handleSearchInput(name);
     }
 
     function renderAppliedBadges() {
@@ -2838,10 +3348,6 @@
       activeDesafios.forEach(desafio => {
         badgesHtml += `<div class="applied-desafio-badge" title="${esc(desafio)}"><span class="badge-category">Desafio</span><span class="badge-val">${esc(desafio)} <span class="clear-filter" onclick="removeSpecificFilter('desafio', '${esc(desafio).replace(/'/g, "\\'")}', event)">✕</span></span></div>`;
       });
-      const term = document.getElementById('indicatorSearch')?.value.trim();
-      if (term) {
-        badgesHtml += `<div class="applied-desafio-badge" title="Busca Textual"><span class="badge-category">Indicador (Busca)</span><span class="badge-val">"${esc(term)}" <span class="clear-filter" onclick="clearSearchFilter(event)">✕</span></span></div>`;
-      }
       container.innerHTML = badgesHtml;
     }
 
@@ -2880,9 +3386,15 @@
       else if (tag) tag.style.display = 'none';
 
       let term = document.getElementById('indicatorSearch')?.value.toLowerCase().trim() || "";
+      let termNorm = term.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
       let filtered = catalogIndicators;
       if (activeDesafios.size > 0) filtered = filtered.filter(ind => ind.desafios && ind.desafios.some(d => activeDesafios.has(d)));
-      if (term) filtered = filtered.filter(ind => ind.name.toLowerCase().includes(term));
+      if (term) {
+        filtered = filtered.filter(ind => {
+          let nameNorm = ind.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+          return nameNorm.includes(termNorm);
+        });
+      }
 
       if (filtered.length === 0) {
         container.innerHTML = '<div class="indicator-empty">Nenhum indicador encontrado para os filtros selecionados.</div>';
@@ -2974,12 +3486,12 @@
               <span class="detail-label" style="min-width:auto; margin-right:8px;">BASE DE REFERÊNCIA:</span>
               <span class="detail-value">${d.valorBase ? esc(String(d.valorBase)) : 'Não informado'}</span>
             </div>
-            <span class="meta-section-label">META:</span>
+            <span class="meta-section-label">META POR ANO:</span>
             <div class="meta-grid">
               ${YEARS.map(y => `
-                <div class="meta-item">
+                <div class="meta-item" style="display: flex; align-items: center; justify-content: space-between; padding: 6px 10px;">
                   <span class="meta-year">${y}</span>
-                  <span class="meta-value">${d.metas[y] ? d.metas[y].toLocaleString() : '-'}</span>
+                  <input type="number" class="meta-value-input" data-ind-id="${d.id}" data-year="${y}" value="${d.metas && d.metas[y] !== undefined ? d.metas[y] : ''}" placeholder="Digite a meta" style="width: 100px; border: 1px solid #cbd5e1; border-radius: 6px; background: #fff; text-align: right; color: var(--navy-dark); font-weight: 600; font-size: 12px; padding: 4px 8px; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='#cbd5e1'">
                 </div>`).join('')}
             </div>
           </div>
@@ -3213,7 +3725,8 @@
 
     function clearOdsFilter() {
       document.getElementById('modalOdsSelect').value = '';
-      document.getElementById('odsSearchInput').value = '';
+      const suggestedSearch = document.getElementById('odsSuggestedSearchInput');
+      if (suggestedSearch) suggestedSearch.value = '';
       odsFilterSelectValue = '';
       odsFilterText = '';
       renderODSTab();
@@ -3221,8 +3734,29 @@
 
     function applyOdsFilter() {
       odsFilterSelectValue = document.getElementById('modalOdsSelect').value;
-      odsFilterText = document.getElementById('odsSearchInput').value.toLowerCase().trim();
       toggleModalODS(false);
+      renderODSTab();
+    }
+
+    function toggleOdsSuggestedSearch() {
+      const wrapper = document.getElementById('odsSearchWrapper');
+      if (!wrapper) return;
+      const isVisible = wrapper.style.display === 'flex';
+      wrapper.style.display = isVisible ? 'none' : 'flex';
+      if (!isVisible) {
+        const input = document.getElementById('odsSuggestedSearchInput');
+        if (input) input.focus();
+      }
+    }
+
+    function closeOdsSuggestedSearch() {
+      const wrapper = document.getElementById('odsSearchWrapper');
+      if (!wrapper) return;
+      wrapper.style.display = 'none';
+    }
+
+    function handleOdsSuggestedSearch(value) {
+      odsFilterText = value.toLowerCase().trim();
       renderODSTab();
     }
 
@@ -3286,6 +3820,7 @@
 
       let availableIds = filterIds.filter(id => !selectedOds.has(id));
       if (odsFilterText) {
+        availableIds = availableIds.filter(id => linkedOdsIds.has(id));
         availableIds = availableIds.filter(id => ODS_METADATA[id].name.toLowerCase().includes(odsFilterText) || `ods ${id}`.includes(odsFilterText));
       }
 
