@@ -1151,13 +1151,14 @@
       border-bottom-right-radius: 8px;
       max-height: 200px;
       overflow-y: auto;
-      z-index: 1000;
+      z-index: 2000;
       display: none;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     }
 
     .multi-select-dropdown.show {
-      display: block;
+      display: block !important;
+      z-index: 2000 !important;
     }
 
     .multi-option {
@@ -1849,7 +1850,7 @@
       <div class="filter-field col-4">
         <label class="filter-label">Eixos</label>
         <div class="multi-select-container" id="eixoContainer">
-          <div class="multi-select-box" onclick="toggleDropdown('eixoDropdown', this)">
+          <div class="multi-select-box" onclick="toggleDropdown('eixoDropdown', this); event.stopPropagation();">
             <span class="multi-select-text" id="eixoText">Todos</span>
           </div>
           <div class="multi-select-dropdown" id="eixoDropdown"></div>
@@ -1859,7 +1860,7 @@
       <div class="filter-field col-4">
         <label class="filter-label">Áreas Temáticas</label>
         <div class="multi-select-container" id="areaTemaContainer">
-          <div class="multi-select-box" onclick="toggleDropdown('areaTemaDropdown', this)" id="areaTemaBox">
+          <div class="multi-select-box" onclick="toggleDropdown('areaTemaDropdown', this); event.stopPropagation();" id="areaTemaBox">
             <span class="multi-select-text" id="areaTemaText">Todos</span>
           </div>
           <div class="multi-select-dropdown" id="areaTemaDropdown"></div>
@@ -1869,7 +1870,7 @@
       <div class="filter-field col-4">
         <label class="filter-label">Desafios</label>
         <div class="multi-select-container" id="desafioContainer">
-          <div class="multi-select-box" onclick="toggleDropdown('desafioDropdown', this)" id="desafioBox">
+          <div class="multi-select-box" onclick="toggleDropdown('desafioDropdown', this); event.stopPropagation();" id="desafioBox">
             <span class="multi-select-text" id="desafioText">Todos</span>
           </div>
           <div class="multi-select-dropdown" id="desafioDropdown"></div>
@@ -3436,6 +3437,23 @@
       { id: 28, name: 'PROGRAMAS DE QUALIFICAÇÃO PROFISSIONAL', formula: 'Número de pessoas capacitadas em cursos profissionalizantes', orgao: 'Secretaria do Trabalho - SETRAB', valorBase: '25000 (2026)', unidadeMedida: 'Número de pessoas', metas: { 2023: 12000, 2024: 16000, 2025: 20000, 2026: 25000 }, desafios: ['Geração de empregos'], isCustom: false, ods: 8 }
     ];
 
+    /* ── DADOS DO FILTRO ── */
+    const FILTER_DATA_HIERARCHY = [
+      {
+        eixo: 'Eixo 1: + Qualidade de vida',
+        areas: [
+          { nome: 'Área Temática: Educação, Cultura, Esporte e Lazer', desafios: ['Atender necessidades de educação profissional', 'Fomentar investimento em cultura', 'Fortalecer educação integral', 'Políticas de equidade'] },
+          { nome: 'Área Temática: Saúde', desafios: ['Ampliar cobertura de saúde', 'Reduzir mortalidade infantil'] }
+        ]
+      },
+      {
+        eixo: 'Eixo 2: Desenvolvimento Econômico',
+        areas: [
+          { nome: 'Área Temática: Inovação e Emprego', desafios: ['Estimular inovação e tecnologia', 'Geração de empregos'] }
+        ]
+      }
+    ];
+
     let currentTab = 'indicadores';
     let nextId = 30;
     let activeOds = null;
@@ -3525,7 +3543,27 @@
       let term = document.getElementById('indicatorSearch')?.value.toLowerCase().trim() || "";
       let termNorm = term.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
       let filtered = catalogIndicators;
-      if (activeDesafios.size > 0) filtered = filtered.filter(ind => ind.desafios && ind.desafios.some(d => activeDesafios.has(d)));
+
+      // Desafios Efetivos: Se o usuário não selecionou desafios específicos, mas selecionou Eixos/Áreas,
+      // buscamos todos os desafios contidos nesses níveis.
+      let effectiveDesafios = new Set(activeDesafios);
+
+      if (effectiveDesafios.size === 0 && (activeAreaTemas.size > 0 || activeEixos.size > 0)) {
+        FILTER_DATA_HIERARCHY.forEach(e => {
+          if (activeEixos.size === 0 || activeEixos.has(e.eixo)) {
+            e.areas.forEach(a => {
+              if (activeAreaTemas.size === 0 || activeAreaTemas.has(a.nome)) {
+                a.desafios.forEach(d => effectiveDesafios.add(d));
+              }
+            });
+          }
+        });
+      }
+
+      if (effectiveDesafios.size > 0) {
+        filtered = filtered.filter(ind => ind.desafios && ind.desafios.some(d => effectiveDesafios.has(d)));
+      }
+
       if (term) {
         filtered = filtered.filter(ind => {
           let nameNorm = ind.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -3732,21 +3770,7 @@
       }
     });
 
-    const FILTER_DATA_HIERARCHY = [
-      {
-        eixo: 'Eixo 1: + Qualidade de vida',
-        areas: [
-          { nome: 'Área Temática: Educação, Cultura, Esporte e Lazer', desafios: ['Atender necessidades de educação profissional', 'Fomentar investimento em cultura', 'Fortalecer educação integral', 'Políticas de equidade'] },
-          { nome: 'Área Temática: Saúde', desafios: ['Ampliar cobertura de saúde', 'Reduzir mortalidade infantil'] }
-        ]
-      },
-      {
-        eixo: 'Eixo 2: Desenvolvimento Econômico',
-        areas: [
-          { nome: 'Área Temática: Inovação e Emprego', desafios: ['Estimular inovação e tecnologia', 'Geração de empregos'] }
-        ]
-      }
-    ];
+
 
     function getAvailableAreas() {
       if (pendingEixos.size === 0) return [];
