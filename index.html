@@ -1822,8 +1822,15 @@
     }
 
     @keyframes slideIn {
-      from { opacity: 0; transform: translateY(-15px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(-15px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
@@ -1860,7 +1867,8 @@
       <div class="filter-field col-4">
         <label class="filter-label">Áreas Temáticas</label>
         <div class="multi-select-container" id="areaTemaContainer">
-          <div class="multi-select-box" onclick="toggleDropdown('areaTemaDropdown', this); event.stopPropagation();" id="areaTemaBox">
+          <div class="multi-select-box" onclick="toggleDropdown('areaTemaDropdown', this); event.stopPropagation();"
+            id="areaTemaBox">
             <span class="multi-select-text" id="areaTemaText">Todos</span>
           </div>
           <div class="multi-select-dropdown" id="areaTemaDropdown"></div>
@@ -1870,7 +1878,8 @@
       <div class="filter-field col-4">
         <label class="filter-label">Desafios</label>
         <div class="multi-select-container" id="desafioContainer">
-          <div class="multi-select-box" onclick="toggleDropdown('desafioDropdown', this); event.stopPropagation();" id="desafioBox">
+          <div class="multi-select-box" onclick="toggleDropdown('desafioDropdown', this); event.stopPropagation();"
+            id="desafioBox">
             <span class="multi-select-text" id="desafioText">Todos</span>
           </div>
           <div class="multi-select-dropdown" id="desafioDropdown"></div>
@@ -1903,60 +1912,45 @@
     </div>
   </div>
 
-  <div id="filterModalPPA" class="filter-modal">
+  <div id="filterModalPlanejamento" class="filter-modal">
     <div class="modal-header" style="justify-content: space-between; align-items: center; margin-bottom: 24px;">
-      <div class="card-title" style="margin-bottom:0; font-size: 18px; letter-spacing: -0.5px;">FILTROS PPA</div>
-      <div class="close-modal" onclick="toggleModalPPA(false)">✖</div>
+      <div class="card-title" style="margin-bottom:0; font-size: 18px; letter-spacing: -0.5px;">FILTROS Planejamento
+      </div>
+      <div class="close-modal" onclick="toggleModalPlanejamento(false)">✖</div>
     </div>
 
     <div class="filter-row" style="display: flex; flex-wrap: wrap; margin: 0 -10px;">
-      <!-- LINHA 1 (3 Colunas) -->
-      <div class="filter-field" style="flex: 0 0 33.33%; padding: 0 10px; box-sizing: border-box; margin-bottom: 15px;">
-        <label class="filter-label">PPA</label>
-        <select class="filter-select" disabled style="background-color: #f8fafc; color: #64748b; cursor: not-allowed; width: 100%;">
-          <option>2024-2027</option>
-        </select>
-      </div>
-
-      <div class="filter-field" style="flex: 0 0 33.33%; padding: 0 10px; box-sizing: border-box; margin-bottom: 15px;">
+      <!-- LINHA 1 (2 Colunas) -->
+      <div class="filter-field" style="flex: 0 0 50%; padding: 0 10px; box-sizing: border-box; margin-bottom: 15px;">
         <label class="filter-label">Área Temática</label>
-        <select class="filter-select" disabled style="background-color: #f8fafc; color: #64748b; cursor: not-allowed; width: 100%;">
+        <select class="filter-select" disabled
+          style="background-color: #f8fafc; color: #64748b; cursor: not-allowed; width: 100%;">
           <option>Agricultura e Meio Ambiente</option>
         </select>
       </div>
 
-      <div class="filter-field" style="flex: 0 0 33.33%; padding: 0 10px; box-sizing: border-box; margin-bottom: 15px;">
+      <div class="filter-field" style="flex: 0 0 50%; padding: 0 10px; box-sizing: border-box; margin-bottom: 15px;">
         <label class="filter-label">Programa</label>
-        <select class="filter-select" disabled style="background-color: #f8fafc; color: #64748b; cursor: not-allowed; width: 100%;">
+        <select class="filter-select" disabled
+          style="background-color: #f8fafc; color: #64748b; cursor: not-allowed; width: 100%;">
           <option>Infraestrutura rural</option>
         </select>
       </div>
 
-      <!-- LINHA 2 (2 Colunas) -->
-      <div class="filter-field" style="flex: 0 0 50%; padding: 0 10px; box-sizing: border-box; margin-bottom: 15px;">
+      <!-- LINHA 2 (1 Coluna) -->
+      <div class="filter-field" style="flex: 0 0 100%; padding: 0 10px; box-sizing: border-box; margin-bottom: 15px;">
         <label class="filter-label">Ação</label>
-        <select class="filter-select" id="ppaAcaoSelect" onchange="updatePpaProductsOptions()" style="width: 100%;">
+        <select class="filter-select" id="planejamentoAcaoSelect" style="width: 100%;">
           <option value="">Selecione uma Ação...</option>
           <option value="1060">1060 - APOIO À IMPLANTAÇÃO DE PROJETOS...</option>
           <option value="1070">1070 - APOIO À CONSTRUÇÃO DE BARRAGENS...</option>
           <option value="1386">1386 - AMPLIAÇÃO E ADEQUAÇÃO DE INFRAESTRUTURA...</option>
         </select>
       </div>
-
-      <div class="filter-field" style="flex: 0 0 50%; padding: 0 10px; box-sizing: border-box; position:relative; margin-bottom: 15px;">
-        <label class="filter-label">Produto</label>
-        <div class="filter-select" id="boxProdutoPpa" style="display:flex; justify-content:space-between; align-items:center; cursor:pointer; width: 100%;" onclick="toggleMultiPpa('dropdownProdutoPpa')">
-          <span id="textProdutoPpa" class="multi-select-text">Selecione antes uma Ação...</span>
-          <span style="font-size:10px">▽</span>
-        </div>
-        <div id="dropdownProdutoPpa" class="multi-select-dropdown" style="position:absolute; top:100%; left:10px; width:calc(100% - 20px); background:white; border:1px solid var(--gray-border); border-radius:8px; z-index:1000; box-shadow:0 10px 25px rgba(0,0,0,0.1); display:none; max-height:200px; overflow-y:auto;">
-          <!-- Dinâmico -->
-        </div>
-      </div>
     </div>
     <div class="modal-footer">
-      <button class="btn-restaurar" onclick="clearPpaFilter()">Restaurar Filtros</button>
-      <button class="btn-filtrar" onclick="applyPpaFilter()">Filtrar</button>
+      <button class="btn-restaurar" onclick="clearPlanejamentoFilter()">Restaurar Filtros</button>
+      <button class="btn-filtrar" onclick="applyPlanejamentoFilter()">Filtrar</button>
     </div>
   </div>
 
@@ -2036,7 +2030,7 @@
       <span class="active">Indicadores</span>
       <span>ODS</span>
       <span>Ações</span>
-      <span onclick="goToPPA()">PPA</span>
+      <span onclick="goToPlanejamento()">Planejamento</span>
     </div>
 
     <div class="filter-menu-card" id="filterMenuCard">
@@ -2210,18 +2204,18 @@
       </div>
     </div>
 
-    <!-- PPA SECTION -->
-    <div id="ppaSection" style="display:none;">
-      <div class="filter-menu-card" id="filterMenuCardPPA" style="margin-bottom: 20px;">
+    <!-- Planejamento SECTION -->
+    <div id="planejamentoSection" style="display:none;">
+      <div class="filter-menu-card" id="filterMenuCardPlanejamento" style="margin-bottom: 20px;">
         <div class="badges-container">
           <div class="gestao-badge">
-            <span class="gestao-label">PPA</span>
+            <span class="gestao-label">Planejamento</span>
             <span class="gestao-year">2024-2027</span>
           </div>
-          <div id="appliedFilterContainerPPA"></div>
+          <div id="appliedFilterContainerPlanejamento"></div>
         </div>
         <div class="filtros-container">
-          <button class="filtros-btn" id="filtrosBtnPPA" onclick="toggleModalPPA(true)">
+          <button class="filtros-btn" id="filtrosBtnPlanejamento" onclick="toggleModalPlanejamento(true)">
             <span>Filtros</span>
             <span style="font-size:14px">▽</span>
           </button>
@@ -2229,20 +2223,36 @@
       </div>
 
       <!-- SEÇÃO DE AÇÕES SELECIONADAS -->
-      <div class="card" id="selectedPpaSection" style="margin-top: 20px;">
-        <div class="indicator-list-header" style="justify-content: space-between; align-items: center; margin-bottom: 20px;">
-          <div class="card-title" style="margin-bottom:0">AÇÕES DO PPA</div>
-          <div style="font-size: 11px; font-weight: 700; color: var(--gray-text); text-transform: uppercase; background: #f1f5f9; padding: 4px 10px; border-radius: 20px;" id="ppaCountBadge">0 ADICIONADAS</div>
+      <div class="card" id="selectedPlanejamentoSection" style="margin-top: 20px;">
+        <div class="indicator-list-header"
+          style="justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <div style="display: flex; align-items: center; gap: 16px;">
+            <div class="card-title" style="margin-bottom:0">AÇÕES DO PLANEJAMENTO</div>
+          </div>
+          <div
+            style="font-size: 11px; font-weight: 700; color: var(--gray-text); text-transform: uppercase; background: #f1f5f9; padding: 4px 10px; border-radius: 20px;"
+            id="planejamentoCountBadge">0 ADICIONADAS</div>
         </div>
 
-        <div id="ppaEmptyState" style="padding: 40px; text-align: center; background: #f8fafc; border: 1px dashed var(--gray-border); border-radius: 12px; color: var(--gray-text);">
+        <div id="planejamentoEmptyState"
+          style="padding: 40px; text-align: center; background: #f8fafc; border: 1px dashed var(--gray-border); border-radius: 12px; color: var(--gray-text);">
           <div style="font-size: 24px; margin-bottom: 8px;">📋</div>
           <div style="font-size: 14px; font-weight: 600;">Nenhuma ação selecionada</div>
-          <div style="font-size: 12px; margin-top: 4px;">Utilize os filtros acima para adicionar as ações do PPA ao seu projeto.</div>
+          <div style="font-size: 12px; margin-top: 4px;">Utilize os filtros acima para adicionar as ações do
+            Planejamento ao seu
+            projeto.</div>
         </div>
 
-        <div id="ppaCardsContainer" style="display: none; height: 500px; overflow-y: auto; padding-right: 10px; display: grid; grid-template-columns: repeat(auto-fill, minmax(48%, 1fr)); gap: 16px; align-content: start;">
+        <div id="planejamentoCardsContainer"
+          style="height: 500px; overflow-y: auto; padding-right: 10px; display: grid; grid-template-columns: repeat(auto-fill, minmax(48%, 1fr)); gap: 16px; align-content: start;">
           <!-- Os cards serão injetados aqui dinamicamente -->
+        </div>
+
+        <div id="planejamentoFooter" style="display: flex; justify-content: flex-end; padding-top: 20px; border-top: 1px solid #f1f5f9; margin-top: 10px;">
+          <label style="display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: #92400e; cursor: pointer; background: #fffbeb; padding: 6px 12px; border-radius: 8px; border: 1px solid #fde68a; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+            <input type="checkbox" id="mainNaoPrevistoPpa" onchange="toggleExtraPpaAction(this.checked)" style="accent-color: #f59e0b; width: 16px; height: 16px;">
+            Não previsto no PPA 2024-27
+          </label>
         </div>
       </div>
     </div>
@@ -4016,6 +4026,7 @@
     function goToDashboard() {
       currentTab = 'indicadores';
       document.getElementById('odsSection').style.display = 'none';
+      document.getElementById('planejamentoSection').style.display = 'none';
       document.getElementById('rateioSection').style.display = 'none';
       document.getElementById('filtrosBtnODS').style.display = 'none';
       document.getElementById('filtrosBtn').style.display = 'flex';
@@ -4133,6 +4144,7 @@
     function goToRateio() {
       currentTab = 'rateio';
       document.getElementById('odsSection').style.display = 'none';
+      document.getElementById('planejamentoSection').style.display = 'none';
       document.getElementById('indicatorSection').style.display = 'none';
       document.querySelector('.indicator-list-card').style.display = 'none';
       document.getElementById('filtrosBtnODS').style.display = 'none';
@@ -4150,6 +4162,7 @@
     function goToODSFromRateio() {
       currentTab = 'ods';
       document.getElementById('rateioSection').style.display = 'none';
+      document.getElementById('planejamentoSection').style.display = 'none';
       const appliedFilters = document.getElementById('appliedFilterContainer');
       if (appliedFilters) appliedFilters.style.display = 'none';
       document.getElementById('odsSection').style.display = 'block';
@@ -4164,9 +4177,10 @@
       alert('DIC e Rateio concluídos com sucesso! \n\nODS selecionadas: ' + Array.from(selectedOds).map(id => 'ODS ' + id).join(', '));
     }
 
-    function goToPPA() {
-      currentTab = 'ppa';
+    function goToPlanejamento() {
+      currentTab = 'planejamento';
       document.getElementById('odsSection').style.display = 'none';
+      document.getElementById('planejamentoSection').style.display = 'none';
       document.getElementById('indicatorSection').style.display = 'none';
       document.querySelector('.indicator-list-card').style.display = 'none';
       document.getElementById('filtrosBtnODS').style.display = 'none';
@@ -4175,12 +4189,12 @@
       const filterCard = document.getElementById('filterMenuCard');
       if (filterCard) filterCard.style.display = 'none';
 
-      document.getElementById('ppaSection').style.display = 'block';
+      document.getElementById('planejamentoSection').style.display = 'block';
 
       document.querySelectorAll('.tabs span').forEach(s => s.classList.remove('active'));
       const tabs = document.querySelectorAll('.tabs span');
       for (let i = 0; i < tabs.length; i++) {
-        if (tabs[i].textContent === 'PPA') {
+        if (tabs[i].textContent === 'Planejamento') {
           tabs[i].classList.add('active');
           break;
         }
@@ -4389,179 +4403,242 @@
       }
     });
 
-    // Modals PPA JS
-    function toggleModalPPA(show) {
-      document.getElementById('filterModalPPA').classList.toggle('show', show);
+    // Modals Planejamento JS
+    function toggleModalPlanejamento(show) {
+      document.getElementById('filterModalPlanejamento').classList.toggle('show', show);
       document.getElementById('modalOverlay').classList.toggle('show', show);
     }
 
-    // --- PPA MULTISELECT CUSTOM ---
-    // DADOS MESTRES DO PPA
-    const ppaData = {
+    // --- Planejamento MULTISELECT CUSTOM ---
+    // DADOS MESTRES DO PLANEJAMENTO
+    const planejamentoData = {
       "1060": {
         titulo: "1060 - APOIO À IMPLANTAÇÃO DE PROJETOS DE INFRAESTRUTURA, MORADIA RURAL E SERVIÇOS PARA O DESENVOLVIMENTO AGROPECUÁRIO, PESQUERIA E AQUÍCOLA",
-        valor: "46.319.960",
+        valorPpa: "46.319.960",
+        valorLoa: "15.000.000",
+        area: "Agricultura e Meio Ambiente",
+        programa: "Infraestrutura rural",
+        orcamento: [
+          { gnd: "3", mod: "90", iduso: "0", fonte: "1500", valor: "10.000.000" },
+          { gnd: "4", mod: "40", iduso: "0", fonte: "1500", valor: "5.000.000" }
+        ],
         produtos: {
           "p1": { nome: "EQUIPAMENTO ADQUIRIDO", meta: "110 un", reg: "ESTADO", uo: "SEAG" },
-          "p2": { nome: "GALPÃO CONSTRUÍDO", meta: "40 un", reg: "ESTADO", uo: "SEAG" },
-          "p3": { nome: "MORADIA RURAL CONSTRUÍDA/REFORMADA", meta: "2.000 un", reg: "ESTADO", uo: "SEAG" },
-          "p6": { nome: "REDE ELÉTRICA TRANSFORMADA", meta: "220 km", reg: "ESTADO", uo: "SEAG" },
-          "p7": { nome: "SISTEMA DE MICROGERAÇÃO DE ENERGIA SOLAR", meta: "40 un", reg: "ESTADO", uo: "SEAG" }
+          "p2": { nome: "GALPÃO CONSTRUÍDO", meta: "40 un", reg: "ESTADO", uo: "SEAG" }
         }
       },
       "1070": {
         titulo: "1070 - APOIO À CONSTRUÇÃO DE BARRAGENS E OUTRAS TÉCNICAS DE INFRAESTRUTURA HÍDRICA",
-        valor: "27.071.904",
+        valorPpa: "27.071.904",
+        valorLoa: "8.500.000",
+        area: "Agricultura e Meio Ambiente",
+        programa: "Infraestrutura rural",
+        orcamento: [
+          { gnd: "4", mod: "40", iduso: "0", fonte: "1500", valor: "8.500.000" }
+        ],
         produtos: {
-          "p4": { nome: "BARRAGEM CONSTRUÍDA", meta: "14 un", reg: "ESTADO", uo: "SEAG" },
-          "p8": { nome: "BARRAGEM CONSTRUÍDA (FUNDO)", meta: "3 un", reg: "ESTADO", uo: "FUNDO RURAL SUSTENTÁVEL" }
+          "p4": { nome: "BARRAGEM CONSTRUÍDA", meta: "14 un", reg: "ESTADO", uo: "SEAG" }
         }
       },
       "1386": {
         titulo: "1386 - AMPLIAÇÃO E ADEQUAÇÃO DE INFRAESTRUTURA FÍSICA E TECNOLÓGICA VOLTADA PARA O DESENVOLVIMENTO AGROPECUÁRIO",
-        valor: "14.165.396",
+        valorPpa: "14.165.396",
+        valorLoa: "4.200.000",
+        area: "Agricultura e Meio Ambiente",
+        programa: "Infraestrutura rural",
+        orcamento: [
+          { gnd: "3", mod: "90", iduso: "0", fonte: "1500", valor: "1.200.000" },
+          { gnd: "4", mod: "90", iduso: "0", fonte: "1600", valor: "3.000.000" }
+        ],
         produtos: {
-          "p5": { nome: "EQUIPAMENTO ADQUIRIDO", meta: "4 un", reg: "ESTADO", uo: "SEAG" },
-          "p9": { nome: "EQUIPAMENTO ADQUIRIDO (IDAF)", meta: "332 un", reg: "ESTADO", uo: "IDAF" },
-          "p10": { nome: "EQUIPAMENTO ADQUIRIDO (INCAPER)", meta: "520 un", reg: "ESTADO", uo: "INCAPER" }
+          "p5": { nome: "EQUIPAMENTO ADQUIRIDO", meta: "4 un", reg: "ESTADO", uo: "SEAG" }
         }
       }
     };
 
-    function toggleMultiPpa(id) {
+    function toggleMultiPlanejamento(id) {
       const el = document.getElementById(id);
       const isVisible = el.style.display === 'block';
       document.querySelectorAll('.multi-select-dropdown').forEach(d => {
-        if(d.id !== id) d.style.display = 'none';
+        if (d.id !== id) d.style.display = 'none';
       });
       el.style.display = isVisible ? 'none' : 'block';
     }
 
     // Fecha ao clicar fora
-    window.addEventListener('click', function(e) {
+    window.addEventListener('click', function (e) {
       if (!e.target.closest('.filter-field')) {
         document.querySelectorAll('.multi-select-dropdown').forEach(d => d.style.display = 'none');
       }
     });
 
-    function updatePpaSelectionText(type) {
+    function updatePlanejamentoSelectionText(type) {
       const container = document.getElementById('dropdown' + type);
       const displayText = document.getElementById('text' + type);
       const checkboxes = container.querySelectorAll('input:checked');
       const selectedNames = Array.from(checkboxes).map(c => c.parentElement.textContent.trim().split(' - ')[0]);
-      
+
       if (checkboxes.length === 0) displayText.textContent = 'Selecione...';
       else if (checkboxes.length === 1) {
-         const fullText = checkboxes[0].parentElement.textContent.trim();
-         displayText.textContent = fullText.length > 30 ? fullText.substring(0, 30) + '...' : fullText;
+        const fullText = checkboxes[0].parentElement.textContent.trim();
+        displayText.textContent = fullText.length > 30 ? fullText.substring(0, 30) + '...' : fullText;
       }
       else displayText.textContent = checkboxes.length + ' selecionados (' + selectedNames.join(', ') + ')';
     }
 
-    function updatePpaProductsOptions() {
-      const selectedAcao = document.getElementById('ppaAcaoSelect').value;
-      const ddProd = document.getElementById('dropdownProdutoPpa');
-      const boxProd = document.getElementById('boxProdutoPpa');
-      const textProd = document.getElementById('textProdutoPpa');
-      
+    function updatePlanejamentoProductsOptions() {
+      const selectedAcao = document.getElementById('planejamentoAcaoSelect').value;
+      const ddProd = document.getElementById('dropdownProdutoPlanejamento');
+      const boxProd = document.getElementById('boxProdutoPlanejamento');
+      const textProd = document.getElementById('textProdutoPlanejamento');
+
       ddProd.innerHTML = '';
-      
+
       if (!selectedAcao) {
         boxProd.style.background = '#f8fafc';
         textProd.textContent = 'Selecione antes uma Ação...';
         return;
       }
-      
+
       boxProd.style.background = 'white';
       textProd.textContent = 'Selecione...';
-      
+
       let html = '';
       if (selectedAcao === '1060') {
-        html += '<label class="multi-option"><input type="checkbox" value="p1" onchange="updatePpaSelectionText(\'ProdutoPpa\')"> EQUIPAMENTO ADQUIRIDO</label>' +
-                '<label class="multi-option"><input type="checkbox" value="p2" onchange="updatePpaSelectionText(\'ProdutoPpa\')"> GALPÃO CONSTRUÍDO</label>' +
-                '<label class="multi-option"><input type="checkbox" value="p3" onchange="updatePpaSelectionText(\'ProdutoPpa\')"> MORADIA RURAL CONSTRUÍDA/REFORMADA</label>' +
-                '<label class="multi-option"><input type="checkbox" value="p6" onchange="updatePpaSelectionText(\'ProdutoPpa\')"> REDE ELÉTRICA TRANSFORMADA</label>' +
-                '<label class="multi-option"><input type="checkbox" value="p7" onchange="updatePpaSelectionText(\'ProdutoPpa\')"> SISTEMA DE MICROGERAÇÃO DE ENERGIA SOLAR</label>';
+        html += '<label class="multi-option"><input type="checkbox" value="p1" onchange="updatePlanejamentoSelectionText(\'ProdutoPlanejamento\')"> EQUIPAMENTO ADQUIRIDO</label>' +
+          '<label class="multi-option"><input type="checkbox" value="p2" onchange="updatePlanejamentoSelectionText(\'ProdutoPlanejamento\')"> GALPÃO CONSTRUÍDO</label>' +
+          '<label class="multi-option"><input type="checkbox" value="p3" onchange="updatePlanejamentoSelectionText(\'ProdutoPlanejamento\')"> MORADIA RURAL CONSTRUÍDA/REFORMADA</label>' +
+          '<label class="multi-option"><input type="checkbox" value="p6" onchange="updatePlanejamentoSelectionText(\'ProdutoPlanejamento\')"> REDE ELÉTRICA TRANSFORMADA</label>' +
+          '<label class="multi-option"><input type="checkbox" value="p7" onchange="updatePlanejamentoSelectionText(\'ProdutoPlanejamento\')"> SISTEMA DE MICROGERAÇÃO DE ENERGIA SOLAR</label>';
       } else if (selectedAcao === '1070') {
-        html += '<label class="multi-option"><input type="checkbox" value="p4" onchange="updatePpaSelectionText(\'ProdutoPpa\')"> BARRAGEM CONSTRUÍDA</label>' +
-                '<label class="multi-option"><input type="checkbox" value="p8" onchange="updatePpaSelectionText(\'ProdutoPpa\')"> BARRAGEM CONSTRUÍDA (FUNDO)</label>';
+        html += '<label class="multi-option"><input type="checkbox" value="p4" onchange="updatePlanejamentoSelectionText(\'ProdutoPlanejamento\')"> BARRAGEM CONSTRUÍDA</label>' +
+          '<label class="multi-option"><input type="checkbox" value="p8" onchange="updatePlanejamentoSelectionText(\'ProdutoPlanejamento\')"> BARRAGEM CONSTRUÍDA (FUNDO)</label>';
       } else if (selectedAcao === '1386') {
-        html += '<label class="multi-option"><input type="checkbox" value="p5" onchange="updatePpaSelectionText(\'ProdutoPpa\')"> EQUIPAMENTO ADQUIRIDO (SEAG)</label>' +
-                '<label class="multi-option"><input type="checkbox" value="p9" onchange="updatePpaSelectionText(\'ProdutoPpa\')"> EQUIPAMENTO ADQUIRIDO (IDAF)</label>' +
-                '<label class="multi-option"><input type="checkbox" value="p10" onchange="updatePpaSelectionText(\'ProdutoPpa\')"> EQUIPAMENTO ADQUIRIDO (INCAPER)</label>';
+        html += '<label class="multi-option"><input type="checkbox" value="p5" onchange="updatePlanejamentoSelectionText(\'ProdutoPlanejamento\')"> EQUIPAMENTO ADQUIRIDO (SEAG)</label>' +
+          '<label class="multi-option"><input type="checkbox" value="p9" onchange="updatePlanejamentoSelectionText(\'ProdutoPlanejamento\')"> EQUIPAMENTO ADQUIRIDO (IDAF)</label>' +
+          '<label class="multi-option"><input type="checkbox" value="p10" onchange="updatePlanejamentoSelectionText(\'ProdutoPlanejamento\')"> EQUIPAMENTO ADQUIRIDO (INCAPER)</label>';
       }
       ddProd.innerHTML = html;
-      updatePpaSelectionText('ProdutoPpa');
+      updatePlanejamentoSelectionText('ProdutoPlanejamento');
     }
 
-    function clearPpaFilter() {
-      document.getElementById('ppaAcaoSelect').value = '';
-      updatePpaProductsOptions();
-      
-      const containerPPA = document.getElementById('appliedFilterContainerPPA');
-      if (containerPPA) containerPPA.innerHTML = '';
+    function clearPlanejamentoFilter() {
+      document.getElementById('planejamentoAcaoSelect').value = '';
+      document.getElementById('planejamentoAcaoSelect').disabled = false;
+      updatePlanejamentoProductsOptions();
+
+      const containerPlanejamento = document.getElementById('appliedFilterContainerPlanejamento');
+      if (containerPlanejamento) containerPlanejamento.innerHTML = '';
     }
 
-    function applyPpaFilter() {
-      toggleModalPPA(false);
-      const selectedAcaoId = document.getElementById('ppaAcaoSelect').value;
-      const selectedProductIds = Array.from(document.querySelectorAll('#dropdownProdutoPpa input:checked')).map(c => c.value);
-      
-      if (!selectedAcaoId || selectedProductIds.length === 0) {
-        alert('Por favor, selecione uma Ação e pelo menos um Produto.');
+    function toggleExtraPpaAction(checked) {
+      // O usuário solicitou que ao marcar não mostre nada, apenas deixe marcado.
+      // O estado de visibilidade (vazio ou cartões) é atualizado para garantir consistência.
+      atualizarVisibilidadePlanejamento();
+      console.log('Não previsto no PPA marcado:', checked);
+    }
+
+    function applyPlanejamentoFilter() {
+      toggleModalPlanejamento(false);
+      const selectedAcaoId = document.getElementById('planejamentoAcaoSelect').value;
+
+      if (!selectedAcaoId) {
+        alert('Por favor, selecione uma Ação.');
         return;
       }
 
-      const acaoData = ppaData[selectedAcaoId];
+      // Evitar duplicidade
+      const container = document.getElementById('planejamentoCardsContainer');
+      const existing = container.querySelector(`[data-acao-id="${selectedAcaoId}"]`);
+      if (existing) {
+        alert('Esta ação já foi adicionada à seleção.');
+        return;
+      }
+
+      const acaoData = planejamentoData[selectedAcaoId];
+
       if (!acaoData) return;
 
       // Gerar ID único para a instância
-      const instanceId = 'ppa-inst-' + Date.now();
-      
+      const instanceId = 'planejamento-inst-' + Date.now();
+
+      // Atualizar badges de filtros aplicados
+      const badgesContainer = document.getElementById('appliedFilterContainerPlanejamento');
+      if (badgesContainer) {
+        badgesContainer.innerHTML = `
+          <div class="applied-badge" style="background:rgba(52, 152, 219, 0.1); color:var(--blue-dark); border:1px solid rgba(52, 152, 219, 0.2); display:flex; align-items:center; gap:6px; padding:4px 10px; border-radius:12px; font-size:12px; font-weight:600;">
+            Adicionado: ${acaoData.titulo.split(' - ')[0]}
+          </div>
+        `;
+      }
+
       // Criar o card dinâmico
       const cardHtml = `
-        <div class="card ppa-action-instance" id="${instanceId}" style="margin-bottom: 0; border: 1px solid #e2e8f0; animation: slideIn 0.3s ease; padding: 16px; display: flex; flex-direction: column; justify-content: space-between;">
-          <div>
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--gray-border); padding-bottom: 10px; margin-bottom: 12px; gap: 10px;">
-              <div style="font-size: 12px; font-weight: 700; color: var(--navy-dark); flex: 1; line-height: 1.3;">
-                ${acaoData.titulo}
-              </div>
-              <button onclick="removePpaAction('${instanceId}')" style="background: #fee2e2; color: #c0392b; border: none; width: 22px; height: 22px; border-radius: 50%; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px;" title="Excluir">✕</button>
+        <div class="card ppa-action-instance" id="${instanceId}" data-acao-id="${selectedAcaoId}" style="margin-bottom: 0; border: 1px solid #e2e8f0; animation: slideIn 0.3s ease; padding: 20px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid #f1f5f9; padding-bottom: 12px; gap: 12px;">
+            <div style="font-size: 14px; font-weight: 700; color: var(--blue-dark); line-height: 1.4;">
+              ${acaoData.titulo}
             </div>
-            <div style="overflow-x: auto;">
-              <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+            <button onclick="removePlanejamentoAction('${instanceId}')" style="background: #fee2e2; color: #c0392b; border: none; width: 24px; height: 24px; border-radius: 50%; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0;" title="Excluir">✕</button>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 12px;">
+            <div>
+              <div style="color: var(--gray-text); font-size: 10px; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Área Temática</div>
+              <div style="color: var(--navy-dark); font-weight: 600;">${acaoData.area}</div>
+            </div>
+            <div>
+              <div style="color: var(--gray-text); font-size: 10px; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Programa</div>
+              <div style="color: var(--navy-dark); font-weight: 600;">${acaoData.programa}</div>
+            </div>
+            <div>
+              <div style="color: var(--gray-text); font-size: 10px; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Valor PPA 2024-2027</div>
+              <div style="color: var(--blue-dark); font-weight: 700;">R$ ${acaoData.valorPpa}</div>
+            </div>
+            <div>
+              <div style="color: var(--gray-text); font-size: 10px; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Valor LOA 2026</div>
+              <div style="color: #059669; font-weight: 700;">R$ ${acaoData.valorLoa}</div>
+            </div>
+          </div>
+
+          <div style="background: #f8fafc; border-radius: 8px; padding: 12px; border: 1px solid #e2e8f0;">
+             <div style="font-size: 10px; font-weight: 700; color: var(--gray-text); text-transform: uppercase; margin-bottom: 8px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px;">Detalhamento Orçamentário LOA 2026</div>
+             <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
                 <thead>
-                  <tr>
-                    <th style="padding-bottom: 6px; text-align: left; font-weight: 600; color: var(--navy-dark); width: 40%;">Prod.</th>
-                    <th style="padding-bottom: 6px; text-align: center; font-weight: 600; color: var(--navy-dark);">Meta</th>
-                    <th style="padding-bottom: 6px; text-align: center; font-weight: 600; color: var(--navy-dark);">Reg.</th>
+                  <tr style="color: var(--navy-dark); text-align: left;">
+                    <th style="padding: 4px; border-bottom: 1px solid #e2e8f0; font-weight: 700;">GND</th>
+                    <th style="padding: 4px; border-bottom: 1px solid #e2e8f0; font-weight: 700;">Mod.</th>
+                    <th style="padding: 4px; border-bottom: 1px solid #e2e8f0; font-weight: 700;">ID-USO</th>
+                    <th style="padding: 4px; border-bottom: 1px solid #e2e8f0; font-weight: 700;">Fonte</th>
+                    <th style="padding: 4px; border-bottom: 1px solid #e2e8f0; font-weight: 700; text-align: right;">Valor</th>
                   </tr>
                 </thead>
                 <tbody>
-                  ${selectedProductIds.map(pid => {
-                    const prod = acaoData.produtos[pid];
-                    if (!prod) return '';
-                    return `
-                      <tr>
-                        <td style="padding: 8px 0; border-top: 1px solid #f1f5f9; color: var(--gray-text); line-height: 1.2;">${prod.nome}</td>
-                        <td style="padding: 8px 0; border-top: 1px solid #f1f5f9; text-align: center; color: var(--gray-text);">${prod.meta}</td>
-                        <td style="padding: 8px 0; border-top: 1px solid #f1f5f9; text-align: center; color: var(--gray-text);">${prod.reg}</td>
-                      </tr>
-                    `;
-                  }).join('')}
+                  ${acaoData.orcamento.map(item => `
+                    <tr>
+                      <td style="padding: 6px 4px; border-bottom: 1px solid #f1f5f9; color: var(--gray-text);">${item.gnd}</td>
+                      <td style="padding: 6px 4px; border-bottom: 1px solid #f1f5f9; color: var(--gray-text);">${item.mod}</td>
+                      <td style="padding: 6px 4px; border-bottom: 1px solid #f1f5f9; color: var(--gray-text);">${item.iduso}</td>
+                      <td style="padding: 6px 4px; border-bottom: 1px solid #f1f5f9; color: var(--gray-text);">${item.fonte}</td>
+                      <td style="padding: 6px 4px; border-bottom: 1px solid #f1f5f9; text-align: right; color: var(--navy-dark); font-weight: 600;">R$ ${item.valor}</td>
+                    </tr>
+                  `).join('')}
                 </tbody>
               </table>
-            </div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; align-items: center; gap: 8px; padding-top: 8px;">
+            <div style="font-size: 11px; font-weight: 700; color: var(--navy-dark); text-transform: uppercase;">Total da Ação</div>
+            <div style="font-size: 15px; font-weight: 800; color: #059669;">R$ ${acaoData.valorLoa}</div>
           </div>
         </div>
       `;
 
       // Inserir no container
-      const container = document.getElementById('ppaCardsContainer');
       container.insertAdjacentHTML('afterbegin', cardHtml);
 
       // Tag de filtro aplicado (opcional, mostra a última ação adicionada)
-      const filterTagContainer = document.getElementById('appliedFilterContainerPPA');
+      const filterTagContainer = document.getElementById('appliedFilterContainerPlanejamento');
       if (filterTagContainer) {
         filterTagContainer.innerHTML = '';
         let tag = document.createElement('div');
@@ -4570,43 +4647,56 @@
         filterTagContainer.appendChild(tag);
       }
 
-      atualizarVisibilidadePpa();
+      atualizarVisibilidadePlanejamento();
     }
 
-    function removePpaAction(instanceId) {
+    function removePlanejamentoAction(instanceId) {
       const el = document.getElementById(instanceId);
       if (el) {
         el.style.opacity = '0';
         el.style.transform = 'translateY(-10px)';
         setTimeout(() => {
           el.remove();
-          atualizarVisibilidadePpa();
+          atualizarVisibilidadePlanejamento();
         }, 300);
       }
     }
 
-    function atualizarVisibilidadePpa() {
-      const container = document.getElementById('ppaCardsContainer');
-      const emptyState = document.getElementById('ppaEmptyState');
-      const badge = document.getElementById('ppaCountBadge');
-      
+    function atualizarVisibilidadePlanejamento() {
+      const container = document.getElementById('planejamentoCardsContainer');
+      const emptyState = document.getElementById('planejamentoEmptyState');
+      const badge = document.getElementById('planejamentoCountBadge');
+      const extraPpaCheckbox = document.getElementById('mainNaoPrevistoPpa');
+
       const instances = container.querySelectorAll('.ppa-action-instance');
       const count = instances.length;
 
       if (count > 0) {
         container.style.display = 'grid';
         emptyState.style.display = 'none';
+        if (extraPpaCheckbox) {
+          extraPpaCheckbox.disabled = true;
+          extraPpaCheckbox.parentElement.style.opacity = '0.5';
+          extraPpaCheckbox.parentElement.style.cursor = 'not-allowed';
+          extraPpaCheckbox.parentElement.title = 'Não é possível marcar "Não previsto" se já houver ações selecionadas.';
+        }
       } else {
         container.style.display = 'none';
         emptyState.style.display = 'block';
+        if (extraPpaCheckbox) {
+          extraPpaCheckbox.disabled = false;
+          extraPpaCheckbox.parentElement.style.opacity = '1';
+          extraPpaCheckbox.parentElement.style.cursor = 'pointer';
+          extraPpaCheckbox.parentElement.title = '';
+        }
       }
 
       if (badge) badge.textContent = count + (count === 1 ? ' ADICIONADA' : ' ADICIONADAS');
     }
-    
+
     // Inicialização
     window.addEventListener('DOMContentLoaded', () => {
-       atualizarVisibilidadePpa();
+      atualizarVisibilidadePlanejamento();
     });
 
   </script>
