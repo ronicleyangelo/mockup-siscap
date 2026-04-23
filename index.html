@@ -1963,8 +1963,8 @@
     <div class="filter-scroll" style="max-height:70vh; overflow-y:auto; padding-right:10px;">
       <div class="form-row"><label>NOME DO INDICADOR *</label><input type="text" id="fName"
           placeholder="Ex: Taxa de Alfabetização"></div>
-      <div class="form-row"><label>Fórmula / Metodologia de Cálculo</label><textarea id="fFormula" rows="3"
-          placeholder="Descreva a fórmula ou metodologia..."></textarea></div>
+      <!-- <div class="form-row"><label>Fórmula / Metodologia de Cálculo</label><textarea id="fFormula" rows="3"
+          placeholder="Descreva a fórmula ou metodologia..."></textarea></div> -->
       <div class="form-row"><label>FONTE</label><input type="text" id="fOrgao" placeholder="Ex: Secretaria de Educação">
       </div>
 
@@ -2248,9 +2248,12 @@
           <!-- Os cards serão injetados aqui dinamicamente -->
         </div>
 
-        <div id="planejamentoFooter" style="display: flex; justify-content: flex-end; padding-top: 20px; border-top: 1px solid #f1f5f9; margin-top: 10px;">
-          <label style="display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: #92400e; cursor: pointer; background: #fffbeb; padding: 6px 12px; border-radius: 8px; border: 1px solid #fde68a; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
-            <input type="checkbox" id="mainNaoPrevistoPpa" onchange="toggleExtraPpaAction(this.checked)" style="accent-color: #f59e0b; width: 16px; height: 16px;">
+        <div id="planejamentoFooter"
+          style="display: flex; justify-content: flex-end; padding-top: 20px; border-top: 1px solid #f1f5f9; margin-top: 10px;">
+          <label
+            style="display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: #92400e; cursor: pointer; background: #fffbeb; padding: 6px 12px; border-radius: 8px; border: 1px solid #fde68a; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+            <input type="checkbox" id="mainNaoPrevistoPpa" onchange="toggleExtraPpaAction(this.checked)"
+              style="accent-color: #f59e0b; width: 16px; height: 16px;">
             Não previsto no PPA 2024-27
           </label>
         </div>
@@ -3706,7 +3709,6 @@
             <div class="remove-indicator-btn" onclick="removeIndicator('${esc(d.name).replace(/'/g, "\\'")}',${d.isCustom})" style="font-size: 20px;">✖</div>
           </div>
           <div class="indicator-details">
-            <div class="detail-row" style="margin-bottom: 8px;"><span class="detail-label" style="color: #1a6fc4; font-weight: 800;">FÓRMULA:</span><span class="detail-value" style="font-weight: 600;">${esc(d.formula) || 'Não informada'}</span></div>
             <div class="detail-row" style="margin-bottom: 8px;"><span class="detail-label" style="color: #1a6fc4; font-weight: 800;">FONTE:</span><span class="detail-value" style="font-weight: 600;">${esc(d.orgao) || 'Não informado'}</span></div>
             <div class="detail-row" style="margin-bottom: 15px;">
               <span class="detail-label" style="color: #1a6fc4; font-weight: 800; margin-right:8px;">UNIDADE DE MEDIDA:</span>
