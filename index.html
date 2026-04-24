@@ -1923,28 +1923,26 @@
       <!-- LINHA 1 (2 Colunas) -->
       <div class="filter-field" style="flex: 0 0 50%; padding: 0 10px; box-sizing: border-box; margin-bottom: 15px;">
         <label class="filter-label">Área Temática</label>
-        <select class="filter-select" disabled
-          style="background-color: #f8fafc; color: #64748b; cursor: not-allowed; width: 100%;">
-          <option>Agricultura e Meio Ambiente</option>
+        <select class="filter-select" id="planejamentoAreaSelect" onchange="updateProgramaOptions()"
+          style="width: 100%;">
+          <option value="">Selecione uma Área...</option>
         </select>
       </div>
 
       <div class="filter-field" style="flex: 0 0 50%; padding: 0 10px; box-sizing: border-box; margin-bottom: 15px;">
         <label class="filter-label">Programa</label>
-        <select class="filter-select" disabled
-          style="background-color: #f8fafc; color: #64748b; cursor: not-allowed; width: 100%;">
-          <option>Infraestrutura rural</option>
+        <select class="filter-select" id="planejamentoProgramaSelect" onchange="updateAcaoOptions()" disabled
+          style="width: 100%; background-color: #f8fafc;">
+          <option value="">Selecione um Programa...</option>
         </select>
       </div>
 
       <!-- LINHA 2 (1 Coluna) -->
       <div class="filter-field" style="flex: 0 0 100%; padding: 0 10px; box-sizing: border-box; margin-bottom: 15px;">
         <label class="filter-label">Ação</label>
-        <select class="filter-select" id="planejamentoAcaoSelect" style="width: 100%;">
+        <select class="filter-select" id="planejamentoAcaoSelect" disabled
+          style="width: 100%; background-color: #f8fafc;">
           <option value="">Selecione uma Ação...</option>
-          <option value="1060">1060 - APOIO À IMPLANTAÇÃO DE PROJETOS...</option>
-          <option value="1070">1070 - APOIO À CONSTRUÇÃO DE BARRAGENS...</option>
-          <option value="1386">1386 - AMPLIAÇÃO E ADEQUAÇÃO DE INFRAESTRUTURA...</option>
         </select>
       </div>
     </div>
@@ -1963,8 +1961,8 @@
     <div class="filter-scroll" style="max-height:70vh; overflow-y:auto; padding-right:10px;">
       <div class="form-row"><label>NOME DO INDICADOR *</label><input type="text" id="fName"
           placeholder="Ex: Taxa de Alfabetização"></div>
-      <!-- <div class="form-row"><label>Fórmula / Metodologia de Cálculo</label><textarea id="fFormula" rows="3"
-          placeholder="Descreva a fórmula ou metodologia..."></textarea></div> -->
+      <div class="form-row"><label>Fórmula / Metodologia de Cálculo</label><textarea id="fFormula" rows="3"
+          placeholder="Descreva a fórmula ou metodologia..."></textarea></div>
       <div class="form-row"><label>FONTE</label><input type="text" id="fOrgao" placeholder="Ex: Secretaria de Educação">
       </div>
 
@@ -2244,7 +2242,7 @@
         </div>
 
         <div id="planejamentoCardsContainer"
-          style="height: 500px; overflow-y: auto; padding-right: 10px; display: grid; grid-template-columns: repeat(auto-fill, minmax(48%, 1fr)); gap: 16px; align-content: start;">
+          style="max-height: 500px; overflow-y: auto; padding-right: 10px; display: none; grid-template-columns: repeat(auto-fill, minmax(31%, 1fr)); gap: 16px; align-content: start;">
           <!-- Os cards serão injetados aqui dinamicamente -->
         </div>
 
@@ -3709,6 +3707,7 @@
             <div class="remove-indicator-btn" onclick="removeIndicator('${esc(d.name).replace(/'/g, "\\'")}',${d.isCustom})" style="font-size: 20px;">✖</div>
           </div>
           <div class="indicator-details">
+            <div class="detail-row" style="margin-bottom: 8px;"><span class="detail-label" style="color: #1a6fc4; font-weight: 800;">FÓRMULA:</span><span class="detail-value" style="font-weight: 600;">${esc(d.formula) || 'Não informada'}</span></div>
             <div class="detail-row" style="margin-bottom: 8px;"><span class="detail-label" style="color: #1a6fc4; font-weight: 800;">FONTE:</span><span class="detail-value" style="font-weight: 600;">${esc(d.orgao) || 'Não informado'}</span></div>
             <div class="detail-row" style="margin-bottom: 15px;">
               <span class="detail-label" style="color: #1a6fc4; font-weight: 800; margin-right:8px;">UNIDADE DE MEDIDA:</span>
@@ -4407,56 +4406,173 @@
 
     // Modals Planejamento JS
     function toggleModalPlanejamento(show) {
+      const isNaoPrevisto = document.getElementById('mainNaoPrevistoPpa');
+      if (show && isNaoPrevisto && isNaoPrevisto.checked) {
+        alert('Desmarque "Não previsto no PPA 2024-27" para visualizar ou adicionar ações.');
+        return;
+      }
       document.getElementById('filterModalPlanejamento').classList.toggle('show', show);
       document.getElementById('modalOverlay').classList.toggle('show', show);
     }
 
     // --- Planejamento MULTISELECT CUSTOM ---
-    // DADOS MESTRES DO PLANEJAMENTO
-    const planejamentoData = {
-      "1060": {
-        titulo: "1060 - APOIO À IMPLANTAÇÃO DE PROJETOS DE INFRAESTRUTURA, MORADIA RURAL E SERVIÇOS PARA O DESENVOLVIMENTO AGROPECUÁRIO, PESQUERIA E AQUÍCOLA",
-        valorPpa: "46.319.960",
-        valorLoa: "15.000.000",
-        area: "Agricultura e Meio Ambiente",
-        programa: "Infraestrutura rural",
-        orcamento: [
-          { gnd: "3", mod: "90", iduso: "0", fonte: "1500", valor: "10.000.000" },
-          { gnd: "4", mod: "40", iduso: "0", fonte: "1500", valor: "5.000.000" }
-        ],
-        produtos: {
-          "p1": { nome: "EQUIPAMENTO ADQUIRIDO", meta: "110 un", reg: "ESTADO", uo: "SEAG" },
-          "p2": { nome: "GALPÃO CONSTRUÍDO", meta: "40 un", reg: "ESTADO", uo: "SEAG" }
+    // DADOS MESTRES DO PLANEJAMENTO (PPA 2024-2027) - Atualizado com dataset completo
+    const planejamentoPPA = {
+      "10 - GESTÃO PÚBLICA": {
+        "0002 - PREVIDÊNCIA SOCIAL": {
+          "0009": { titulo: "0009 - BENEFÍCIOS PREVIDENCIÁRIOS DA ASSEMBLEIA LEGISLATIVA", valorPpa: "120.000.000", valorLoa: "35.000.000" },
+          "0019": { titulo: "0019 - BENEFÍCIOS PREVIDENCIÁRIOS DO TRIBUNAL DE CONTAS", valorPpa: "45.000.000", valorLoa: "12.000.000" },
+          "0028": { titulo: "0028 - PAGAMENTO DE INATIVOS E PENSIONISTAS MILITARES", valorPpa: "850.000.000", valorLoa: "210.000.000" },
+          "0033": { titulo: "0033 - MANUTENÇÃO E ADMINISTRAÇÃO DE FUNDOS (IPAJM)", valorPpa: "5.000.000", valorLoa: "1.200.000" },
+          "0059": { titulo: "0059 - BENEFÍCIOS PREVIDENCIÁRIOS DO MINISTÉRIO PÚBLICO", valorPpa: "30.000.000", valorLoa: "8.500.000" },
+          "0108": { titulo: "0108 - COMPLEMENTAÇÃO DE APOSENTADORIAS E PENSÕES", valorPpa: "15.000.000", valorLoa: "4.000.000" },
+          "0119": { titulo: "0119 - BENEFÍCIOS PREVIDENCIÁRIOS DA DEFENSORIA PÚBLICA", valorPpa: "8.000.000", valorLoa: "2.100.000" },
+          "0126": { titulo: "0126 - BENEFÍCIOS PREVIDENCIÁRIOS DO PODER JUDICIÁRIO", valorPpa: "110.000.000", valorLoa: "32.000.000" },
+          "0131": { titulo: "0131 - BENEFÍCIOS PREVIDENCIÁRIOS DO PODER EXECUTIVO", valorPpa: "950.000.000", valorLoa: "240.000.000" },
+          "1133": { titulo: "1133 - MODERNIZAÇÃO E DIGITALIZAÇÃO DO IPAJM", valorPpa: "12.000.000", valorLoa: "3.500.000" },
+          "2070": { titulo: "2070 - ADMINISTRAÇÃO DA UNIDADE", valorPpa: "18.000.000", valorLoa: "4.800.000" },
+          "2095": { titulo: "2095 - REMUNERAÇÃO DE PESSOAL ATIVO E ENCARGOS", valorPpa: "25.000.000", valorLoa: "7.200.000" }
+        },
+        "0019 - GESTÃO E ASSESSORAMENTO GOVERNAMENTAL": {
+          "1041": { titulo: "1041 - CONSTRUÇÃO/REFORMA DO HANGAR DO NOTAER", valorPpa: "8.500.000", valorLoa: "2.000.000" },
+          "1147": { titulo: "1147 - AQUISIÇÃO DE AERONAVES", valorPpa: "45.000.000", valorLoa: "0" },
+          "2081": { titulo: "2081 - MANUTENÇÃO DO NOTAER", valorPpa: "12.000.000", valorLoa: "3.200.000" },
+          "2121": { titulo: "2121 - ASSESSORAMENTO AO GOVERNADOR", valorPpa: "15.000.000", valorLoa: "4.100.000" }
+        },
+        "0027 - GESTÃO ESTRATÉGICA DE PESSOAS": {
+          "1097": { titulo: "1097 - REALIZAÇÃO DE CONCURSO PÚBLICO E SELETIVO", valorPpa: "5.000.000", valorLoa: "1.500.000" },
+          "2077": { titulo: "2077 - CAPACITAÇÃO E TREINAMENTO DE RECURSOS HUMANOS", valorPpa: "8.000.000", valorLoa: "2.200.000" },
+          "4250": { titulo: "4250 - GESTÃO E DESENVOLVIMENTO DE RECURSOS HUMANOS", valorPpa: "20.000.000", valorLoa: "5.500.000" }
+        },
+        "0049 - GESTÃO DA COMUNICAÇÃO E DA INFORMAÇÃO": {
+          "2090": { titulo: "2090 - DIVULGAÇÃO INSTITUCIONAL", valorPpa: "40.000.000", valorLoa: "12.000.000" },
+          "2156": { titulo: "2156 - RESTRUTURAÇÃO DA TVE E RÁDIO ESPÍRITO SANTO", valorPpa: "15.000.000", valorLoa: "4.500.000" }
+        },
+        "0050 - GESTÃO PÚBLICA INOVADORA E FISCAL": {
+          "1106": { titulo: "1106 - MODERNIZAÇÃO DE PROCESSOS E SISTEMAS (SEFAZ)", valorPpa: "25.000.000", valorLoa: "7.000.000" },
+          "2256": { titulo: "2256 - ELABORAÇÃO E GESTÃO DO PLANEJAMENTO", valorPpa: "10.000.000", valorLoa: "2.800.000" },
+          "2328": { titulo: "2328 - SERVIÇOS DE ATENDIMENTO AO CIDADÃO (FAÇA FÁCIL)", valorPpa: "45.000.000", valorLoa: "12.500.000" },
+          "3252": { titulo: "3252 - MODERNIZAÇÃO DA GESTÃO PÚBLICA", valorPpa: "30.000.000", valorLoa: "8.000.000" }
         }
       },
-      "1070": {
-        titulo: "1070 - APOIO À CONSTRUÇÃO DE BARRAGENS E OUTRAS TÉCNICAS DE INFRAESTRUTURA HÍDRICA",
-        valorPpa: "27.071.904",
-        valorLoa: "8.500.000",
-        area: "Agricultura e Meio Ambiente",
-        programa: "Infraestrutura rural",
-        orcamento: [
-          { gnd: "4", mod: "40", iduso: "0", fonte: "1500", valor: "8.500.000" }
-        ],
-        produtos: {
-          "p4": { nome: "BARRAGEM CONSTRUÍDA", meta: "14 un", reg: "ESTADO", uo: "SEAG" }
+      "01 - EDUCAÇÃO": {
+        "0032 - GESTÃO E SUPORTE EDUCACIONAL": {
+          "2175": { titulo: "2175 - MANUTENÇÃO DAS UNIDADES CENTRAL E REGIONAIS", valorPpa: "60.000.000", valorLoa: "15.000.000" },
+          "2354": { titulo: "2354 - MANUTENÇÃO E MODERNIZAÇÃO NAS ESCOLAS (FUND.)", valorPpa: "140.000.000", valorLoa: "45.000.000" },
+          "2356": { titulo: "2356 - MANUTENÇÃO E MODERNIZAÇÃO NAS ESCOLAS (MÉDIO)", valorPpa: "180.000.000", valorLoa: "52.000.000" },
+          "4345": { titulo: "4345 - TRANSPORTE ESCOLAR - ENSINO FUNDAMENTAL", valorPpa: "90.000.000", valorLoa: "28.000.000" },
+          "4346": { titulo: "4346 - TRANSPORTE ESCOLAR - ENSINO MÉDIO", valorPpa: "70.000.000", valorLoa: "22.000.000" },
+          "6684": { titulo: "6684 - ALIMENTAÇÃO ESCOLAR", valorPpa: "200.000.000", valorLoa: "65.000.000" }
         }
       },
-      "1386": {
-        titulo: "1386 - AMPLIAÇÃO E ADEQUAÇÃO DE INFRAESTRUTURA FÍSICA E TECNOLÓGICA VOLTADA PARA O DESENVOLVIMENTO AGROPECUÁRIO",
-        valorPpa: "14.165.396",
-        valorLoa: "4.200.000",
-        area: "Agricultura e Meio Ambiente",
-        programa: "Infraestrutura rural",
-        orcamento: [
-          { gnd: "3", mod: "90", iduso: "0", fonte: "1500", valor: "1.200.000" },
-          { gnd: "4", mod: "90", iduso: "0", fonte: "1600", valor: "3.000.000" }
-        ],
-        produtos: {
-          "p5": { nome: "EQUIPAMENTO ADQUIRIDO", meta: "4 un", reg: "ESTADO", uo: "SEAG" }
+      "11 - OUTROS PODERES": {
+        "0024 - EXERCÍCIO DA FUNÇÃO E CONTROLE SOCIAL": {
+          "2079": { titulo: "2079 - COMUNICAÇÃO INSTITUCIONAL E EVENTOS", valorPpa: "5.000.000", valorLoa: "1.200.000" },
+          "2091": { titulo: "2091 - REMUNERAÇÃO DE PESSOAL ATIVO E ENCARGOS", valorPpa: "150.000.000", valorLoa: "42.000.000" }
+        },
+        "0041 - GESTÃO LEGISLATIVA": {
+          "2001": { titulo: "2001 - IMPLEMENTAÇÃO E MANUTENÇÃO DOS SERVIÇOS", valorPpa: "80.000.000", valorLoa: "22.000.000" },
+          "2002": { titulo: "2002 - REMUNERAÇÃO DE PESSOAL (ALES)", valorPpa: "240.000.000", valorLoa: "65.000.000" }
+        },
+        "0048 - DESENVOLVIMENTO INSTITUCIONAL (MPES)": {
+          "1050": { titulo: "1050 - CONSTRUÇÃO E REFORMA DE SEDES DO MPES", valorPpa: "45.000.000", valorLoa: "12.000.000" },
+          "2020": { titulo: "2020 - ADMINISTRAÇÃO DA UNIDADE", valorPpa: "35.000.000", valorLoa: "9.500.000" }
+        }
+      },
+      "OUTROS": {
+        "0014 - ATENDIMENTO SOCIOEDUCATIVO": {
+          "1908": { titulo: "1908 - CONSTRUÇÃO E MODERNIZAÇÃO DE UNIDADES", valorPpa: "25.000.000", valorLoa: "6.500.000" },
+          "2263": { titulo: "2263 - GARANTIA DE SERVIÇOS A ADOLESCENTES", valorPpa: "30.000.000", valorLoa: "8.200.000" }
+        },
+        "0017 - PESQUISA CIENTÍFICA E INOVAÇÃO": {
+          "2232": { titulo: "2232 - FORTALECIMENTO DO ECOSSISTEMA DE C,T&I", valorPpa: "40.000.000", valorLoa: "12.000.000" },
+          "2361": { titulo: "2361 - POPULARIZAÇÃO DA INOVAÇÃO", valorPpa: "15.000.000", valorLoa: "4.500.000" },
+          "2365": { titulo: "2365 - EXPANSÃO DA UNIVERSIDADE ABERTA CAPIXABA", valorPpa: "20.000.000", valorLoa: "5.800.000" }
+        },
+        "0018 - MEIO AMBIENTE E RECURSOS HÍDRICOS": {
+          "1018": { titulo: "1018 - APOIO A PROJETOS DE SEGURANÇA HÍDRICA", valorPpa: "55.000.000", valorLoa: "14.000.000" },
+          "2336": { titulo: "2336 - GESTÃO DE RECURSOS HÍDRICOS E BARRAGENS", valorPpa: "12.000.000", valorLoa: "3.500.000" }
+        },
+        "0026 - INCLUIR": {
+          "2241": { titulo: "2241 - TRANSFERÊNCIA E REFORCO DE RENDA FAMILIAR", valorPpa: "180.000.000", valorLoa: "55.000.000" },
+          "4516": { titulo: "4516 - CARTEIRA DE HABILITAÇÃO - CNH SOCIAL", valorPpa: "15.000.000", valorLoa: "4.200.000" }
+        },
+        "0033 - QUALIDADE DO ENSINO E APRENDIZAGEM": {
+          "1672": { titulo: "1672 - MODERNIZAÇÃO DA REDE FUNDAMENTAL", valorPpa: "95.000.000", valorLoa: "28.000.000" },
+          "1673": { titulo: "1673 - MODERNIZAÇÃO DA REDE MÉDIO", valorPpa: "110.000.000", valorLoa: "32.000.000" },
+          "2014": { titulo: "2014 - COOPERAÇÃO ESTADO/MUNICÍPIOS (INFANTIL)", valorPpa: "45.000.000", valorLoa: "12.500.000" }
+        },
+        "0038 - VIDA NO CAMPO": {
+          "1037": { titulo: "1037 - APOIO ÀS CADEIAS PRODUTIVAS AGRO", valorPpa: "35.000.000", valorLoa: "9.800.000" },
+          "2118": { titulo: "2118 - ASSISTÊNCIA TÉCNICA E PESQUISA AGRO", valorPpa: "40.000.000", valorLoa: "11.200.000" }
+        },
+        "0051 - QUALIFICAR ES": {
+          "2217": { titulo: "2217 - QUALIFICAÇÃO PARA O MUNDO DO TRABALHO", valorPpa: "25.000.000", valorLoa: "7.500.000" }
+        },
+        "0054 - SANEAMENTO E HABITAÇÃO": {
+          "1089": { titulo: "1089 - PROMOÇÃO DA REGULARIZAÇÃO FUNDIÁRIA", valorPpa: "15.000.000", valorLoa: "4.200.000" },
+          "1563": { titulo: "1563 - AMPLIAÇÃO DE SISTEMAS DE ÁGUA", valorPpa: "250.000.000", valorLoa: "68.000.000" },
+          "1564": { titulo: "1564 - AMPLIAÇÃO DE SISTEMAS DE ESGOTO", valorPpa: "450.000.000", valorLoa: "110.000.000" }
         }
       }
     };
+
+    function initPlanejamentoFilters() {
+      const areaSelect = document.getElementById('planejamentoAreaSelect');
+      if (!areaSelect) return;
+
+      areaSelect.innerHTML = '<option value="">Selecione uma Área...</option>';
+      Object.keys(planejamentoPPA).sort().forEach(area => {
+        areaSelect.insertAdjacentHTML('beforeend', `<option value="${area}">${area}</option>`);
+      });
+    }
+
+    function updateProgramaOptions() {
+      const area = document.getElementById('planejamentoAreaSelect').value;
+      const progSelect = document.getElementById('planejamentoProgramaSelect');
+      const acaoSelect = document.getElementById('planejamentoAcaoSelect');
+
+      progSelect.innerHTML = '<option value="">Selecione um Programa...</option>';
+      acaoSelect.innerHTML = '<option value="">Selecione uma Ação...</option>';
+      acaoSelect.disabled = true;
+      acaoSelect.style.backgroundColor = '#f8fafc';
+
+      if (!area) {
+        progSelect.disabled = true;
+        progSelect.style.backgroundColor = '#f8fafc';
+        return;
+      }
+
+      progSelect.disabled = false;
+      progSelect.style.backgroundColor = 'white';
+
+      const programas = Object.keys(planejamentoPPA[area]);
+      programas.sort().forEach(prog => {
+        progSelect.insertAdjacentHTML('beforeend', `<option value="${prog}">${prog}</option>`);
+      });
+    }
+
+    function updateAcaoOptions() {
+      const area = document.getElementById('planejamentoAreaSelect').value;
+      const prog = document.getElementById('planejamentoProgramaSelect').value;
+      const acaoSelect = document.getElementById('planejamentoAcaoSelect');
+
+      acaoSelect.innerHTML = '<option value="">Selecione uma Ação...</option>';
+
+      if (!prog) {
+        acaoSelect.disabled = true;
+        acaoSelect.style.backgroundColor = '#f8fafc';
+        return;
+      }
+
+      acaoSelect.disabled = false;
+      acaoSelect.style.backgroundColor = 'white';
+
+      const acoes = planejamentoPPA[area][prog];
+      Object.keys(acoes).sort().forEach(acaoId => {
+        acaoSelect.insertAdjacentHTML('beforeend', `<option value="${acaoId}">${acoes[acaoId].titulo}</option>`);
+      });
+    }
 
     function toggleMultiPlanejamento(id) {
       const el = document.getElementById(id);
@@ -4474,191 +4590,191 @@
       }
     });
 
-    function updatePlanejamentoSelectionText(type) {
-      const container = document.getElementById('dropdown' + type);
-      const displayText = document.getElementById('text' + type);
-      const checkboxes = container.querySelectorAll('input:checked');
-      const selectedNames = Array.from(checkboxes).map(c => c.parentElement.textContent.trim().split(' - ')[0]);
-
-      if (checkboxes.length === 0) displayText.textContent = 'Selecione...';
-      else if (checkboxes.length === 1) {
-        const fullText = checkboxes[0].parentElement.textContent.trim();
-        displayText.textContent = fullText.length > 30 ? fullText.substring(0, 30) + '...' : fullText;
-      }
-      else displayText.textContent = checkboxes.length + ' selecionados (' + selectedNames.join(', ') + ')';
-    }
-
-    function updatePlanejamentoProductsOptions() {
-      const selectedAcao = document.getElementById('planejamentoAcaoSelect').value;
-      const ddProd = document.getElementById('dropdownProdutoPlanejamento');
-      const boxProd = document.getElementById('boxProdutoPlanejamento');
-      const textProd = document.getElementById('textProdutoPlanejamento');
-
-      ddProd.innerHTML = '';
-
-      if (!selectedAcao) {
-        boxProd.style.background = '#f8fafc';
-        textProd.textContent = 'Selecione antes uma Ação...';
-        return;
-      }
-
-      boxProd.style.background = 'white';
-      textProd.textContent = 'Selecione...';
-
-      let html = '';
-      if (selectedAcao === '1060') {
-        html += '<label class="multi-option"><input type="checkbox" value="p1" onchange="updatePlanejamentoSelectionText(\'ProdutoPlanejamento\')"> EQUIPAMENTO ADQUIRIDO</label>' +
-          '<label class="multi-option"><input type="checkbox" value="p2" onchange="updatePlanejamentoSelectionText(\'ProdutoPlanejamento\')"> GALPÃO CONSTRUÍDO</label>' +
-          '<label class="multi-option"><input type="checkbox" value="p3" onchange="updatePlanejamentoSelectionText(\'ProdutoPlanejamento\')"> MORADIA RURAL CONSTRUÍDA/REFORMADA</label>' +
-          '<label class="multi-option"><input type="checkbox" value="p6" onchange="updatePlanejamentoSelectionText(\'ProdutoPlanejamento\')"> REDE ELÉTRICA TRANSFORMADA</label>' +
-          '<label class="multi-option"><input type="checkbox" value="p7" onchange="updatePlanejamentoSelectionText(\'ProdutoPlanejamento\')"> SISTEMA DE MICROGERAÇÃO DE ENERGIA SOLAR</label>';
-      } else if (selectedAcao === '1070') {
-        html += '<label class="multi-option"><input type="checkbox" value="p4" onchange="updatePlanejamentoSelectionText(\'ProdutoPlanejamento\')"> BARRAGEM CONSTRUÍDA</label>' +
-          '<label class="multi-option"><input type="checkbox" value="p8" onchange="updatePlanejamentoSelectionText(\'ProdutoPlanejamento\')"> BARRAGEM CONSTRUÍDA (FUNDO)</label>';
-      } else if (selectedAcao === '1386') {
-        html += '<label class="multi-option"><input type="checkbox" value="p5" onchange="updatePlanejamentoSelectionText(\'ProdutoPlanejamento\')"> EQUIPAMENTO ADQUIRIDO (SEAG)</label>' +
-          '<label class="multi-option"><input type="checkbox" value="p9" onchange="updatePlanejamentoSelectionText(\'ProdutoPlanejamento\')"> EQUIPAMENTO ADQUIRIDO (IDAF)</label>' +
-          '<label class="multi-option"><input type="checkbox" value="p10" onchange="updatePlanejamentoSelectionText(\'ProdutoPlanejamento\')"> EQUIPAMENTO ADQUIRIDO (INCAPER)</label>';
-      }
-      ddProd.innerHTML = html;
-      updatePlanejamentoSelectionText('ProdutoPlanejamento');
-    }
-
     function clearPlanejamentoFilter() {
-      document.getElementById('planejamentoAcaoSelect').value = '';
-      document.getElementById('planejamentoAcaoSelect').disabled = false;
-      updatePlanejamentoProductsOptions();
+      document.getElementById('planejamentoAreaSelect').value = '';
+      updateProgramaOptions();
 
       const containerPlanejamento = document.getElementById('appliedFilterContainerPlanejamento');
       if (containerPlanejamento) containerPlanejamento.innerHTML = '';
     }
 
     function toggleExtraPpaAction(checked) {
-      // O usuário solicitou que ao marcar não mostre nada, apenas deixe marcado.
-      // O estado de visibilidade (vazio ou cartões) é atualizado para garantir consistência.
-      atualizarVisibilidadePlanejamento();
-      console.log('Não previsto no PPA marcado:', checked);
+      // Quando selecionado, não cria card (não aparece nada, somente marca)
+
+      const btnFiltros = document.getElementById('filtrosBtnPlanejamento');
+      if (btnFiltros) {
+        if (checked) {
+          btnFiltros.style.pointerEvents = 'none';
+          btnFiltros.style.opacity = '0.5';
+        } else {
+          btnFiltros.style.pointerEvents = 'auto';
+          btnFiltros.style.opacity = '1';
+        }
+      }
     }
 
     function applyPlanejamentoFilter() {
       toggleModalPlanejamento(false);
-      const selectedAcaoId = document.getElementById('planejamentoAcaoSelect').value;
+      const area = document.getElementById('planejamentoAreaSelect').value;
+      const prog = document.getElementById('planejamentoProgramaSelect').value;
+      const acaoId = document.getElementById('planejamentoAcaoSelect').value;
 
-      if (!selectedAcaoId) {
+      if (!acaoId) {
         alert('Por favor, selecione uma Ação.');
         return;
       }
 
-      // Evitar duplicidade
-      const container = document.getElementById('planejamentoCardsContainer');
-      const existing = container.querySelector(`[data-acao-id="${selectedAcaoId}"]`);
-      if (existing) {
-        alert('Esta ação já foi adicionada à seleção.');
+      const acaoData = planejamentoPPA[area][prog][acaoId];
+      if (!acaoData) return;
+
+      // Se não tiver valores, gera valores fictícios aleatórios e coerentes
+      let ppaValNum = parseFloat((acaoData.valorPpa || '0').replace(/\./g, '').replace(',', '.'));
+      let loaValNum = parseFloat((acaoData.valorLoa || '0').replace(/\./g, '').replace(',', '.'));
+
+      if (isNaN(ppaValNum) || ppaValNum === 0 || isNaN(loaValNum) || loaValNum === 0) {
+        // Gerar um valor aleatório entre 100k e 5M para a LOA
+        loaValNum = Math.floor(Math.random() * 4900000) + 100000;
+        // PPA normalmente é proporção da LOA
+        ppaValNum = loaValNum * 4.2;
+        
+        acaoData.valorLoa = loaValNum.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        acaoData.valorPpa = ppaValNum.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      }
+
+      // Evita duplicados
+      if (document.getElementById(`card-planejamento-${acaoId}`)) {
+        alert('Esta ação já foi adicionada.');
         return;
       }
 
-      const acaoData = planejamentoData[selectedAcaoId];
-
-      if (!acaoData) return;
-
-      // Gerar ID único para a instância
-      const instanceId = 'planejamento-inst-' + Date.now();
-
-      // Atualizar badges de filtros aplicados
+      // Atualiza Badges (Chips) de Filtro - Substituindo pelo novo sempre
       const badgesContainer = document.getElementById('appliedFilterContainerPlanejamento');
       if (badgesContainer) {
+        badgesContainer.style.display = 'flex';
+        badgesContainer.style.flexDirection = 'column';
+        badgesContainer.style.gap = '8px';
+        
         badgesContainer.innerHTML = `
-          <div class="applied-badge" style="background:rgba(52, 152, 219, 0.1); color:var(--blue-dark); border:1px solid rgba(52, 152, 219, 0.2); display:flex; align-items:center; gap:6px; padding:4px 10px; border-radius:12px; font-size:12px; font-weight:600;">
-            Adicionado: ${acaoData.titulo.split(' - ')[0]}
+          <div id="badge-group-${acaoId}" style="display:flex; gap:8px; align-items:center;">
+             <div class="gestao-badge" style="cursor: help;" title="${area}">
+               <span class="gestao-label">Área</span>
+               <span class="gestao-year" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 120px;">${area.split(' - ')[0]}</span>
+             </div>
+             <div class="gestao-badge" style="cursor: help;" title="${prog}">
+               <span class="gestao-label">Programa</span>
+               <span class="gestao-year" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 120px;">${prog.split(' - ')[0]}</span>
+             </div>
+             <div class="gestao-badge" style="position: relative; cursor: help;" title="${acaoData.titulo}">
+               <span class="gestao-label">Ação</span>
+               <span class="gestao-year" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 100px;">${acaoId}</span>
+               <button onclick="removePlanejamentoAction('${acaoId}')" style="position: absolute; right: 4px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 16px; color: var(--blue); cursor: pointer; line-height: 1; padding: 4px; display: flex; align-items: center; justify-content: center;">&times;</button>
+             </div>
           </div>
         `;
       }
 
-      // Criar o card dinâmico
+      // Injeta o Card Completo Original (Mockup 1)
       const cardHtml = `
-        <div class="card ppa-action-instance" id="${instanceId}" data-acao-id="${selectedAcaoId}" style="margin-bottom: 0; border: 1px solid #e2e8f0; animation: slideIn 0.3s ease; padding: 20px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid #f1f5f9; padding-bottom: 12px; gap: 12px;">
-            <div style="font-size: 14px; font-weight: 700; color: var(--blue-dark); line-height: 1.4;">
+        <div class="card card-acao-planejamento" id="card-planejamento-${acaoId}" style="margin-bottom: 0; border: 1px solid #e2e8f0; transition: all 0.3s; position: relative; background: white; padding: 16px; border-radius: 12px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+          
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div style="font-size: 13px; font-weight: 800; color: var(--blue-dark); line-height: 1.4; padding-right: 30px; text-transform: uppercase;">
               ${acaoData.titulo}
             </div>
-            <button onclick="removePlanejamentoAction('${instanceId}')" style="background: #fee2e2; color: #c0392b; border: none; width: 24px; height: 24px; border-radius: 50%; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0;" title="Excluir">✕</button>
+            <button onclick="removePlanejamentoAction('${acaoId}')" style="background: #fee2e2; color: #ef4444; border: none; width: 24px; height: 24px; border-radius: 50%; font-size: 14px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;" title="Remover">&times;</button>
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 12px;">
-            <div>
-              <div style="color: var(--gray-text); font-size: 10px; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Área Temática</div>
-              <div style="color: var(--navy-dark); font-weight: 600;">${acaoData.area}</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 11px;">
+             <div>
+              <div style="color: var(--gray-text); font-size: 9px; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Área Temática</div>
+              <div style="color: var(--navy-dark); font-weight: 700;">${area}</div>
             </div>
             <div>
-              <div style="color: var(--gray-text); font-size: 10px; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Programa</div>
-              <div style="color: var(--navy-dark); font-weight: 600;">${acaoData.programa}</div>
+              <div style="color: var(--gray-text); font-size: 9px; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Programa</div>
+              <div style="color: var(--navy-dark); font-weight: 700; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 140px;" title="${prog}">${prog.split(' - ')[1] || prog}</div>
             </div>
             <div>
-              <div style="color: var(--gray-text); font-size: 10px; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Valor PPA 2024-2027</div>
-              <div style="color: var(--blue-dark); font-weight: 700;">R$ ${acaoData.valorPpa}</div>
+              <div style="color: var(--gray-text); font-size: 9px; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Valor PPA 2024-2027</div>
+              <div style="color: var(--blue-dark); font-weight: 800;">R$ ${acaoData.valorPpa}</div>
             </div>
             <div>
-              <div style="color: var(--gray-text); font-size: 10px; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Valor LOA 2026</div>
-              <div style="color: #059669; font-weight: 700;">R$ ${acaoData.valorLoa}</div>
+              <div style="color: var(--gray-text); font-size: 9px; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Valor LOA 2026</div>
+              <div style="color: #059669; font-weight: 800;">R$ ${acaoData.valorLoa}</div>
             </div>
           </div>
 
           <div style="background: #f8fafc; border-radius: 8px; padding: 12px; border: 1px solid #e2e8f0;">
-             <div style="font-size: 10px; font-weight: 700; color: var(--gray-text); text-transform: uppercase; margin-bottom: 8px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px;">Detalhamento Orçamentário LOA 2026</div>
-             <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+             <div style="font-size: 11px; font-weight: 800; color: var(--gray-text); text-transform: uppercase; margin-bottom: 12px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">Detalhamento Orçamentário LOA 2026</div>
+             <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
                 <thead>
                   <tr style="color: var(--navy-dark); text-align: left;">
-                    <th style="padding: 4px; border-bottom: 1px solid #e2e8f0; font-weight: 700;">GND</th>
-                    <th style="padding: 4px; border-bottom: 1px solid #e2e8f0; font-weight: 700;">Mod.</th>
-                    <th style="padding: 4px; border-bottom: 1px solid #e2e8f0; font-weight: 700;">ID-USO</th>
-                    <th style="padding: 4px; border-bottom: 1px solid #e2e8f0; font-weight: 700;">Fonte</th>
-                    <th style="padding: 4px; border-bottom: 1px solid #e2e8f0; font-weight: 700; text-align: right;">Valor</th>
+                    <th style="padding: 6px 4px; border-bottom: 1px solid #e2e8f0; font-weight: 800;">GND</th>
+                    <th style="padding: 6px 4px; border-bottom: 1px solid #e2e8f0; font-weight: 800;">Modalidade</th>
+                    <th style="padding: 6px 4px; border-bottom: 1px solid #e2e8f0; font-weight: 800;">ID-USO</th>
+                    <th style="padding: 6px 4px; border-bottom: 1px solid #e2e8f0; font-weight: 800;">Fonte</th>
+                    <th style="padding: 6px 4px; border-bottom: 1px solid #e2e8f0; font-weight: 800; text-align: right;">Valor</th>
                   </tr>
                 </thead>
-                <tbody>
-                  ${acaoData.orcamento.map(item => `
-                    <tr>
-                      <td style="padding: 6px 4px; border-bottom: 1px solid #f1f5f9; color: var(--gray-text);">${item.gnd}</td>
-                      <td style="padding: 6px 4px; border-bottom: 1px solid #f1f5f9; color: var(--gray-text);">${item.mod}</td>
-                      <td style="padding: 6px 4px; border-bottom: 1px solid #f1f5f9; color: var(--gray-text);">${item.iduso}</td>
-                      <td style="padding: 6px 4px; border-bottom: 1px solid #f1f5f9; color: var(--gray-text);">${item.fonte}</td>
-                      <td style="padding: 6px 4px; border-bottom: 1px solid #f1f5f9; text-align: right; color: var(--navy-dark); font-weight: 600;">R$ ${item.valor}</td>
-                    </tr>
-                  `).join('')}
+                <tbody id="detalhamento-tbody-${acaoId}">
+                    ${(function() {
+                        // Cálculo fictício para simular o detalhamento orçamentário
+                        let valStr = acaoData.valorLoa || '0';
+                        let valNum = parseFloat(valStr.replace(/\./g, '').replace(',', '.'));
+                        if (isNaN(valNum) || valNum === 0) valNum = 150000;
+                        
+                        const val1Num = valNum * 0.65;
+                        const val2Num = valNum * 0.35;
+                        
+                        const val1 = val1Num.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                        const val2 = val2Num.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+                        return `
+                          <tr style="border-bottom: 1px dashed #e2e8f0;">
+                            <td style="padding: 10px 4px; color: var(--gray-text); font-weight: 500;">3</td>
+                            <td style="padding: 10px 4px; color: var(--gray-text); font-weight: 500;">90</td>
+                            <td style="padding: 10px 4px; color: var(--gray-text); font-weight: 500;">0</td>
+                            <td style="padding: 10px 4px; color: var(--gray-text); font-weight: 500;">15000000</td>
+                            <td style="padding: 10px 4px; text-align: right; color: var(--navy-dark); font-weight: 700;">R$ ${val1}</td>
+                          </tr>
+                          <tr>
+                            <td style="padding: 10px 4px; color: var(--gray-text); font-weight: 500;">4</td>
+                            <td style="padding: 10px 4px; color: var(--gray-text); font-weight: 500;">40</td>
+                            <td style="padding: 10px 4px; color: var(--gray-text); font-weight: 500;">0</td>
+                            <td style="padding: 10px 4px; color: var(--gray-text); font-weight: 500;">17000000</td>
+                            <td style="padding: 10px 4px; text-align: right; color: var(--navy-dark); font-weight: 700;">R$ ${val2}</td>
+                          </tr>
+                        `;
+                    })()}
                 </tbody>
               </table>
           </div>
 
-          <div style="display: flex; justify-content: flex-end; align-items: center; gap: 8px; padding-top: 8px;">
-            <div style="font-size: 11px; font-weight: 700; color: var(--navy-dark); text-transform: uppercase;">Total da Ação</div>
-            <div style="font-size: 15px; font-weight: 800; color: #059669;">R$ ${acaoData.valorLoa}</div>
+          <div style="display: flex; justify-content: flex-end; align-items: center; gap: 12px; padding-top: 4px;">
+            <div style="font-size: 13px; font-weight: 800; color: var(--navy-dark); text-transform: uppercase;">Total da Ação</div>
+            <div style="font-size: 18px; font-weight: 800; color: #059669;">R$ ${acaoData.valorLoa}</div>
           </div>
         </div>
       `;
 
-      // Inserir no container
-      container.insertAdjacentHTML('afterbegin', cardHtml);
+      const scrollContainer = document.getElementById('planejamentoCardsContainer');
+      scrollContainer.insertAdjacentHTML('beforeend', cardHtml);
 
-      // Tag de filtro aplicado (opcional, mostra a última ação adicionada)
-      const filterTagContainer = document.getElementById('appliedFilterContainerPlanejamento');
-      if (filterTagContainer) {
-        filterTagContainer.innerHTML = '';
-        let tag = document.createElement('div');
-        tag.className = 'applied-filter-tag';
-        tag.textContent = 'Adicionado: Ação ' + selectedAcaoId;
-        filterTagContainer.appendChild(tag);
-      }
-
+      // Sincroniza a interface
       atualizarVisibilidadePlanejamento();
     }
 
-    function removePlanejamentoAction(instanceId) {
-      const el = document.getElementById(instanceId);
+    function removePlanejamentoAction(acaoId) {
+      const el = document.getElementById(`card-planejamento-${acaoId}`);
       if (el) {
         el.style.opacity = '0';
         el.style.transform = 'translateY(-10px)';
         setTimeout(() => {
           el.remove();
+
+          // Remove os badges atrelados a esta ação do topo
+          const badgeGroup = document.getElementById('badge-group-' + acaoId);
+          if (badgeGroup) badgeGroup.remove();
+
           atualizarVisibilidadePlanejamento();
         }, 300);
       }
@@ -4667,37 +4783,51 @@
     function atualizarVisibilidadePlanejamento() {
       const container = document.getElementById('planejamentoCardsContainer');
       const emptyState = document.getElementById('planejamentoEmptyState');
-      const badge = document.getElementById('planejamentoCountBadge');
-      const extraPpaCheckbox = document.getElementById('mainNaoPrevistoPpa');
+      const countBadge = document.getElementById('planejamentoCountBadge');
 
-      const instances = container.querySelectorAll('.ppa-action-instance');
-      const count = instances.length;
+      const cards = container.querySelectorAll('.card-acao-planejamento');
+      const count = cards.length;
 
       if (count > 0) {
-        container.style.display = 'grid';
+        container.style.display = 'grid'; // Volta a exibir 2x2
         emptyState.style.display = 'none';
-        if (extraPpaCheckbox) {
-          extraPpaCheckbox.disabled = true;
-          extraPpaCheckbox.parentElement.style.opacity = '0.5';
-          extraPpaCheckbox.parentElement.style.cursor = 'not-allowed';
-          extraPpaCheckbox.parentElement.title = 'Não é possível marcar "Não previsto" se já houver ações selecionadas.';
+        if (countBadge) {
+          countBadge.textContent = count.toString().padStart(4, '0') + (count === 1 ? ' ADICIONADA' : ' ADICIONADAS');
+          countBadge.style.display = 'inline-flex';
         }
       } else {
         container.style.display = 'none';
-        emptyState.style.display = 'block';
-        if (extraPpaCheckbox) {
-          extraPpaCheckbox.disabled = false;
-          extraPpaCheckbox.parentElement.style.opacity = '1';
-          extraPpaCheckbox.parentElement.style.cursor = 'pointer';
-          extraPpaCheckbox.parentElement.title = '';
+        emptyState.style.display = 'flex';
+        emptyState.style.flexDirection = 'column';
+        emptyState.style.alignItems = 'center';
+        emptyState.style.justifyContent = 'center';
+        if (countBadge) {
+          countBadge.textContent = '0 ADICIONADAS';
+          countBadge.style.display = 'inline-flex'; // Mantém o badge zerado vísivel conforme a segunda imagem
         }
       }
 
-      if (badge) badge.textContent = count + (count === 1 ? ' ADICIONADA' : ' ADICIONADAS');
+      // Se há ações criadas, bloqueia a checagem do Não Previsto
+      const checkbox = document.getElementById('mainNaoPrevistoPpa');
+      if (checkbox) {
+        if (count > 0) {
+          checkbox.disabled = true;
+          checkbox.checked = false; // Garante que desmarca se adicionar ação
+          checkbox.parentElement.style.opacity = '0.5';
+          checkbox.parentElement.style.cursor = 'not-allowed';
+          checkbox.parentElement.title = 'Remova as ações para marcar esta opção.';
+        } else {
+          checkbox.disabled = false;
+          checkbox.parentElement.style.opacity = '1';
+          checkbox.parentElement.style.cursor = 'pointer';
+          checkbox.parentElement.title = '';
+        }
+      }
     }
 
     // Inicialização
     window.addEventListener('DOMContentLoaded', () => {
+      initPlanejamentoFilters();
       atualizarVisibilidadePlanejamento();
     });
 
