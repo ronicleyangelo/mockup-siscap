@@ -4417,6 +4417,27 @@
 
     // --- Planejamento MULTISELECT CUSTOM ---
     // DADOS MESTRES DO PLANEJAMENTO (PPA 2024-2027) - Atualizado com dataset completo
+    // Mapeamento fictício de Órgão por Programa
+    const orgaoPorPrograma = {
+      "0002 - PREVIDÊNCIA SOCIAL": "IPAJM - Inst. de Previdência dos Serv. do Estado do ES",
+      "0019 - GESTÃO E ASSESSORAMENTO GOVERNAMENTAL": "NOTAER - Núcleo de Operações Táticas Aéreas",
+      "0027 - GESTÃO ESTRATÉGICA DE PESSOAS": "SEGER - Secretaria de Gestão e Recursos Humanos",
+      "0049 - GESTÃO DA COMUNICAÇÃO E DA INFORMAÇÃO": "SECOM - Secretaria de Comunicação",
+      "0050 - GESTÃO PÚBLICA INOVADORA E FISCAL": "SEFAZ - Secretaria da Fazenda",
+      "0032 - GESTÃO E SUPORTE EDUCACIONAL": "SEDU - Secretaria da Educação",
+      "0024 - EXERCÍCIO DA FUNÇÃO E CONTROLE SOCIAL": "TCES - Tribunal de Contas do ES",
+      "0041 - GESTÃO LEGISLATIVA": "ALES - Assembleia Legislativa do ES",
+      "0048 - DESENVOLVIMENTO INSTITUCIONAL (MPES)": "MPES - Ministério Público do ES",
+      "0014 - ATENDIMENTO SOCIOEDUCATIVO": "IASES - Inst. de Atendimento Socioeducativo",
+      "0017 - PESQUISA CIENTÍFICA E INOVAÇÃO": "FAPES - Fundação de Pesquisa do ES",
+      "0018 - MEIO AMBIENTE E RECURSOS HÍDRICOS": "SEAMA - Secretaria de Meio Ambiente",
+      "0026 - INCLUIR": "SETADES - Secretaria de Trabalho, Assistência e Desenvolvimento",
+      "0033 - QUALIDADE DO ENSINO E APRENDIZAGEM": "SEDU - Secretaria da Educação",
+      "0038 - VIDA NO CAMPO": "SEAG - Secretaria de Agricultura",
+      "0051 - QUALIFICAR ES": "SECTTI - Secretaria de Ciência, Tecnologia e Inovação",
+      "0054 - SANEAMENTO E HABITAÇÃO": "SEDURB - Secretaria de Saneamento e Habitação"
+    };
+
     const planejamentoPPA = {
       "10 - GESTÃO PÚBLICA": {
         "0002 - PREVIDÊNCIA SOCIAL": {
@@ -4685,13 +4706,17 @@
           </div>
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 11px;">
-             <div>
+             <div style="grid-column: 1 / -1;">
+              <div style="color: var(--gray-text); font-size: 9px; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Órgão</div>
+              <div style="color: var(--navy-dark); font-weight: 700;">${orgaoPorPrograma[prog] || 'Secretaria de Estado do Espírito Santo'}</div>
+            </div>
+            <div>
               <div style="color: var(--gray-text); font-size: 9px; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Área Temática</div>
               <div style="color: var(--navy-dark); font-weight: 700;">${area}</div>
             </div>
             <div>
               <div style="color: var(--gray-text); font-size: 9px; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Programa</div>
-              <div style="color: var(--navy-dark); font-weight: 700; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 140px;" title="${prog}">${prog.split(' - ')[1] || prog}</div>
+              <div style="color: var(--navy-dark); font-weight: 700;">${prog.split(' - ').slice(1).join(' - ') || prog}</div>
             </div>
             <div>
               <div style="color: var(--gray-text); font-size: 9px; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Valor PPA 2024-2027</div>
