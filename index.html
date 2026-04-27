@@ -1914,38 +1914,45 @@
 
   <div id="filterModalPlanejamento" class="filter-modal">
     <div class="modal-header" style="justify-content: space-between; align-items: center; margin-bottom: 24px;">
-      <div class="card-title" style="margin-bottom:0; font-size: 18px; letter-spacing: -0.5px;">FILTROS Planejamento
-      </div>
+      <div class="card-title" style="margin-bottom:0; font-size: 18px; letter-spacing: -0.5px;">FILTROS Planejamento</div>
       <div class="close-modal" onclick="toggleModalPlanejamento(false)">✖</div>
     </div>
 
     <div class="filter-row" style="display: flex; flex-wrap: wrap; margin: 0 -10px;">
-      <!-- LINHA 1 (2 Colunas) -->
-      <div class="filter-field" style="flex: 0 0 50%; padding: 0 10px; box-sizing: border-box; margin-bottom: 15px;">
+      <!-- Área Temática -->
+      <div class="filter-field" style="flex: 0 0 33.33%; padding: 0 10px; box-sizing: border-box; margin-bottom: 15px;">
         <label class="filter-label">Área Temática</label>
-        <select class="filter-select" id="planejamentoAreaSelect" onchange="updateProgramaOptions()"
-          style="width: 100%;">
-          <option value="">Selecione uma Área...</option>
-        </select>
+        <div class="multi-select-container" id="pAreaContainer">
+          <div class="multi-select-box" id="pAreaBox" onclick="togglePlanDropdown('pAreaDropdown', this); event.stopPropagation();">
+            <span class="multi-select-text" id="pAreaText">Selecione...</span>
+          </div>
+          <div class="multi-select-dropdown" id="pAreaDropdown"></div>
+        </div>
       </div>
 
-      <div class="filter-field" style="flex: 0 0 50%; padding: 0 10px; box-sizing: border-box; margin-bottom: 15px;">
+      <!-- Programa -->
+      <div class="filter-field" style="flex: 0 0 33.33%; padding: 0 10px; box-sizing: border-box; margin-bottom: 15px;">
         <label class="filter-label">Programa</label>
-        <select class="filter-select" id="planejamentoProgramaSelect" onchange="updateAcaoOptions()" disabled
-          style="width: 100%; background-color: #f8fafc;">
-          <option value="">Selecione um Programa...</option>
-        </select>
+        <div class="multi-select-container" id="pProgContainer">
+          <div class="multi-select-box" id="pProgBox" onclick="togglePlanDropdown('pProgDropdown', this); event.stopPropagation();" style="background-color: #f8fafc; pointer-events: none; opacity: 0.6;">
+            <span class="multi-select-text" id="pProgText">Selecione uma Área primeiro...</span>
+          </div>
+          <div class="multi-select-dropdown" id="pProgDropdown"></div>
+        </div>
       </div>
 
-      <!-- LINHA 2 (1 Coluna) -->
-      <div class="filter-field" style="flex: 0 0 100%; padding: 0 10px; box-sizing: border-box; margin-bottom: 15px;">
+      <!-- Ação -->
+      <div class="filter-field" style="flex: 0 0 33.33%; padding: 0 10px; box-sizing: border-box; margin-bottom: 15px;">
         <label class="filter-label">Ação</label>
-        <select class="filter-select" id="planejamentoAcaoSelect" disabled
-          style="width: 100%; background-color: #f8fafc;">
-          <option value="">Selecione uma Ação...</option>
-        </select>
+        <div class="multi-select-container" id="pAcaoContainer">
+          <div class="multi-select-box" id="pAcaoBox" onclick="togglePlanDropdown('pAcaoDropdown', this); event.stopPropagation();" style="background-color: #f8fafc; pointer-events: none; opacity: 0.6;">
+            <span class="multi-select-text" id="pAcaoText">Selecione um Programa primeiro...</span>
+          </div>
+          <div class="multi-select-dropdown" id="pAcaoDropdown"></div>
+        </div>
       </div>
     </div>
+
     <div class="modal-footer">
       <button class="btn-restaurar" onclick="clearPlanejamentoFilter()">Restaurar Filtros</button>
       <button class="btn-filtrar" onclick="applyPlanejamentoFilter()">Filtrar</button>
@@ -4405,6 +4412,350 @@
     });
 
     // Modals Planejamento JS
+    // ---- PLANEJAMENTO MULTI-SELECT LOGIC ----
+
+    function togglePlanDropdown(dropId, boxEl) {
+      const drop = document.getElementById(dropId);
+      const isOpen = drop.classList.contains('show');
+      // fechar todos os outros
+      ['pAreaDropdown','pProgDropdown','pAcaoDropdown'].forEach(id => {
+        const d = document.getElementById(id);
+        if (d && d.id !== dropId) { d.classList.remove('show'); }
+        // reset box active state
+      });
+      if (!isOpen) drop.classList.add('show');
+      else drop.classList.remove('show');
+    }
+
+    // Fechar ao clicar fora
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.multi-select-container')) {
+        ['pAreaDropdown','pProgDropdown','pAcaoDropdown'].forEach(id => {
+          const d = document.getElementById(id);
+          if (d) d.classList.remove('show');
+        });
+      }
+    });
+
+    function updatePlanAreaText() {
+      const checked = document.querySelectorAll('#pAreaDropdown input[type=checkbox]:checked');
+      const textEl = document.getElementById('pAreaText');
+      if (checked.length === 0) textEl.textContent = 'Selecione...';
+      else if (checked.length === 1) textEl.textContent = checked[0].value.split(' - ')[0];
+      else textEl.textContent = checked.length + ' selecionadas';
+      updatePlanProgramas();
+    }
+
+    function updatePlanProgText() {
+      const checked = document.querySelectorAll('#pProgDropdown input[type=checkbox]:checked');
+      const textEl = document.getElementById('pProgText');
+      if (checked.length === 0) textEl.textContent = 'Selecione...';
+      else if (checked.length === 1) textEl.textContent = checked[0].value.split(' - ')[0];
+      else textEl.textContent = checked.length + ' selecionados';
+      updatePlanAcoes();
+    }
+
+    function updatePlanAcaoText() {
+      const checked = document.querySelectorAll('#pAcaoDropdown input[type=checkbox]:checked');
+      const textEl = document.getElementById('pAcaoText');
+      if (checked.length === 0) textEl.textContent = 'Selecione...';
+      else if (checked.length === 1) textEl.textContent = checked[0].value;
+      else textEl.textContent = checked.length + ' selecionadas';
+    }
+
+    function initPlanejamentoFilters() {
+      const areaDropdown = document.getElementById('pAreaDropdown');
+      if (!areaDropdown) return;
+      areaDropdown.innerHTML = '';
+
+      Object.keys(planejamentoPPA).sort().forEach(area => {
+        const safeId = 'pArea_' + area.replace(/[^a-zA-Z0-9]/g, '_');
+        areaDropdown.insertAdjacentHTML('beforeend', `
+          <div class="multi-option">
+            <input type="checkbox" id="${safeId}" value="${area}" onchange="updatePlanAreaText()">
+            <label for="${safeId}" style="cursor:pointer;">${area}</label>
+          </div>
+        `);
+      });
+    }
+
+    function updatePlanProgramas() {
+      const checkedAreas = Array.from(document.querySelectorAll('#pAreaDropdown input[type=checkbox]:checked'))
+        .filter(c => c.value !== '__todos__').map(c => c.value);
+
+      const progBox = document.getElementById('pProgBox');
+      const progDrop = document.getElementById('pProgDropdown');
+      progDrop.innerHTML = '';
+      document.getElementById('pProgText').textContent = 'Selecione...';
+      // reset ação
+      document.getElementById('pAcaoDropdown').innerHTML = '';
+      document.getElementById('pAcaoText').textContent = 'Selecione...';
+
+      if (checkedAreas.length === 0) {
+        progBox.style.pointerEvents = 'none'; progBox.style.opacity = '0.6';
+        document.getElementById('pAcaoBox').style.pointerEvents = 'none';
+        document.getElementById('pAcaoBox').style.opacity = '0.6';
+        return;
+      }
+      progBox.style.pointerEvents = 'auto'; progBox.style.opacity = '1';
+
+      // reúne programas de todas as áreas marcadas
+      const allProgs = new Set();
+      checkedAreas.forEach(area => { Object.keys(planejamentoPPA[area]).forEach(p => allProgs.add(p)); });
+
+      Array.from(allProgs).sort().forEach(prog => {
+        const safeId = 'pProg_' + prog.replace(/[^a-zA-Z0-9]/g, '_');
+        progDrop.insertAdjacentHTML('beforeend', `
+          <div class="multi-option">
+            <input type="checkbox" id="${safeId}" value="${prog}" onchange="updatePlanProgText()">
+            <label for="${safeId}" style="cursor:pointer;">${prog}</label>
+          </div>
+        `);
+      });
+    }
+
+    function updatePlanAcoes() {
+      const checkedAreas = Array.from(document.querySelectorAll('#pAreaDropdown input[type=checkbox]:checked'))
+        .filter(c => c.value !== '__todos__').map(c => c.value);
+      const checkedProgs = Array.from(document.querySelectorAll('#pProgDropdown input[type=checkbox]:checked'))
+        .filter(c => c.value !== '__todos__').map(c => c.value);
+
+      const acaoBox = document.getElementById('pAcaoBox');
+      const acaoDrop = document.getElementById('pAcaoDropdown');
+      acaoDrop.innerHTML = '';
+      document.getElementById('pAcaoText').textContent = 'Selecione...';
+
+      if (checkedProgs.length === 0) {
+        acaoBox.style.pointerEvents = 'none'; acaoBox.style.opacity = '0.6';
+        return;
+      }
+      acaoBox.style.pointerEvents = 'auto'; acaoBox.style.opacity = '1';
+
+      const allAcoes = {}; // acaoId -> { titulo, area, prog }
+      checkedAreas.forEach(area => {
+        checkedProgs.forEach(prog => {
+          if (planejamentoPPA[area] && planejamentoPPA[area][prog]) {
+            Object.entries(planejamentoPPA[area][prog]).forEach(([id, data]) => {
+              allAcoes[id] = { ...data, area, prog };
+            });
+          }
+        });
+      });
+
+      Object.entries(allAcoes).sort((a,b) => a[0].localeCompare(b[0])).forEach(([id, data]) => {
+        const safeId = 'pAcao_' + id;
+        acaoDrop.insertAdjacentHTML('beforeend', `
+          <div class="multi-option">
+            <input type="checkbox" id="${safeId}" value="${id}" data-area="${data.area}" data-prog="${data.prog}" onchange="updatePlanAcaoText()">
+            <label for="${safeId}" style="cursor:pointer;">${data.titulo}</label>
+          </div>
+        `);
+      });
+    }
+
+    function clearPlanejamentoFilter() {
+      ['pAreaDropdown','pProgDropdown','pAcaoDropdown'].forEach(id => {
+        const d = document.getElementById(id);
+        if (d) { d.querySelectorAll('input[type=checkbox]').forEach(c => c.checked = false); }
+      });
+      document.getElementById('pAreaText').textContent = 'Selecione...';
+      document.getElementById('pProgText').textContent = 'Selecione uma Área primeiro...';
+      document.getElementById('pAcaoText').textContent = 'Selecione um Programa primeiro...';
+      document.getElementById('pProgBox').style.pointerEvents = 'none';
+      document.getElementById('pProgBox').style.opacity = '0.6';
+      document.getElementById('pAcaoBox').style.pointerEvents = 'none';
+      document.getElementById('pAcaoBox').style.opacity = '0.6';
+      const badgesContainer = document.getElementById('appliedFilterContainerPlanejamento');
+      if (badgesContainer) badgesContainer.innerHTML = '';
+    }
+
+    function applyPlanejamentoFilter() {
+      toggleModalPlanejamento(false);
+
+      // Coleta todas as ações marcadas
+      const checkedAcoes = Array.from(document.querySelectorAll('#pAcaoDropdown input[type=checkbox]:checked'))
+        .filter(c => c.value !== '__todos__');
+
+      if (checkedAcoes.length === 0) {
+        alert('Por favor, selecione pelo menos uma Ação.');
+        return;
+      }
+
+      // Limpa badges antes de reinserir
+      const badgesContainer = document.getElementById('appliedFilterContainerPlanejamento');
+      if (badgesContainer) {
+        badgesContainer.innerHTML = '';
+        badgesContainer.style.display = 'flex';
+        badgesContainer.style.flexDirection = 'column';
+        badgesContainer.style.gap = '8px';
+      }
+
+      // Remove cards antigos que não estão mais selecionados
+      const container = document.getElementById('planejamentoCardsContainer');
+      const selectedIds = checkedAcoes.map(c => c.value);
+      container.querySelectorAll('.card-acao-planejamento').forEach(card => {
+        const cardId = card.id.replace('card-planejamento-', '');
+        if (!selectedIds.includes(cardId)) {
+          card.remove();
+        }
+      });
+
+      checkedAcoes.forEach(cb => {
+        const acaoId = cb.value;
+        const area = cb.dataset.area;
+        const prog = cb.dataset.prog;
+        const acaoData = planejamentoPPA[area][prog][acaoId];
+        if (!acaoData) return;
+
+        // Gera valores fictícios se zerado
+        let ppaValNum = parseFloat((acaoData.valorPpa || '0').replace(/\./g, '').replace(',', '.'));
+        let loaValNum = parseFloat((acaoData.valorLoa || '0').replace(/\./g, '').replace(',', '.'));
+        if (isNaN(ppaValNum) || ppaValNum === 0 || isNaN(loaValNum) || loaValNum === 0) {
+          loaValNum = Math.floor(Math.random() * 4900000) + 100000;
+          ppaValNum = loaValNum * 4.2;
+          acaoData.valorLoa = loaValNum.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+          acaoData.valorPpa = ppaValNum.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        }
+
+      // ── 3 chips de resumo (um por categoria) ───────────────────────
+      if (badgesContainer) {
+        // Coleta valores únicos para cada categoria
+        const areasUnicas   = [...new Set(checkedAcoes.map(c => c.dataset.area))];
+        const progsUnicas   = [...new Set(checkedAcoes.map(c => c.dataset.prog))];
+        const acoesIds      = checkedAcoes.map(c => c.value);
+
+        // Formata labels dos chips
+        const areaLabel  = areasUnicas.length === 1
+          ? areasUnicas[0].split(' - ')[0]
+          : areasUnicas.map(a => a.split(' - ')[0]).join(', ');
+
+        const progLabel  = progsUnicas.length === 1
+          ? progsUnicas[0].split(' - ')[0]
+          : progsUnicas.map(p => p.split(' - ')[0]).join(', ');
+
+        const acaoLabel  = acoesIds.length === 1
+          ? acoesIds[0]
+          : acoesIds.join(', ');
+
+        badgesContainer.style.flexDirection = 'row';
+        badgesContainer.style.gap = '8px';
+        badgesContainer.style.alignItems = 'center';
+
+        badgesContainer.innerHTML = `
+          <div class="gestao-badge" style="cursor: help; max-width: 200px;" title="${areasUnicas.join(' | ')}">
+            <span class="gestao-label">Área Temática</span>
+            <span class="gestao-year" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 180px;">${areaLabel}</span>
+          </div>
+          <div class="gestao-badge" style="cursor: help; max-width: 200px;" title="${progsUnicas.join(' | ')}">
+            <span class="gestao-label">Programa</span>
+            <span class="gestao-year" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 180px;">${progLabel}</span>
+          </div>
+          <div class="gestao-badge" style="position: relative; cursor: help; max-width: 280px; padding-right: 32px;" title="${acoesIds.join(', ')}">
+            <span class="gestao-label">Ação (${acoesIds.length})</span>
+            <span class="gestao-year" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 240px;">${acaoLabel}</span>
+            <button onclick="clearPlanejamentoFilter(); document.getElementById('planejamentoCardsContainer').querySelectorAll('.card-acao-planejamento').forEach(c=>c.remove()); atualizarVisibilidadePlanejamento();"
+              style="position: absolute; right: 4px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 16px; color: var(--blue); cursor: pointer; line-height: 1; padding: 4px;"
+              title="Limpar filtro">&times;</button>
+          </div>
+        `;
+      }
+
+        // Cria card apenas se não existir ainda
+        if (document.getElementById('card-planejamento-' + acaoId)) return;
+
+        // Detalhamento fictício
+        const loaNum = parseFloat((acaoData.valorLoa || '0').replace(/\./g, '').replace(',', '.')) || 150000;
+        const val1 = (loaNum * 0.65).toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        const val2 = (loaNum * 0.35).toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        const orgao = orgaoPorPrograma[prog] || 'Secretaria de Estado do Espírito Santo';
+
+        const cardHtml = `
+          <div class="card card-acao-planejamento" id="card-planejamento-${acaoId}" style="margin-bottom: 0; border: 1px solid #e2e8f0; transition: all 0.3s; position: relative; background: white; padding: 16px; border-radius: 12px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+              <div style="font-size: 13px; font-weight: 800; color: var(--blue-dark); line-height: 1.4; padding-right: 30px; text-transform: uppercase;">${acaoData.titulo}</div>
+              <button onclick="removePlanejamentoAction('${acaoId}')" style="background: #fee2e2; color: #ef4444; border: none; width: 24px; height: 24px; border-radius: 50%; font-size: 14px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;" title="Remover">&times;</button>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 11px;">
+              <div style="grid-column: 1 / -1;">
+                <div style="color: var(--gray-text); font-size: 9px; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Órgão</div>
+                <div style="color: var(--navy-dark); font-weight: 700;">${orgao}</div>
+              </div>
+              <div>
+                <div style="color: var(--gray-text); font-size: 9px; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Área Temática</div>
+                <div style="color: var(--navy-dark); font-weight: 700;">${area}</div>
+              </div>
+              <div>
+                <div style="color: var(--gray-text); font-size: 9px; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Programa</div>
+                <div style="color: var(--navy-dark); font-weight: 700;">${prog.split(' - ').slice(1).join(' - ') || prog}</div>
+              </div>
+              <div>
+                <div style="color: var(--gray-text); font-size: 9px; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Valor PPA 2024-2027</div>
+                <div style="color: var(--blue-dark); font-weight: 800;">R$ ${acaoData.valorPpa}</div>
+              </div>
+              <div>
+                <div style="color: var(--gray-text); font-size: 9px; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Valor LOA 2026</div>
+                <div style="color: #059669; font-weight: 800;">R$ ${acaoData.valorLoa}</div>
+              </div>
+            </div>
+            <div style="background: #f8fafc; border-radius: 8px; padding: 12px; border: 1px solid #e2e8f0;">
+              <div style="font-size: 11px; font-weight: 800; color: var(--gray-text); text-transform: uppercase; margin-bottom: 12px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">Detalhamento Orçamentário LOA 2026</div>
+              <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+                <thead>
+                  <tr style="color: var(--navy-dark); text-align: left;">
+                    <th style="padding: 6px 4px; border-bottom: 1px solid #e2e8f0; font-weight: 800;">GND</th>
+                    <th style="padding: 6px 4px; border-bottom: 1px solid #e2e8f0; font-weight: 800;">Modalidade</th>
+                    <th style="padding: 6px 4px; border-bottom: 1px solid #e2e8f0; font-weight: 800;">ID-USO</th>
+                    <th style="padding: 6px 4px; border-bottom: 1px solid #e2e8f0; font-weight: 800;">Fonte</th>
+                    <th style="padding: 6px 4px; border-bottom: 1px solid #e2e8f0; font-weight: 800; text-align: right;">Valor</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="border-bottom: 1px dashed #e2e8f0;">
+                    <td style="padding: 10px 4px; color: var(--gray-text); font-weight: 500;">3</td>
+                    <td style="padding: 10px 4px; color: var(--gray-text); font-weight: 500;">90</td>
+                    <td style="padding: 10px 4px; color: var(--gray-text); font-weight: 500;">0</td>
+                    <td style="padding: 10px 4px; color: var(--gray-text); font-weight: 500;">15000000</td>
+                    <td style="padding: 10px 4px; text-align: right; color: var(--navy-dark); font-weight: 700;">R$ ${val1}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding: 10px 4px; color: var(--gray-text); font-weight: 500;">4</td>
+                    <td style="padding: 10px 4px; color: var(--gray-text); font-weight: 500;">40</td>
+                    <td style="padding: 10px 4px; color: var(--gray-text); font-weight: 500;">0</td>
+                    <td style="padding: 10px 4px; color: var(--gray-text); font-weight: 500;">17000000</td>
+                    <td style="padding: 10px 4px; text-align: right; color: var(--navy-dark); font-weight: 700;">R$ ${val2}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="display: flex; justify-content: flex-end; align-items: center; gap: 12px; padding-top: 4px;">
+              <div style="font-size: 13px; font-weight: 800; color: var(--navy-dark); text-transform: uppercase;">Total da Ação</div>
+              <div style="font-size: 18px; font-weight: 800; color: #059669;">R$ ${acaoData.valorLoa}</div>
+            </div>
+          </div>
+        `;
+        document.getElementById('planejamentoCardsContainer').insertAdjacentHTML('beforeend', cardHtml);
+      });
+
+      atualizarVisibilidadePlanejamento();
+    }
+
+    // Mantém compatibilidade com funções antigas que possam ainda ser chamadas
+    function updateProgramaOptions() {}
+    function updateAcaoOptions() {}
+
+    function toggleExtraPpaAction(checked) {
+      const btnFiltros = document.getElementById('filtrosBtnPlanejamento');
+      if (btnFiltros) {
+        if (checked) {
+          btnFiltros.style.pointerEvents = 'none';
+          btnFiltros.style.opacity = '0.5';
+        } else {
+          btnFiltros.style.pointerEvents = 'auto';
+          btnFiltros.style.opacity = '1';
+        }
+      }
+    }
+
     function toggleModalPlanejamento(show) {
       const isNaoPrevisto = document.getElementById('mainNaoPrevistoPpa');
       if (show && isNaoPrevisto && isNaoPrevisto.checked) {
@@ -4537,256 +4888,6 @@
         }
       }
     };
-
-    function initPlanejamentoFilters() {
-      const areaSelect = document.getElementById('planejamentoAreaSelect');
-      if (!areaSelect) return;
-
-      areaSelect.innerHTML = '<option value="">Selecione uma Área...</option>';
-      Object.keys(planejamentoPPA).sort().forEach(area => {
-        areaSelect.insertAdjacentHTML('beforeend', `<option value="${area}">${area}</option>`);
-      });
-    }
-
-    function updateProgramaOptions() {
-      const area = document.getElementById('planejamentoAreaSelect').value;
-      const progSelect = document.getElementById('planejamentoProgramaSelect');
-      const acaoSelect = document.getElementById('planejamentoAcaoSelect');
-
-      progSelect.innerHTML = '<option value="">Selecione um Programa...</option>';
-      acaoSelect.innerHTML = '<option value="">Selecione uma Ação...</option>';
-      acaoSelect.disabled = true;
-      acaoSelect.style.backgroundColor = '#f8fafc';
-
-      if (!area) {
-        progSelect.disabled = true;
-        progSelect.style.backgroundColor = '#f8fafc';
-        return;
-      }
-
-      progSelect.disabled = false;
-      progSelect.style.backgroundColor = 'white';
-
-      const programas = Object.keys(planejamentoPPA[area]);
-      programas.sort().forEach(prog => {
-        progSelect.insertAdjacentHTML('beforeend', `<option value="${prog}">${prog}</option>`);
-      });
-    }
-
-    function updateAcaoOptions() {
-      const area = document.getElementById('planejamentoAreaSelect').value;
-      const prog = document.getElementById('planejamentoProgramaSelect').value;
-      const acaoSelect = document.getElementById('planejamentoAcaoSelect');
-
-      acaoSelect.innerHTML = '<option value="">Selecione uma Ação...</option>';
-
-      if (!prog) {
-        acaoSelect.disabled = true;
-        acaoSelect.style.backgroundColor = '#f8fafc';
-        return;
-      }
-
-      acaoSelect.disabled = false;
-      acaoSelect.style.backgroundColor = 'white';
-
-      const acoes = planejamentoPPA[area][prog];
-      Object.keys(acoes).sort().forEach(acaoId => {
-        acaoSelect.insertAdjacentHTML('beforeend', `<option value="${acaoId}">${acoes[acaoId].titulo}</option>`);
-      });
-    }
-
-    function toggleMultiPlanejamento(id) {
-      const el = document.getElementById(id);
-      const isVisible = el.style.display === 'block';
-      document.querySelectorAll('.multi-select-dropdown').forEach(d => {
-        if (d.id !== id) d.style.display = 'none';
-      });
-      el.style.display = isVisible ? 'none' : 'block';
-    }
-
-    // Fecha ao clicar fora
-    window.addEventListener('click', function (e) {
-      if (!e.target.closest('.filter-field')) {
-        document.querySelectorAll('.multi-select-dropdown').forEach(d => d.style.display = 'none');
-      }
-    });
-
-    function clearPlanejamentoFilter() {
-      document.getElementById('planejamentoAreaSelect').value = '';
-      updateProgramaOptions();
-
-      const containerPlanejamento = document.getElementById('appliedFilterContainerPlanejamento');
-      if (containerPlanejamento) containerPlanejamento.innerHTML = '';
-    }
-
-    function toggleExtraPpaAction(checked) {
-      // Quando selecionado, não cria card (não aparece nada, somente marca)
-
-      const btnFiltros = document.getElementById('filtrosBtnPlanejamento');
-      if (btnFiltros) {
-        if (checked) {
-          btnFiltros.style.pointerEvents = 'none';
-          btnFiltros.style.opacity = '0.5';
-        } else {
-          btnFiltros.style.pointerEvents = 'auto';
-          btnFiltros.style.opacity = '1';
-        }
-      }
-    }
-
-    function applyPlanejamentoFilter() {
-      toggleModalPlanejamento(false);
-      const area = document.getElementById('planejamentoAreaSelect').value;
-      const prog = document.getElementById('planejamentoProgramaSelect').value;
-      const acaoId = document.getElementById('planejamentoAcaoSelect').value;
-
-      if (!acaoId) {
-        alert('Por favor, selecione uma Ação.');
-        return;
-      }
-
-      const acaoData = planejamentoPPA[area][prog][acaoId];
-      if (!acaoData) return;
-
-      // Se não tiver valores, gera valores fictícios aleatórios e coerentes
-      let ppaValNum = parseFloat((acaoData.valorPpa || '0').replace(/\./g, '').replace(',', '.'));
-      let loaValNum = parseFloat((acaoData.valorLoa || '0').replace(/\./g, '').replace(',', '.'));
-
-      if (isNaN(ppaValNum) || ppaValNum === 0 || isNaN(loaValNum) || loaValNum === 0) {
-        // Gerar um valor aleatório entre 100k e 5M para a LOA
-        loaValNum = Math.floor(Math.random() * 4900000) + 100000;
-        // PPA normalmente é proporção da LOA
-        ppaValNum = loaValNum * 4.2;
-        
-        acaoData.valorLoa = loaValNum.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-        acaoData.valorPpa = ppaValNum.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-      }
-
-      // Evita duplicados
-      if (document.getElementById(`card-planejamento-${acaoId}`)) {
-        alert('Esta ação já foi adicionada.');
-        return;
-      }
-
-      // Atualiza Badges (Chips) de Filtro - Substituindo pelo novo sempre
-      const badgesContainer = document.getElementById('appliedFilterContainerPlanejamento');
-      if (badgesContainer) {
-        badgesContainer.style.display = 'flex';
-        badgesContainer.style.flexDirection = 'column';
-        badgesContainer.style.gap = '8px';
-        
-        badgesContainer.innerHTML = `
-          <div id="badge-group-${acaoId}" style="display:flex; gap:8px; align-items:center;">
-             <div class="gestao-badge" style="cursor: help;" title="${area}">
-               <span class="gestao-label">Área</span>
-               <span class="gestao-year" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 120px;">${area.split(' - ')[0]}</span>
-             </div>
-             <div class="gestao-badge" style="cursor: help;" title="${prog}">
-               <span class="gestao-label">Programa</span>
-               <span class="gestao-year" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 120px;">${prog.split(' - ')[0]}</span>
-             </div>
-             <div class="gestao-badge" style="position: relative; cursor: help;" title="${acaoData.titulo}">
-               <span class="gestao-label">Ação</span>
-               <span class="gestao-year" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap; max-width: 100px;">${acaoId}</span>
-               <button onclick="removePlanejamentoAction('${acaoId}')" style="position: absolute; right: 4px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 16px; color: var(--blue); cursor: pointer; line-height: 1; padding: 4px; display: flex; align-items: center; justify-content: center;">&times;</button>
-             </div>
-          </div>
-        `;
-      }
-
-      // Injeta o Card Completo Original (Mockup 1)
-      const cardHtml = `
-        <div class="card card-acao-planejamento" id="card-planejamento-${acaoId}" style="margin-bottom: 0; border: 1px solid #e2e8f0; transition: all 0.3s; position: relative; background: white; padding: 16px; border-radius: 12px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
-          
-          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-            <div style="font-size: 13px; font-weight: 800; color: var(--blue-dark); line-height: 1.4; padding-right: 30px; text-transform: uppercase;">
-              ${acaoData.titulo}
-            </div>
-            <button onclick="removePlanejamentoAction('${acaoId}')" style="background: #fee2e2; color: #ef4444; border: none; width: 24px; height: 24px; border-radius: 50%; font-size: 14px; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;" title="Remover">&times;</button>
-          </div>
-
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 11px;">
-             <div style="grid-column: 1 / -1;">
-              <div style="color: var(--gray-text); font-size: 9px; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Órgão</div>
-              <div style="color: var(--navy-dark); font-weight: 700;">${orgaoPorPrograma[prog] || 'Secretaria de Estado do Espírito Santo'}</div>
-            </div>
-            <div>
-              <div style="color: var(--gray-text); font-size: 9px; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Área Temática</div>
-              <div style="color: var(--navy-dark); font-weight: 700;">${area}</div>
-            </div>
-            <div>
-              <div style="color: var(--gray-text); font-size: 9px; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Programa</div>
-              <div style="color: var(--navy-dark); font-weight: 700;">${prog.split(' - ').slice(1).join(' - ') || prog}</div>
-            </div>
-            <div>
-              <div style="color: var(--gray-text); font-size: 9px; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Valor PPA 2024-2027</div>
-              <div style="color: var(--blue-dark); font-weight: 800;">R$ ${acaoData.valorPpa}</div>
-            </div>
-            <div>
-              <div style="color: var(--gray-text); font-size: 9px; text-transform: uppercase; font-weight: 700; margin-bottom: 2px;">Valor LOA 2026</div>
-              <div style="color: #059669; font-weight: 800;">R$ ${acaoData.valorLoa}</div>
-            </div>
-          </div>
-
-          <div style="background: #f8fafc; border-radius: 8px; padding: 12px; border: 1px solid #e2e8f0;">
-             <div style="font-size: 11px; font-weight: 800; color: var(--gray-text); text-transform: uppercase; margin-bottom: 12px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">Detalhamento Orçamentário LOA 2026</div>
-             <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
-                <thead>
-                  <tr style="color: var(--navy-dark); text-align: left;">
-                    <th style="padding: 6px 4px; border-bottom: 1px solid #e2e8f0; font-weight: 800;">GND</th>
-                    <th style="padding: 6px 4px; border-bottom: 1px solid #e2e8f0; font-weight: 800;">Modalidade</th>
-                    <th style="padding: 6px 4px; border-bottom: 1px solid #e2e8f0; font-weight: 800;">ID-USO</th>
-                    <th style="padding: 6px 4px; border-bottom: 1px solid #e2e8f0; font-weight: 800;">Fonte</th>
-                    <th style="padding: 6px 4px; border-bottom: 1px solid #e2e8f0; font-weight: 800; text-align: right;">Valor</th>
-                  </tr>
-                </thead>
-                <tbody id="detalhamento-tbody-${acaoId}">
-                    ${(function() {
-                        // Cálculo fictício para simular o detalhamento orçamentário
-                        let valStr = acaoData.valorLoa || '0';
-                        let valNum = parseFloat(valStr.replace(/\./g, '').replace(',', '.'));
-                        if (isNaN(valNum) || valNum === 0) valNum = 150000;
-                        
-                        const val1Num = valNum * 0.65;
-                        const val2Num = valNum * 0.35;
-                        
-                        const val1 = val1Num.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-                        const val2 = val2Num.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-
-                        return `
-                          <tr style="border-bottom: 1px dashed #e2e8f0;">
-                            <td style="padding: 10px 4px; color: var(--gray-text); font-weight: 500;">3</td>
-                            <td style="padding: 10px 4px; color: var(--gray-text); font-weight: 500;">90</td>
-                            <td style="padding: 10px 4px; color: var(--gray-text); font-weight: 500;">0</td>
-                            <td style="padding: 10px 4px; color: var(--gray-text); font-weight: 500;">15000000</td>
-                            <td style="padding: 10px 4px; text-align: right; color: var(--navy-dark); font-weight: 700;">R$ ${val1}</td>
-                          </tr>
-                          <tr>
-                            <td style="padding: 10px 4px; color: var(--gray-text); font-weight: 500;">4</td>
-                            <td style="padding: 10px 4px; color: var(--gray-text); font-weight: 500;">40</td>
-                            <td style="padding: 10px 4px; color: var(--gray-text); font-weight: 500;">0</td>
-                            <td style="padding: 10px 4px; color: var(--gray-text); font-weight: 500;">17000000</td>
-                            <td style="padding: 10px 4px; text-align: right; color: var(--navy-dark); font-weight: 700;">R$ ${val2}</td>
-                          </tr>
-                        `;
-                    })()}
-                </tbody>
-              </table>
-          </div>
-
-          <div style="display: flex; justify-content: flex-end; align-items: center; gap: 12px; padding-top: 4px;">
-            <div style="font-size: 13px; font-weight: 800; color: var(--navy-dark); text-transform: uppercase;">Total da Ação</div>
-            <div style="font-size: 18px; font-weight: 800; color: #059669;">R$ ${acaoData.valorLoa}</div>
-          </div>
-        </div>
-      `;
-
-      const scrollContainer = document.getElementById('planejamentoCardsContainer');
-      scrollContainer.insertAdjacentHTML('beforeend', cardHtml);
-
-      // Sincroniza a interface
-      atualizarVisibilidadePlanejamento();
-    }
 
     function removePlanejamentoAction(acaoId) {
       const el = document.getElementById(`card-planejamento-${acaoId}`);
